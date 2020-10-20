@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="介绍有关网络有关的知识。">
+<meta name="keywords" content="Network">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络理解">
+<meta property="og:url" content="http://JiaqiuZhou.github.io/2019/11/08/Software/technique/Network/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍有关网络有关的知识。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/PerumeterNetwork_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/network_layers.jpeg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/protocol.jp3g">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/data_flow.jp3g">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/Domain_resolute.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/access_communicate.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/three_connect.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/four_disconnect.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/software/Network/connect.jp3g">
+<meta property="og:updated_time" content="2020-10-20T08:06:55.693Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络理解">
+<meta name="twitter:description" content="介绍有关网络有关的知识。">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/images/software/Network/PerumeterNetwork_arch.png">
+  <link rel="canonical" href="http://JiaqiuZhou.github.io/2019/11/08/Software/technique/Network/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>网络理解 | Ball's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div> 
+    <a href="https://github.com/JiaqiuZhou" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z">
+    </path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm">
+    </path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body">
+     </path>
+     </svg>
+     </a>
+     <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+    </style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ball's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Any way, be happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://JiaqiuZhou.github.io/2019/11/08/Software/technique/Network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qiu.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">网络理解
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-08 19:57:59" itemprop="dateCreated datePublished" datetime="2019-11-08T19:57:59+08:00">2019-11-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-20 16:06:55" itemprop="dateModified" datetime="2020-10-20T16:06:55+08:00">2020-10-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>4.1k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>4 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍有关网络有关的知识。</p>
+<a id="more"></a>
+<h2 id="1-网络通讯"><a href="#1-网络通讯" class="headerlink" title="1. 网络通讯"></a>1. 网络通讯</h2><h3 id="1-1-概念理解"><a href="#1-1-概念理解" class="headerlink" title="1.1 概念理解"></a>1.1 概念理解</h3><ul>
+<li><strong>Mbps:</strong> 网络传输的速率采用1 bit per 1s来表示, M代表mega</li>
+<li><strong>IPV4:</strong> IP地址作为一个网络的独特地址，其就像每个人的家庭住址一样，不过这里是作为计算机接入网络的传输位置<ul>
+<li><strong>协议形式:</strong> xxx.xxx.xxx.xxx:(0-255)<ul>
+<li><strong>比如: 192.168.1.1，</strong>其192.168.1代表网络地址城市、州、街道(在美国)，1代表具体host家庭号码，所以网关255.255.255.0就是用来确认网络的地址</li>
+</ul>
+</li>
+<li><strong>分析:</strong> 由于算起来只有40亿个固定IP地址，跟不上发展速度，延伸出了IPv6和动态IP的概念</li>
+<li><strong>静态IP:</strong> 静态IP指的是接入公网的唯一地址，也就是上述协议的唯一地址，比如说baidu.com就是一个域名也是一个专用的IP地址，静态IP同时由Inter NIC\APNIC\RIPE三大网络中心具体负责分配</li>
+<li><strong>动态IP:</strong> 一般来说都是通过运营商来调配静态IP然后通过DHCP服务器来分配动态IP，即每次上网都会分配一个不一样的IP地址，这样的话IP地址会更加安全 </li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-Local-Area-Networks"><a href="#1-2-Local-Area-Networks" class="headerlink" title="1.2 Local Area Networks"></a>1.2 Local Area Networks</h3><h4 id="1-2-1-网络通讯各组件介绍"><a href="#1-2-1-网络通讯各组件介绍" class="headerlink" title="1.2.1 网络通讯各组件介绍"></a>1.2.1 网络通讯各组件介绍</h4><ul>
+<li><strong>PC:</strong> 即computer，介入网络的以太网设备</li>
+<li><strong>路由器(Router):</strong>  属于网络层的产品，负责<strong>内网与外网的连接</strong>，主要是记录IP，然后通过网络流量去确认选择转发的哪一条道路，路径最优解，既有<strong>交换机的作用</strong>，也充<strong>当网关的作用</strong> </li>
+<li><strong>交换机(switch): </strong> 属于网络层的产品，负责内网各PC设备之间的通讯，记录的是MAC地址。</li>
+<li><strong>无限网络接入点(WirelessAccessPoints):</strong> 通过无线网卡使得电脑可以介入路由器的无线网中</li>
+<li><strong>网卡(network adapter):</strong> 通过网络适配器将电脑连接到网络</li>
+<li><strong>集线器(Hub):</strong> 用于将一台设备的信息广播到另外的多台设备中</li>
+<li><strong>DNS服务器: </strong> 主要负责域名解析，来了一个域名，通过域名来得到所要访问的真是IP地址。</li>
+<li><strong>web服务器: </strong> 放置网络页面的地方</li>
+</ul>
+<h4 id="1-2-2-网络连接类型-Local-Area-Networks"><a href="#1-2-2-网络连接类型-Local-Area-Networks" class="headerlink" title="1.2.2 网络连接类型(Local Area Networks)"></a>1.2.2 网络连接类型(Local Area Networks)</h4><ul>
+<li><p><strong>Wired LANs:</strong> 将各个设备连接至网络交换机实现通信</p>
+</li>
+<li><p><strong>Wireless LANs:</strong> 电脑设备发出无线信号与路由器无线信号进行通讯</p>
+</li>
+<li><p><strong>Virtual LANs:</strong> IP地址是虚拟设备地址</p>
+</li>
+<li><p><strong>PerumeterNetworks:</strong> 外围网络使得LAN中的设备可以访问到服务器</p>
+<p><img src="/images/software/Network/PerumeterNetwork_arch.png" alt="PerumeterNetwork_arch"></p>
+</li>
+</ul>
+<h3 id="1-3-网络协议"><a href="#1-3-网络协议" class="headerlink" title="1.3 网络协议"></a>1.3 网络协议</h3><ul>
+<li><p>如图所示,常见的网络结构主要分为五层，为应用层，传输层，网络层，数据链路层，物理层</p>
+<p><img src="/images/software/Network/network_layers.jpeg" alt="network_layers"></p>
+<p>其网络结构所需要的网络协议，可以见如下一览表</p>
+<p><img src="/images/software/Network/protocol.jp3g" alt="network_protocol"></p>
+</li>
+<li><p><strong>应用层:</strong> 通过上述的通讯协议可以进行通讯，主要是让应用程序能够认识这样的数据，使得应用程序可以直接使用，来进行通讯，建立会话连接。</p>
+</li>
+<li><strong>传输层:</strong> 定义一些传输数据的协议和端口号(www端口为80等)，TCP/UDP通讯协议这一层,将下层接受的数据进行分段和传输，到达目的地址之后再进行重组。</li>
+<li><strong>网络层:</strong> 主要是给各个主机通讯之间加上一个逻辑地址，使得在网络通讯的时候可以直接通过IP地址进行管理，而不用利用mac地址进行管理，这样在通讯的时候更换设备，IP地址不用更换。</li>
+<li><strong>数据链路层:</strong> 定义如何让格式化数据进行传输，控制对物理介质的访问，提供错误检测和纠正</li>
+<li><strong>物理层:</strong> 主要是定义物理设备标准，如网线的接口类型，光纤的接口类型等</li>
+</ul>
+<h3 id="1-4-网络通讯具体流程"><a href="#1-4-网络通讯具体流程" class="headerlink" title="1.4 网络通讯具体流程"></a>1.4 网络通讯具体流程</h3><p>​    以一个浏览器访问一个www.baidu.com页面为例，</p>
+<p>​    详细流程可以见<a href="https://blog.51cto.com/dong4716138/1175001" target="_blank" rel="noopener">https://blog.51cto.com/dong4716138/1175001</a></p>
+<ul>
+<li><p><strong>网络通讯的数据流图:</strong> 如下所示，各网络架构对传输数据进行包装</p>
+<p><img src="/images/software/Network/data_flow.jp3g" alt="data_flow"></p>
+</li>
+<li><p><strong>具体流程:</strong> 详见<a href="https://juejin.im/post/5b1265edf265da6e155d45a9" target="_blank" rel="noopener">https://juejin.im/post/5b1265edf265da6e155d45a9</a></p>
+<ul>
+<li><p><strong>域名解析:</strong> 人善于记忆域名，但是不善于记IP地址，因此需要通过DNS服务器去对域名进行解析，其解析流程如图所示,其实还是通过发送数据的方式，只是IP地址是DNS服务器的地址，具体使用什么协议可以看以上链接有详细的流程。在网络属性中的DNS其实就是DNS服务器的地址，因为处于不同的网段中会有不同的与该PC最近的服务器地址，可以手动填写，不然也可以根据一级二级三级域名一级一级查找DNS服务器的地址。</p>
+<p><img src="/images/software/Network/Domain_resolute.jpg" alt="domain_resolute"></p>
+</li>
+<li><p><strong>访问web服务器: </strong> 域名解析后也就得到了web服务器的IP地址，本地PC发送出请求页面的数据包，一个是TCP报文请求连接的数据包，一个是请求页面的数据包,如图所示:</p>
+<p><img src="/images/software/Network/access_communicate.png" alt="access_communicate"></p>
+<p>TCP三次握手以及四次挥手示意图:</p>
+<p><img src="/images/software/Network/three_connect.jpg" alt="three_connect"></p>
+<p><img src="/images/software/Network/four_disconnect.jpg" alt="four_disconnect"></p>
+</li>
+<li><p><strong>网络属性的配置:</strong> IP地址，填写的是网络分配的IP地址; 网关，路由器的IP地址; 子网掩码，判断是否属于该网段的一个网络配置。</p>
+</li>
+<li><strong>访问流程:</strong> 先通过判断是否处于一个网段，判断传入的包是要传到网关还是交换机即可，传到网关之后，再有网关负责向外传播包的信息，进行沟通。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5-网络端口的知识"><a href="#1-5-网络端口的知识" class="headerlink" title="1.5 网络端口的知识"></a>1.5 网络端口的知识</h3><ul>
+<li><p><strong>套接字:</strong> IP地址加端口号，应用程序可以通过它发送或接受数据，来进行两台PC之间的网络通讯。</p>
+<p>通过套接字进行通讯的例子如图所示<br><img src="/images/software/Network/connect.jp3g" alt="connect"></p>
+</li>
+<li><p><strong>端口映射:</strong> 由于IP地址的短缺，在多台电脑需要接入网络的情况下无法进行，因此通过端口映射的方式，将内网的端口映射到有接入公网的设备上，就可以通过这种方式访问公网</p>
+</li>
+</ul>
+<h3 id="1-6-ssh"><a href="#1-6-ssh" class="headerlink" title="1.6 ssh"></a>1.6 ssh</h3><ul>
+<li><p>定义: 一种通过网络让PC与服务器进行通讯的网络协议</p>
+</li>
+<li><p>配置连接服务器的知识: 默认的ssh端口为22,并且遵循端口所采用的协议</p>
+</li>
+<li><p><strong>ubuntu安装ssh:</strong></p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt install openssh-server</span><br><span class="line">配置ssh登录服务器: vim /etc/ssh/sshd_config  </span><br><span class="line">把PermitRootLogin prohibit-password，改成PermitRootLogin yes</span><br><span class="line">重启ssh: /etc/init.d/ssh restart</span><br></pre></td></tr></table></figure>
+<h2 id="2-网络进程通信—Sockets"><a href="#2-网络进程通信—Sockets" class="headerlink" title="2. 网络进程通信—Sockets"></a>2. 网络进程通信—Sockets</h2><h3 id="2-1-Socket-Address-Structure"><a href="#2-1-Socket-Address-Structure" class="headerlink" title="2.1 Socket Address Structure"></a>2.1 Socket Address Structure</h3><ul>
+<li><p><strong>Socket地址:</strong> IP地址+TCP or UDP 端口地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ipv4 - sockaddr_in; ipv6 - sockaddr_in6</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span>, srtuct sockaddr *, <span class="keyword">socklen_t</span>)</span></span></span><br><span class="line"><span class="function">struct sockaddr</span>&#123;</span><br><span class="line">  <span class="keyword">sa_family_t</span> sa_family;</span><br><span class="line">    <span class="comment">/*address family:AF_xxx value*/</span></span><br><span class="line"> 	<span class="keyword">char</span> sa_data[<span class="number">14</span>]; <span class="comment">/*protocol specific sddress*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-2-Byte-Ordering-Function"><a href="#2-2-Byte-Ordering-Function" class="headerlink" title="2.2 Byte Ordering Function"></a>2.2 Byte Ordering Function</h3><ul>
+<li><strong>Little-endian byte顺序:</strong> low-order byte —&gt; High-order byte</li>
+<li><strong>Big-endian byte顺序:</strong> High-order byte —&gt; low-order byte</li>
+</ul>
+<h3 id="2-3-地址查找表"><a href="#2-3-地址查找表" class="headerlink" title="2.3 地址查找表"></a>2.3 地址查找表</h3><ul>
+<li><p><strong>function:</strong> 把host name(localhost)和service name(http)映射到一个地址上</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getaddrinfo</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *<span class="keyword">restrict</span> host, </span></span></span><br><span class="line"><span class="function"><span class="params">								<span class="keyword">const</span> <span class="keyword">char</span> * <span class="keyword">restrict</span> service,</span></span></span><br><span class="line"><span class="function"><span class="params">               	<span class="keyword">const</span> struct addrinfo *<span class="keyword">restrict</span> hint,</span></span></span><br><span class="line"><span class="function"><span class="params">               struct addrinfo **<span class="keyword">restrict</span> res)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-4-Address-conversion-function"><a href="#2-4-Address-conversion-function" class="headerlink" title="2.4 Address conversion function"></a>2.4 Address conversion function</h3><ul>
+<li><p><strong>function:</strong> 将ASCII字符串转化为网络二进制地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">inet_pton</span><span class="params">(<span class="keyword">int</span> family, <span class="keyword">const</span> <span class="keyword">char</span> *strptr, <span class="keyword">void</span> *addrptr)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">char</span> *<span class="title">inet_ntop</span><span class="params">(<span class="keyword">int</span> family, <span class="keyword">const</span> <span class="keyword">void</span> *addrptr, <span class="keyword">char</span> *strpt, <span class="keyword">size_t</span> len)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-5-Elementary-TCP-Socket"><a href="#2-5-Elementary-TCP-Socket" class="headerlink" title="2.5 Elementary TCP Socket"></a>2.5 Elementary TCP Socket</h3><ul>
+<li><p><strong>TCP Socket相关的应用函数:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> domain, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol)</span></span>; <span class="comment">//create Socket,normaly the protocol set to 0 </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct sockaddr *servaddr, <span class="keyword">socklen_t</span> addrlen)</span></span>; <span class="comment">//connect to socket</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct sockaddr *myaddr, <span class="keyword">socklen_t</span> addrlen)</span></span>; <span class="comment">//assigns a local protocol address to a socket</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> backlog)</span></span>; </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd, struct sockaddr *cliaddr, <span class="keyword">socklen_t</span> *addrlen)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(<span class="keyword">int</span> sockfd)</span></span>; <span class="comment">//deallocate the network endpoint only when the last active reference is closed</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shutdown</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> how)</span></span>; <span class="comment">//allows us to deactivate a socket independently of the number of active file descriptors referencing it.</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://JiaqiuZhou.github.io/2019/11/08/Software/technique/Network/" title="网络理解">http://JiaqiuZhou.github.io/2019/11/08/Software/technique/Network/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Network/" rel="tag"><i class="fa fa-tag"></i>	   			# Network
+	      </a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/05/Software/tools/Docker/" rel="next" title="Docker文档">
+                  <i class="fa fa-chevron-left"></i> Docker文档
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/16/AcademicPapers/Paperwriting/Write-paper/" rel="prev" title="Write_paper">
+                  Write_paper <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-网络通讯"><span class="nav-number">1.</span> <span class="nav-text">1. 网络通讯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-概念理解"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 概念理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Local-Area-Networks"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Local Area Networks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-网络通讯各组件介绍"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1 网络通讯各组件介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-网络连接类型-Local-Area-Networks"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2 网络连接类型(Local Area Networks)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-网络协议"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 网络协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-网络通讯具体流程"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 网络通讯具体流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-网络端口的知识"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 网络端口的知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-ssh"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 ssh</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-网络进程通信—Sockets"><span class="nav-number">2.</span> <span class="nav-text">2. 网络进程通信—Sockets</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Socket-Address-Structure"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Socket Address Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Byte-Ordering-Function"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Byte Ordering Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-地址查找表"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 地址查找表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Address-conversion-function"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 Address conversion function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Elementary-TCP-Socket"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 Elementary TCP Socket</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <a href="/">
+    <img class="site-author-image" itemprop="image"
+       src="/images/qiu.jpg"
+       alt="Ball" />
+  </a>
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/JiaqiuZhou" title="GitHub &rarr; https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail &rarr; mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">243k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">3:41</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("10/01/2019 00:00:00");//修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="本站已安全运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/copy.js"></script>
+</body>
+</html>

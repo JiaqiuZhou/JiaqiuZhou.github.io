@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="介绍基于GAN的text based image editing的论文">
+<meta name="keywords" content="Layout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Text-based-image-editing">
+<meta property="og:url" content="http://JiaqiuZhou.github.io/2020/04/03/Project/RenderingLayout/Reference/Text-based-image-editing/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍基于GAN的text based image editing的论文">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/GeneVA_problem.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/Tell_Draw_repeat.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/GeneVA/CoDraw.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/GeneVA/i-CLEVR.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/SceneGeneration/sceneGeneration.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/SceneGeneration/SceneGenArchitecture.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/scones_task.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/scones_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/scones_Composition.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/scones_arch_objgen.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2020/Controllable_image_Completion_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2020/Controllable_image_Completion_generator.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/mirrorGAN_task.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/MirrorGAN_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/ALG_for_magazines_task.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/ALGformagazine_evaluation.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/magazine/Content-aware_magazine.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/magazine/Content-aware_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2019/Compose_task.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2019/Compose_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2019/RobustChangeCaption_task.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2019/RobustChange_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/ChatPainter_arch.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/GeneVA/KeepDrawing_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2018/NGM_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/2018/NGM_whole_arch.png">
+<meta property="og:updated_time" content="2020-10-20T08:06:55.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Text-based-image-editing">
+<meta name="twitter:description" content="介绍基于GAN的text based image editing的论文">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/images/GAN/Text_based_editing/GeneVA_problem.png">
+  <link rel="canonical" href="http://JiaqiuZhou.github.io/2020/04/03/Project/RenderingLayout/Reference/Text-based-image-editing/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Text-based-image-editing | Ball's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div> 
+    <a href="https://github.com/JiaqiuZhou" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z">
+    </path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm">
+    </path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body">
+     </path>
+     </svg>
+     </a>
+     <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+    </style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ball's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Any way, be happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://JiaqiuZhou.github.io/2020/04/03/Project/RenderingLayout/Reference/Text-based-image-editing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qiu.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Text-based-image-editing
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-03 16:29:15" itemprop="dateCreated datePublished" datetime="2020-04-03T16:29:15+08:00">2020-04-03</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-20 16:06:55" itemprop="dateModified" datetime="2020-10-20T16:06:55+08:00">2020-10-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Project/Layout/" itemprop="url" rel="index"><span itemprop="name">Layout</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>5.2k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>5 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍基于GAN的text based image editing的论文</p>
+<a id="more"></a>
+<h2 id="1-Text-editing-image-paper"><a href="#1-Text-editing-image-paper" class="headerlink" title="1.Text editing image paper"></a>1.Text editing image paper</h2><h3 id="1-1-Tell-Draw-and-Repeat-Generating-and-Modifying-Images-Based-on-Continual-Linguistic-Instruction"><a href="#1-1-Tell-Draw-and-Repeat-Generating-and-Modifying-Images-Based-on-Continual-Linguistic-Instruction" class="headerlink" title="1.1 Tell, Draw, and Repeat: Generating and Modifying Images Based on Continual Linguistic Instruction"></a>1.1 Tell, Draw, and Repeat: Generating and Modifying Images Based on Continual Linguistic Instruction</h3><p><strong>值得借鉴:</strong> 通过迭代生成网络的方式来生成图片，每一阶段都会借鉴于前一阶段的语句特征向量</p>
+<h4 id="1-1-1-基本概念—Generative-Neual-Visual-Artist-GeNeVA"><a href="#1-1-1-基本概念—Generative-Neual-Visual-Artist-GeNeVA" class="headerlink" title="1.1.1 基本概念—Generative Neual Visual Artist(GeNeVA)"></a>1.1.1 基本概念—Generative Neual Visual Artist(GeNeVA)</h4><ul>
+<li><p><strong>解决问题:</strong> 当人们对人工智能生成的图片不满意的时候，可以通过语句输入来调整结果，</p>
+</li>
+<li><p><strong>方法简介:</strong> 结合GAN和图像Encoder以及语言处理GRU</p>
+</li>
+<li><p><strong>本文提出:</strong> 通过实验证明迭代完成任务比不迭代的方法好</p>
+</li>
+<li><p><strong>问题定义: </strong>每一轮迭代包含一个Teller和一个Drawer，Teller通过语句和提供前一轮的画布来给Drawer，让Drawer优化绘画内容</p>
+<p><img src="/images/GAN/Text_based_editing/GeneVA_problem.png" alt="GeneVA_problem"></p>
+</li>
+</ul>
+<h4 id="1-1-2-方法详述"><a href="#1-1-2-方法详述" class="headerlink" title="1.1.2 方法详述"></a>1.1.2 方法详述</h4><ul>
+<li><p><strong>模型定义:</strong> 画布<script type="math/tex">x_t</script>,  <script type="math/tex">z_t</script> 为噪声向量，生成网络<script type="math/tex">G</script>, <script type="math/tex">f_{G_{t-1}}</script>作为上一次画布<script type="math/tex">x_{t-1}</script>的特征提取，<script type="math/tex">h_t</script>作为语句的特征，<script type="math/tex">R</script>表示GRU单元，公式如下:</p>
+<script type="math/tex; mode=display">
+\hat x_t = G(z_t,h_t,f_{G_{t-1}}) \\
+h_t = R(d_t,h_{t-1})</script></li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/Tell_Draw_repeat.png" alt="Tell_Draw_repeat"></p>
+</li>
+<li><p><strong>Loss函数:</strong> 主要组成为真实图片的判别，生成是否假图片的判别，上一轮输入的是否假图片的判别以及检测所有物体是否在场景中的判别</p>
+<script type="math/tex; mode=display">
+L_D = L_{D_{real}}+\frac 1 2(L_{D_{fake}}+L_{D_{wrong}})+\beta L_{aux} \\
+L_{D_{real}} = - {\Bbb E}_{(x_t,c_t)\sim p_{data(0:T)}}[min(0, -1+D(x_t,c_t))] \\
+L_{D_{wrong}} = - {\Bbb E}_{(x_t,\hat c_t)\sim p_{data(0:T)}}[min(0, -1-D(x_t,\hat c_t))] \\
+L_{D_{fake}} = - {\Bbb E}_{z_t\sim N,\hat c_t\sim p_{data(0:T)}}[min(0, -1-D(G(z_t,\hat c_t),c_t))]\\
+L_{aux} = \sum_{i=0}^N -(y_ilog(p_i)+(1-y_i)log(1-p_i)</script></li>
+</ul>
+<h4 id="1-1-3-数据集以及评价指标"><a href="#1-1-3-数据集以及评价指标" class="headerlink" title="1.1.3 数据集以及评价指标"></a>1.1.3 数据集以及评价指标</h4><ul>
+<li><p><strong>CoDraw:</strong> </p>
+<p><img src="/images/GAN/Text_based_editing/GeneVA/CoDraw.jpg" alt="CoDraw"></p>
+</li>
+<li><p><strong>i-CLEVR:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/GeneVA/i-CLEVR.jpg" alt="i-CLEVR"></p>
+</li>
+<li><p><strong>Relational Similarity:</strong> 普通的GAN指标只能衡量生成的图片的准确性，在这里希望衡量生成的图片的质量。recall代表检测的物体框与真实框的召回率，E表示每个框的边缘</p>
+<script type="math/tex; mode=display">
+rsim(E_{G_{gt}},E_{G_{gen}}) = recall*\frac{|E_{G_{gen}}\bigcap E_{G_{gt}}|}{|E_{G_{gt}}|}</script></li>
+</ul>
+<h3 id="1-2-Specifying-Object-Attributes-and-Relations-in-Interactive-Scene-Generation"><a href="#1-2-Specifying-Object-Attributes-and-Relations-in-Interactive-Scene-Generation" class="headerlink" title="1.2 Specifying Object Attributes and Relations in Interactive Scene Generation"></a>1.2 Specifying Object Attributes and Relations in Interactive Scene Generation</h3><p><strong>值得借鉴:</strong> 分块生成从mask到图片的思想，利用Groundtruth图片供user选择进行补充editing</p>
+<h4 id="1-2-1-基本概念"><a href="#1-2-1-基本概念" class="headerlink" title="1.2.1 基本概念"></a>1.2.1 基本概念</h4><ul>
+<li><p><strong>问题定义:</strong> 通过输入的一个场景图来生成图片，使用的人可以通过控制场景图的元素来生成不同的图片，如下图所示。</p>
+<p><img src="/images/GAN/Text_based_editing/SceneGeneration/sceneGeneration.jpg" alt="sceneGeneration"></p>
+</li>
+<li><p><strong>方法简介:</strong> 通过物体的位置和相对位置信息通过图卷积网络生成特征，利用卷积神经网络来提取物体性质特征和生成mask。</p>
+</li>
+</ul>
+<h4 id="1-2-2-方法详述"><a href="#1-2-2-方法详述" class="headerlink" title="1.2.2 方法详述"></a>1.2.2 方法详述</h4><ul>
+<li><p><strong>网络结构:</strong> 其整体的网络框架如下</p>
+<p><img src="/images/GAN/Text_based_editing/SceneGeneration/SceneGenArchitecture.jpg" alt="SceneGenArchitecture"></p>
+<ul>
+<li><strong>图卷积神经网络模块:</strong> 利用物体的类别，物体的大致位置和物体的大小作为输入，定义如下:</li>
+</ul>
+<script type="math/tex; mode=display">
+u_i = G(\{n_i\},\{e_{ij}\})</script><ul>
+<li><strong>mask和boundingbox生成模块:</strong> 通过加入噪声来控制mask的生成，再通过GCN提取的特征进行预测boundingbox，定义如下:</li>
+</ul>
+<script type="math/tex; mode=display">
+m_i =M(u_i, z_i) \\
+b_i = B(u_i)</script><ul>
+<li><strong>特征提取以及图像生成模块:</strong> 对对应类别的图像利用CNN进行特征提取，在用固定的函数T进行合并成一个tensor t，<script type="math/tex">c_i</script>表示类别，用t进行图像生成，定义如下:</li>
+</ul>
+<script type="math/tex; mode=display">
+a_i = A(I_i^{'}) \\
+t = T(\{c_i,m_i,b_i,a_i\})\\
+p=R(t)</script><ul>
+<li><strong>具体流程:</strong> 生成的mask <script type="math/tex">m_i</script> 通过bounding box <script type="math/tex">b_i</script> 调整得到<script type="math/tex">m_i^{HW}</script> ，将生成的<script type="math/tex">a_i</script>进行结合得到<script type="math/tex">t_i^1(size:H\times W \times d_5)</script> ,将类别与mask进行结合有<script type="math/tex">t_i^2\in{\Bbb R}^{H\times W\times c}</script> ，同时还加入对抗训练，<script type="math/tex">a_k</script>属于同一类的不同物体,有: <script type="math/tex; mode=display">
+t' = T(\{c_i,m_i',b_i',a_i\}) \\
+t'' = T(\{c_i,m_i',b_i',a_k\})\\ 
+where\ m_i',b_i'\in groundtruth</script></li>
+</ul>
+</li>
+<li><p><strong>损失函数:</strong> 包含重建图片与groundtruth的误差<script type="math/tex">L_{Rec}</script> ,Boundingbox的回归误差<script type="math/tex">L_{box}</script> ,mask的判别误差和生成特征误差，生成图片的判别误差和生成特征误差，生成图片的每个物体与groundtruth物体的判别误差，具体每个loss的函数详细查看原文，其定义如下:</p>
+<script type="math/tex; mode=display">
+L = L_{Rec} + \lambda_1L_{box} + \lambda_2L_{perceptual}+\lambda_3L_{D-mask} +\\
+\lambda_4L_{D-image}+\lambda_5L_{D-object}+\lambda_6L_{FM-mask}+\lambda_7L_{FM-image}</script></li>
+<li><p><strong>生成图片原形以及类别添加关系:</strong>  该方法提供了100张每个类别的图片，user可以通过选择index来选择<strong>生成不同风格图片</strong>。添加类别时，根据<strong>两个类别位置之间的相对关系</strong>，来输入GCN作为edge边的信息。</p>
+</li>
+</ul>
+<h2 id="2-近五年内Text-editing论文"><a href="#2-近五年内Text-editing论文" class="headerlink" title="2. 近五年内Text editing论文"></a>2. 近五年内Text editing论文</h2><h3 id="2-1-2020Papers"><a href="#2-1-2020Papers" class="headerlink" title="2.1 2020Papers"></a>2.1 2020Papers</h3><h4 id="2-1-1-Scones-Towards-Conversational-Authoring-of-Sketches-ACM）"><a href="#2-1-1-Scones-Towards-Conversational-Authoring-of-Sketches-ACM）" class="headerlink" title="2.1.1 Scones: Towards Conversational Authoring of Sketches(ACM）"></a>2.1.1 Scones: Towards Conversational Authoring of Sketches(ACM）</h4><ul>
+<li><p><strong>基本概念:</strong> 通过迭代输入text一步步绘制草图</p>
+<p><img src="/images/GAN/Text_based_editing/scones_task.png" alt="scones_task"></p>
+</li>
+<li><p><strong>网络结构:</strong> </p>
+<p><img src="/images/GAN/Text_based_editing/scones_arch.png" alt="scones_arch"></p>
+</li>
+<li><p><strong>方法简述:</strong> </p>
+<ul>
+<li><p><strong>输入数据:</strong> 102维的变量<script type="math/tex">[\Bbb I_s,\Bbb I_e,e^{(o)},e^{(u)},e^{(s)},e^{(f)},x,y]</script>,+300维text token</p>
+<script type="math/tex; mode=display">
+\Bbb I_s, \Bbb I_e 代表是否第一或最后一帧\\
+e^{(o)} 代表58个类别的物体，e^{(u)}代表35个子类别的物体\\
+e^{(s)}代表3种大小,e^{(f)}代表是否倾斜，x,y代表物体中心位置</script></li>
+<li><p><strong>Composition Proposer:</strong> 利用transformer来处理语句的特征变量生成x,y，来生成mask</p>
+<p><img src="/images/GAN/Text_based_editing/scones_Composition.png" alt="Composition_Proposer"></p>
+</li>
+<li><p><strong>Object Generators:</strong> 利用生成的x,y生成mask和<script type="math/tex">\Delta x</script> ，<script type="math/tex">\Delta y</script>生成r来生成q包含下笔点，收笔点</p>
+<p><img src="/images/GAN/Text_based_editing/scones_arch_objgen.png" alt="object_generator"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-1-2-Grounded-and-Controllable-Image-Completion-by-Incorporating-Lexical-Semantics"><a href="#2-1-2-Grounded-and-Controllable-Image-Completion-by-Incorporating-Lexical-Semantics" class="headerlink" title="2.1.2 Grounded and Controllable Image Completion by Incorporating Lexical Semantics"></a>2.1.2 Grounded and Controllable Image Completion by Incorporating Lexical Semantics</h4><ul>
+<li><p><strong>基本概念:</strong> 提出一个通过语句来填补有空洞的图片的方法</p>
+</li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/2020/Controllable_image_Completion_arch.png" alt="Controllable_image_Completion_arch"></p>
+</li>
+<li><p><strong>方法简介:</strong></p>
+<ul>
+<li><p><strong>生成器的结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/2020/Controllable_image_Completion_generator.png" alt="Controllable_image_Completion_generator"></p>
+</li>
+<li><p><strong>REG:</strong> 通过REG来重新从图片中生成语句，引入了对偶学习进行context loss的优化</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-2019Papers"><a href="#2-2-2019Papers" class="headerlink" title="2.2 2019Papers"></a>2.2 2019Papers</h3><p><strong>值得借鉴:</strong>  从magezine布局生成的方法来看，貌似使用GAN来生成layout也是不错的方法</p>
+<h4 id="2-2-1-MirrorGAN-Learning-Text-to-image-Generation-by-Redescription"><a href="#2-2-1-MirrorGAN-Learning-Text-to-image-Generation-by-Redescription" class="headerlink" title="2.2.1 MirrorGAN: Learning Text-to-image Generation by Redescription"></a>2.2.1 MirrorGAN: Learning Text-to-image Generation by Redescription</h4><ul>
+<li><p><strong>基本概念:</strong> 提出一个网络从text生成图片，再从图片生成text来保证语义一致性</p>
+<p><img src="/images/GAN/Text_based_editing/mirrorGAN_task.png" alt="mirrorGAN_task"></p>
+</li>
+<li><p><strong>网络结构:</strong> </p>
+<p><img src="/images/GAN/Text_based_editing/MirrorGAN_arch.png" alt="MirrorGAN_arch"></p>
+</li>
+<li><p><strong>方法简述:</strong> 分成三个模块:STEM模块用于生成word和sentence-level的特征向量，GLAM用于从粗到细生成图片，STREAM用于重新生成语句描述来对齐给定的语句描述</p>
+<ul>
+<li><strong>STEM:</strong> Semantic Text Embedding Module,利用RNN来处理描述的text，利用conditioning augmentation来优化提出的特征向量<script type="math/tex; mode=display">
+w,s=RNN(T), \\
+s_{ca} = F_{ca}(s)</script></li>
+</ul>
+</li>
+<li><p><strong>GLAM:</strong> Global-Local collaborative Attentive Module，通过多个阶段生成图像的模块</p>
+</li>
+<li><p><strong>STREAM:</strong> Semantic Text REgeneration and Alignment Aodule,通过RNN模块重新生成text的描述</p>
+</li>
+<li><p><strong>Loss函数:</strong>训练GAN模块的时候考虑了自己还有STREAM的loss</p>
+</li>
+</ul>
+<h4 id="2-2-2-Automatic-Layout-Generation-for-Graphical-Design-Magazines"><a href="#2-2-2-Automatic-Layout-Generation-for-Graphical-Design-Magazines" class="headerlink" title="2.2.2 Automatic Layout Generation for Graphical Design Magazines"></a>2.2.2 Automatic Layout Generation for Graphical Design Magazines</h4><ul>
+<li><p><strong>基本概念:</strong> 从输入的text，图片，杂志页码来生成杂志排版</p>
+<p><img src="/images/GAN/Text_based_editing/ALG_for_magazines_task.png" alt="ALG_for_magazines_task"></p>
+</li>
+<li><p><strong>方法简述:</strong> </p>
+<ul>
+<li><p>手动设计生成layout的规则</p>
+</li>
+<li><p>通过对生成的layout设计网络进行评价输出分数</p>
+<p><img src="/images/GAN/Text_based_editing/ALGformagazine_evaluation.png" alt="ALGformagazine_evaluation"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-3-Content-aware-Generative-Modeling-of-Graphic-Design-Layouts"><a href="#2-2-3-Content-aware-Generative-Modeling-of-Graphic-Design-Layouts" class="headerlink" title="2.2.3 Content-aware Generative Modeling of Graphic Design Layouts"></a>2.2.3 Content-aware Generative Modeling of Graphic Design Layouts</h4><ul>
+<li><p><strong>基本概念:</strong> 通过图片属性，关键词属性，类别属性来生成杂志的排版，如下所示</p>
+<p><img src="/images/GAN/Text_based_editing/magazine/Content-aware_magazine.png" alt="Content-aware_magazine"></p>
+</li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/magazine/Content-aware_arch.png" alt="Content-aware_arch"></p>
+</li>
+<li><p><strong>方法简述:</strong></p>
+<ul>
+<li><strong>Text encoder、Attribute encoder和Image encoder:</strong> Image encoder采用的是VGG16，Text encoder采用的是word2vec</li>
+<li><strong>Layout Generative Network:</strong> 添加了一个额外的encoder E来将真实的layout分布encode到特征空间中</li>
+<li><strong>Loss Function:</strong> 不仅有G，D的训练，还有对E的引入的训练</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-4-Composing-Text-and-Image-for-Image-Retrieval-An-Empirical-Odyssey"><a href="#2-2-4-Composing-Text-and-Image-for-Image-Retrieval-An-Empirical-Odyssey" class="headerlink" title="2.2.4 Composing Text and Image for Image Retrieval - An Empirical Odyssey"></a>2.2.4 Composing Text and Image for Image Retrieval - An Empirical Odyssey</h4><ul>
+<li><p><strong>基本概念:</strong> 结合text与图片来生成目标图片,用图片描述如下</p>
+<p><img src="/images/GAN/Text_based_editing/2019/Compose_task.png" alt="Compose_task"></p>
+</li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/2019/Compose_arch.png" alt="Compose_arch"></p>
+</li>
+<li><p><strong>方法简介:</strong> </p>
+<ul>
+<li><strong>TIRG(Text Image Residual Gating):</strong> 提出一种结合text features和image features的方法</li>
+<li><strong>Deep Metric Learning:</strong> 提出一种使得修改过后的图片和target图片特征相近的优化函数</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-25-Robust-Change-Captioning"><a href="#2-25-Robust-Change-Captioning" class="headerlink" title="2.25 Robust Change Captioning"></a>2.25 Robust Change Captioning</h4><ul>
+<li><p><strong>基本概念:</strong> 比较两张图片的不同，然后转换成语言表述</p>
+<p><img src="/images/GAN/Text_based_editing/2019/RobustChangeCaption_task.png" alt="RobustChangeCaption_task"></p>
+</li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/2019/RobustChange_arch.png" alt="RobustChange_arch"></p>
+</li>
+</ul>
+<h3 id="2-3-2018Papers"><a href="#2-3-2018Papers" class="headerlink" title="2.3 2018Papers"></a>2.3 2018Papers</h3><p><strong>值得借鉴:</strong></p>
+<ul>
+<li>通过condition的一种方式来控制图像生成</li>
+<li>NGM通过Graph Matching的方法衡量Graph相似性</li>
+</ul>
+<h4 id="2-3-1-ChatPainter-Improving-Text-to-Image-Generation-using-Dialogue（ICLRW）"><a href="#2-3-1-ChatPainter-Improving-Text-to-Image-Generation-using-Dialogue（ICLRW）" class="headerlink" title="2.3.1 ChatPainter: Improving Text to Image Generation using Dialogue（ICLRW）"></a>2.3.1 ChatPainter: Improving Text to Image Generation using Dialogue（ICLRW）</h4><ul>
+<li><p><strong>基本概念:</strong> 完成的是text to image的任务</p>
+</li>
+<li><p><strong>方法简述:</strong> 添加额外的dialogue信息来进行图像生成,将dialogue直接通过encoder的到特征向量</p>
+</li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/ChatPainter_arch.jpg" alt="ChatPainter_arch"></p>
+</li>
+</ul>
+<h4 id="2-3-2-Keep-Drawing-It-Iterative-language-based-image-generation-and-editing"><a href="#2-3-2-Keep-Drawing-It-Iterative-language-based-image-generation-and-editing" class="headerlink" title="2.3.2 Keep Drawing It: Iterative language-based image generation and editing"></a>2.3.2 Keep Drawing It: Iterative language-based image generation and editing</h4><ul>
+<li><p><strong>基本概念:</strong> 定义GeNeVA任务;”Tell,Draw,andRepeat…”论文的前身</p>
+</li>
+<li><p><strong>方法简述:</strong> 利用GRU来提取语句特征向量</p>
+</li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/GeneVA/KeepDrawing_arch.png" alt="KeepDrawing_arch"></p>
+</li>
+</ul>
+<h4 id="2-3-3-Neural-Graph-Matching-Networks-for-Fewshot-3D-Action-Recognition"><a href="#2-3-3-Neural-Graph-Matching-Networks-for-Fewshot-3D-Action-Recognition" class="headerlink" title="2.3.3 Neural Graph Matching Networks for Fewshot 3D Action Recognition"></a>2.3.3 Neural Graph Matching Networks for Fewshot 3D Action Recognition</h4><ul>
+<li><p><strong>基本概念:</strong> 通过构建图网络来进行3D的动作识别</p>
+</li>
+<li><p><strong>网络结构:</strong></p>
+<p><img src="/images/GAN/Text_based_editing/2018/NGM_arch.png" alt="NGM_arch"></p>
+</li>
+<li><p><strong>方法简述:</strong> </p>
+<p><img src="/images/GAN/Text_based_editing/2018/NGM_whole_arch.png" alt="NGM_whole_arch"></p>
+<ul>
+<li><p><strong>Graph Generation:</strong> Node是每一frame，C代表类别，E代表连接关系</p>
+</li>
+<li><p><strong>Graph Matching:</strong> <script type="math/tex">T\in\Bbb R^{|C|\times|C|\times d}</script> ，<script type="math/tex">|C|</script> 代表的是节点的类型，d代表节点的特征</p>
+<script type="math/tex; mode=display">
+T_{m,m,:} = \sum_{c(i)=m}\hat f(x_i)（同一类型）, \\
+and\ T_{m,k} = \sum_{c(i)=m,c(j)=k} \hat \psi(x_i,y_i) for\ i\neq j(不同类型),  \\
+\phi_{GM}(G_i,G_j) = ||T(G_i)- T(G_j)||^2</script></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://JiaqiuZhou.github.io/2020/04/03/Project/RenderingLayout/Reference/Text-based-image-editing/" title="Text-based-image-editing">http://JiaqiuZhou.github.io/2020/04/03/Project/RenderingLayout/Reference/Text-based-image-editing/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Layout/" rel="tag"><i class="fa fa-tag"></i>	   			# Layout
+	      </a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/03/29/DeepLearning/Task/NatureLanuageProcess/NatureLanuage/" rel="next" title="自然语言处理">
+                  <i class="fa fa-chevron-left"></i> 自然语言处理
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/04/09/DeepLearning/Theory/GCN/GCN/" rel="prev" title="图卷积网络(GCN)学习">
+                  图卷积网络(GCN)学习 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Text-editing-image-paper"><span class="nav-number">1.</span> <span class="nav-text">1.Text editing image paper</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Tell-Draw-and-Repeat-Generating-and-Modifying-Images-Based-on-Continual-Linguistic-Instruction"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Tell, Draw, and Repeat: Generating and Modifying Images Based on Continual Linguistic Instruction</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-基本概念—Generative-Neual-Visual-Artist-GeNeVA"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1 基本概念—Generative Neual Visual Artist(GeNeVA)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-方法详述"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2 方法详述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-数据集以及评价指标"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.1.3 数据集以及评价指标</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Specifying-Object-Attributes-and-Relations-in-Interactive-Scene-Generation"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Specifying Object Attributes and Relations in Interactive Scene Generation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-基本概念"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-方法详述"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2 方法详述</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-近五年内Text-editing论文"><span class="nav-number">2.</span> <span class="nav-text">2. 近五年内Text editing论文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2020Papers"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 2020Papers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-Scones-Towards-Conversational-Authoring-of-Sketches-ACM）"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 Scones: Towards Conversational Authoring of Sketches(ACM）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-Grounded-and-Controllable-Image-Completion-by-Incorporating-Lexical-Semantics"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 Grounded and Controllable Image Completion by Incorporating Lexical Semantics</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2019Papers"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 2019Papers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-MirrorGAN-Learning-Text-to-image-Generation-by-Redescription"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 MirrorGAN: Learning Text-to-image Generation by Redescription</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-Automatic-Layout-Generation-for-Graphical-Design-Magazines"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 Automatic Layout Generation for Graphical Design Magazines</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-Content-aware-Generative-Modeling-of-Graphic-Design-Layouts"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 Content-aware Generative Modeling of Graphic Design Layouts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-Composing-Text-and-Image-for-Image-Retrieval-An-Empirical-Odyssey"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4 Composing Text and Image for Image Retrieval - An Empirical Odyssey</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-25-Robust-Change-Captioning"><span class="nav-number">2.2.5.</span> <span class="nav-text">2.25 Robust Change Captioning</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2018Papers"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 2018Papers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-ChatPainter-Improving-Text-to-Image-Generation-using-Dialogue（ICLRW）"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 ChatPainter: Improving Text to Image Generation using Dialogue（ICLRW）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-Keep-Drawing-It-Iterative-language-based-image-generation-and-editing"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 Keep Drawing It: Iterative language-based image generation and editing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-Neural-Graph-Matching-Networks-for-Fewshot-3D-Action-Recognition"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 Neural Graph Matching Networks for Fewshot 3D Action Recognition</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <a href="/">
+    <img class="site-author-image" itemprop="image"
+       src="/images/qiu.jpg"
+       alt="Ball" />
+  </a>
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/JiaqiuZhou" title="GitHub &rarr; https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail &rarr; mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">243k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">3:41</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("10/01/2019 00:00:00");//修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="本站已安全运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/copy.js"></script>
+</body>
+</html>
