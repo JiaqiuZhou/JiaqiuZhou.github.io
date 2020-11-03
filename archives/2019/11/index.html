@@ -749,6 +749,31 @@ if (document.querySelectorAll('div.pdf').length) {
 
   
 
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz# Your leancloud application appid',
+    appKey: 'SdAgfbnUruylQjpLNzwNV2fH# Your leancloud application appkey',
+    placeholder: 'write your comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
   <script type="text/javascript" src="/js/src/copy.js"></script>
 </body>
 </html>

@@ -65,7 +65,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/02/17/Knowledge/DeepLearning/Foundation/image-metric/ROC.jpg">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/02/17/Knowledge/DeepLearning/Foundation/image-metric/CMC.jpg">
-<meta property="og:updated_time" content="2020-11-03T11:17:46.823Z">
+<meta property="og:updated_time" content="2020-11-03T12:30:40.213Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Image-Metric">
 <meta name="twitter:description" content="介绍有关图像进行评估的算法">
@@ -300,7 +300,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-03 19:17:46" itemprop="dateModified" datetime="2020-11-03T19:17:46+08:00">2020-11-03</time>
+                <time title="修改时间：2020-11-03 20:30:40" itemprop="dateModified" datetime="2020-11-03T20:30:40+08:00">2020-11-03</time>
               </span>
             
           
@@ -327,6 +327,20 @@
               <span id="busuanzi_value_page_pv"></span>
             </span>
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/02/17/Knowledge/DeepLearning/Foundation/image-metric/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/02/17/Knowledge/DeepLearning/Foundation/image-metric/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
           <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
@@ -514,6 +528,9 @@ TNR = \frac {TN}{FP+TN}</script></li>
 
           </div>
           
+    
+    <div class="comments" id="comments"></div>
+  
 
         </div>
           
@@ -545,7 +562,7 @@ TNR = \frac {TN}{FP+TN}</script></li>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-两张图像差异性"><span class="nav-number">1.</span> <span class="nav-text">1. 两张图像差异性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-MAD平均绝对差值"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 MAD平均绝对差值:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-SAD绝对误差和算法"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 SAD绝对误差和算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-SSD误差平方和算法"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 SSD误差平方和算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-MSD平均误差平方和算法"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 MSD平均误差平方和算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-SSIM结构相似性-用于GAN中判断图像相似性"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 SSIM结构相似性(用于GAN中判断图像相似性)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-人脸识别指标"><span class="nav-number">2.</span> <span class="nav-text">2. 人脸识别指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-ROC-曲线"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 ROC 曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-细化指标"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 细化指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-横纵轴绘制曲线"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.2.2 横纵轴绘制曲线</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-CMC曲线-累计匹配曲线"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 CMC曲线(累计匹配曲线)</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-两张图像差异性"><span class="nav-text">1. 两张图像差异性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-MAD平均绝对差值"><span class="nav-text">1.1 MAD平均绝对差值:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-SAD绝对误差和算法"><span class="nav-text">1.2 SAD绝对误差和算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-SSD误差平方和算法"><span class="nav-text">1.3 SSD误差平方和算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-MSD平均误差平方和算法"><span class="nav-text">1.4 MSD平均误差平方和算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-SSIM结构相似性-用于GAN中判断图像相似性"><span class="nav-text">1.5 SSIM结构相似性(用于GAN中判断图像相似性)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-人脸识别指标"><span class="nav-text">2. 人脸识别指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-ROC-曲线"><span class="nav-text">2.1 ROC 曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-细化指标"><span class="nav-text">2.1.1 细化指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-横纵轴绘制曲线"><span class="nav-text">2.2.2 横纵轴绘制曲线</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-CMC曲线-累计匹配曲线"><span class="nav-text">2.2 CMC曲线(累计匹配曲线)</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -849,6 +866,31 @@ if (document.querySelectorAll('div.pdf').length) {
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz# Your leancloud application appid',
+    appKey: 'SdAgfbnUruylQjpLNzwNV2fH# Your leancloud application appkey',
+    placeholder: 'write your comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
 
   <script type="text/javascript" src="/js/src/copy.js"></script>
 </body>

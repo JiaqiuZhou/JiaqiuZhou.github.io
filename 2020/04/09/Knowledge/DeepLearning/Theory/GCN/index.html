@@ -75,7 +75,7 @@
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/04/09/Knowledge/DeepLearning/Theory/GCN/GraphMatching/NodeMatching.png">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/04/09/Knowledge/DeepLearning/Theory/GCN/GraphMatching/InexactGraphMatching.png">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/04/09/Knowledge/DeepLearning/Theory/GCN/GraphMatching/ModifiedGraphRepresentation.png">
-<meta property="og:updated_time" content="2020-11-03T11:46:53.686Z">
+<meta property="og:updated_time" content="2020-11-03T12:30:40.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图卷积网络(GCN)学习">
 <meta name="twitter:description" content="介绍对于GCN学习的理解">
@@ -310,7 +310,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-03 19:46:53" itemprop="dateModified" datetime="2020-11-03T19:46:53+08:00">2020-11-03</time>
+                <time title="修改时间：2020-11-03 20:30:40" itemprop="dateModified" datetime="2020-11-03T20:30:40+08:00">2020-11-03</time>
               </span>
             
           
@@ -337,6 +337,20 @@
               <span id="busuanzi_value_page_pv"></span>
             </span>
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/09/Knowledge/DeepLearning/Theory/GCN/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/04/09/Knowledge/DeepLearning/Theory/GCN/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
           <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
@@ -707,6 +721,9 @@ L_{perm} = -\sum_{i\in {\cal V}_1,j\in {\cal V}_2}(S_{i,j}^{gt}logS_{i,j}+(1-S^{
 
           </div>
           
+    
+    <div class="comments" id="comments"></div>
+  
 
         </div>
           
@@ -738,7 +755,7 @@ L_{perm} = -\sum_{i\in {\cal V}_1,j\in {\cal V}_2}(S_{i,j}^{gt}logS_{i,j}+(1-S^{
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Why-GCN？"><span class="nav-number">1.</span> <span class="nav-text">1. Why GCN？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基础知识"><span class="nav-number">2.</span> <span class="nav-text">2. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无向权重图"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 无向权重图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相似矩阵-邻接矩阵W"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 相似矩阵(邻接矩阵W)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-拉普拉斯矩阵"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 拉普拉斯矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-拉普拉斯算子"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 拉普拉斯算子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-图的定义"><span class="nav-number">3.</span> <span class="nav-text">3. 图的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-GraphConvolution"><span class="nav-number">4.</span> <span class="nav-text">4. GraphConvolution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-GraphConvolutionNetwork"><span class="nav-number">5.</span> <span class="nav-text">5. GraphConvolutionNetwork</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-图结构匹配相关研究"><span class="nav-number">6.</span> <span class="nav-text">6. 图结构匹配相关研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-Neural-Graph-Matching-Networks-for-Fewshot-3D-Action-Recognition"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 Neural Graph Matching Networks for Fewshot 3D Action Recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-Graph-Matching-Networks-for-Learning-the-Similarity-of-Graph-Structured-Objects"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 Graph Matching Networks for Learning the Similarity of Graph Structured Objects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-Learning-Combinatorial-Embedding-Networks-for-Deep-Graph-Matching"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 Learning Combinatorial Embedding Networks for Deep Graph Matching</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-Inexact-graph-matching-仅考虑结构"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 Inexact graph matching(仅考虑结构)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-5-Graph-matching-based-on-local-and-global-information-of-the-graph-nodes"><span class="nav-number">6.4.1.</span> <span class="nav-text">6.5 Graph matching based on local and global information of the graph nodes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-6-Inexact-graph-matching-using-a-hierarchy-of-matching-processes"><span class="nav-number">6.4.2.</span> <span class="nav-text">6.6 Inexact graph matching using a hierarchy of matching processes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-7-A-Modified-Graph-Representation-for-Room-Layout-Matching-using-Spectral-Embedding"><span class="nav-number">6.4.3.</span> <span class="nav-text">6.7 A Modified Graph Representation for Room Layout Matching using Spectral Embedding</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Why-GCN？"><span class="nav-text">1. Why GCN？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基础知识"><span class="nav-text">2. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无向权重图"><span class="nav-text">2.1 无向权重图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相似矩阵-邻接矩阵W"><span class="nav-text">2.2 相似矩阵(邻接矩阵W)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-拉普拉斯矩阵"><span class="nav-text">2.3 拉普拉斯矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-拉普拉斯算子"><span class="nav-text">2.4 拉普拉斯算子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-图的定义"><span class="nav-text">3. 图的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-GraphConvolution"><span class="nav-text">4. GraphConvolution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-GraphConvolutionNetwork"><span class="nav-text">5. GraphConvolutionNetwork</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-图结构匹配相关研究"><span class="nav-text">6. 图结构匹配相关研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-Neural-Graph-Matching-Networks-for-Fewshot-3D-Action-Recognition"><span class="nav-text">6.1 Neural Graph Matching Networks for Fewshot 3D Action Recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-Graph-Matching-Networks-for-Learning-the-Similarity-of-Graph-Structured-Objects"><span class="nav-text">6.2 Graph Matching Networks for Learning the Similarity of Graph Structured Objects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-Learning-Combinatorial-Embedding-Networks-for-Deep-Graph-Matching"><span class="nav-text">6.3 Learning Combinatorial Embedding Networks for Deep Graph Matching</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-Inexact-graph-matching-仅考虑结构"><span class="nav-text">6.4 Inexact graph matching(仅考虑结构)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-5-Graph-matching-based-on-local-and-global-information-of-the-graph-nodes"><span class="nav-text">6.5 Graph matching based on local and global information of the graph nodes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-6-Inexact-graph-matching-using-a-hierarchy-of-matching-processes"><span class="nav-text">6.6 Inexact graph matching using a hierarchy of matching processes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-7-A-Modified-Graph-Representation-for-Room-Layout-Matching-using-Spectral-Embedding"><span class="nav-text">6.7 A Modified Graph Representation for Room Layout Matching using Spectral Embedding</span></a></li></ol></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -1042,6 +1059,31 @@ if (document.querySelectorAll('div.pdf').length) {
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz# Your leancloud application appid',
+    appKey: 'SdAgfbnUruylQjpLNzwNV2fH# Your leancloud application appkey',
+    placeholder: 'write your comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
 
   <script type="text/javascript" src="/js/src/copy.js"></script>
 </body>

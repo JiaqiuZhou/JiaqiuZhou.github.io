@@ -65,7 +65,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/Quantization_scale.png">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/Quantization_inference.png">
-<meta property="og:updated_time" content="2020-11-03T11:30:34.927Z">
+<meta property="og:updated_time" content="2020-11-03T12:30:40.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型压缩">
 <meta name="twitter:description" content="大致介绍在压缩模型过程中所需要用到的基础知识">
@@ -300,7 +300,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-03 19:30:34" itemprop="dateModified" datetime="2020-11-03T19:30:34+08:00">2020-11-03</time>
+                <time title="修改时间：2020-11-03 20:30:40" itemprop="dateModified" datetime="2020-11-03T20:30:40+08:00">2020-11-03</time>
               </span>
             
           
@@ -327,6 +327,20 @@
               <span id="busuanzi_value_page_pv"></span>
             </span>
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
           <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
@@ -526,6 +540,9 @@ q(r;a,b,n) := \lfloor \frac{clamp(r;a,b)-a}{s(a,b,n)} \rceil s(a,b,n) + a</scrip
 
           </div>
           
+    
+    <div class="comments" id="comments"></div>
+  
 
         </div>
           
@@ -557,7 +574,7 @@ q(r;a,b,n) := \lfloor \frac{clamp(r;a,b)-a}{s(a,b,n)} \rceil s(a,b,n) + a</scrip
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-模型压缩基本概念"><span class="nav-number">1.</span> <span class="nav-text">1. 模型压缩基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-参数量与计算量"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 参数量与计算量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-为什么需要模型压缩"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 为什么需要模型压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-逐层量化、逐组量化和逐通道量化"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 逐层量化、逐组量化和逐通道量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-在线量化和离线量化"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 在线量化和离线量化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-网络压缩基本概念"><span class="nav-number">2.</span> <span class="nav-text">2. 网络压缩基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-参数量化"><span class="nav-number">3.</span> <span class="nav-text">3. 参数量化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-线性量化"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 线性量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-比特量化"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 比特量化</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-模型压缩基本概念"><span class="nav-text">1. 模型压缩基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-参数量与计算量"><span class="nav-text">1.1 参数量与计算量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-为什么需要模型压缩"><span class="nav-text">1.2 为什么需要模型压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-逐层量化、逐组量化和逐通道量化"><span class="nav-text">1.3 逐层量化、逐组量化和逐通道量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-在线量化和离线量化"><span class="nav-text">1.4 在线量化和离线量化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-网络压缩基本概念"><span class="nav-text">2. 网络压缩基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-参数量化"><span class="nav-text">3. 参数量化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-线性量化"><span class="nav-text">3.1 线性量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-比特量化"><span class="nav-text">3.2 比特量化</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -861,6 +878,31 @@ if (document.querySelectorAll('div.pdf').length) {
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz# Your leancloud application appid',
+    appKey: 'SdAgfbnUruylQjpLNzwNV2fH# Your leancloud application appkey',
+    placeholder: 'write your comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
 
   <script type="text/javascript" src="/js/src/copy.js"></script>
 </body>
