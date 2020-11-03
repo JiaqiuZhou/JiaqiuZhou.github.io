@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="介绍一些常用的数学函数以及数学表达式">
+<meta name="keywords" content="Math">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学常见函数表达式">
+<meta property="og:url" content="http://JiaqiuZhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍一些常用的数学函数以及数学表达式">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/integral.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/double_integral_xy.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/double_integral_x.png">
+<meta property="og:updated_time" content="2020-11-03T11:54:30.142Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数学常见函数表达式">
+<meta name="twitter:description" content="介绍一些常用的数学函数以及数学表达式">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/integral.png">
+  <link rel="canonical" href="http://JiaqiuZhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>数学常见函数表达式 | Ball's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div> 
+    <a href="https://github.com/JiaqiuZhou" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z">
+    </path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm">
+    </path>
+    <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body">
+     </path>
+     </svg>
+     </a>
+     <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+    </style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ball's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Any way, be happy</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://JiaqiuZhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qiu.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">数学常见函数表达式
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-26 11:43:52" itemprop="dateCreated datePublished" datetime="2019-10-26T11:43:52+08:00">2019-10-26</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-03 19:54:30" itemprop="dateModified" datetime="2020-11-03T19:54:30+08:00">2020-11-03</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Knowledge/" itemprop="url" rel="index"><span itemprop="name">Knowledge</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>136</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>1 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍一些常用的数学函数以及数学表达式</p>
+<a id="more"></a>
+<h2 id="1-数学表达式"><a href="#1-数学表达式" class="headerlink" title="1. 数学表达式"></a>1. 数学表达式</h2><h3 id="1-1-数学极限表达"><a href="#1-1-数学极限表达" class="headerlink" title="1.1 数学极限表达"></a>1.1 数学极限表达</h3><ul>
+<li>虽然说这种表达很常见与极限中,但是在其他地方经常利用这种表达式来表达两类物体之间的无限逼近</li>
+</ul>
+<script type="math/tex; mode=display">
+\forall \epsilon>0,\exists \delta>0,\text{使不等式}|f(x)-a|<\epsilon,|x-x_0|\in(0,\delta)\Longrightarrow lim_{x\rightarrow x_0}f(x) =a</script><h2 id="2-数学函数"><a href="#2-数学函数" class="headerlink" title="2. 数学函数"></a>2. 数学函数</h2><h3 id="2-1-取整函数"><a href="#2-1-取整函数" class="headerlink" title="2.1 取整函数"></a>2.1 取整函数</h3><ul>
+<li><p><strong>下取整函数:</strong> 取小于或等于本值的整数</p>
+<script type="math/tex; mode=display">
+\lfloor x \rfloor = max\lbrace n\in Z|n\leq x \rbrace \\
+\lfloor x \rfloor \leq x \leq \lfloor x \rfloor +1</script></li>
+<li><p><strong>上取整函数:</strong> 取大于或等于本值的整数 </p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\lceil x \rceil = min\lbrace n\in Z|x\leq n \rbrace \\
+x \leq \lceil x \rceil < x +1</script><ul>
+<li><strong>对称函数:</strong> 无论参数的顺序如何,给定n个参数的值都是相同的,例如</li>
+</ul>
+<script type="math/tex; mode=display">
+f(x_1,x_2)=f(x_2,x_1) \\
+\text{实例化:} f(x,y) = x^2+y^2-r^2 \Longrightarrow f(y,x) = y^2+x^2-r^2 \\
+可见,f(x,y) = f(y,x);因此f为对称函数</script><h3 id="2-2-积分函数"><a href="#2-2-积分函数" class="headerlink" title="2.2 积分函数"></a>2.2 积分函数</h3><h4 id="2-2-1-一重积分"><a href="#2-2-1-一重积分" class="headerlink" title="2.2.1 一重积分"></a>2.2.1 一重积分</h4><ul>
+<li><p><strong>解决问题:</strong> 为了解决计算曲面面积的问题而延伸出来一个贼好用的计算抽象的方法，如图所示</p>
+<p><img src="/2019/10/26/Knowledge/Math/MathNormalFunction/integral.png" alt="integral"></p>
+</li>
+<li><p><strong>解决方法:</strong> 通过极限的方法，将曲面进行无限的分割，得到非常小的一小块面积，然后将面积进行叠加得到曲面面积</p>
+</li>
+<li><p><strong>数学定义:</strong></p>
+<script type="math/tex; mode=display">
+A = \int f(x)dx</script></li>
+</ul>
+<h4 id="2-2-2-二重积分"><a href="#2-2-2-二重积分" class="headerlink" title="2.2.2 二重积分"></a>2.2.2 二重积分</h4><ul>
+<li><p><strong>解决问题:</strong> 计算一些不规则曲面的面积以及空间曲面的体积</p>
+</li>
+<li><p><strong>数学定义:</strong> </p>
+<script type="math/tex; mode=display">
+S= \iint f(x,y) dxdy</script></li>
+<li><p><strong>应用:</strong> 从xy面积的角度去看，有</p>
+<p><img src="/2019/10/26/Knowledge/Math/MathNormalFunction/double_integral_xy.png" alt="double integral xy"></p>
+<p>从x的层面去看，从y去看亦然，有</p>
+<p><img src="/2019/10/26/Knowledge/Math/MathNormalFunction/double_integral_x.png" alt="double integral x"></p>
+</li>
+</ul>
+<h3 id="2-3-概率函数"><a href="#2-3-概率函数" class="headerlink" title="2.3 概率函数"></a>2.3 概率函数</h3><h4 id="2-3-1-最大似然估计-MLE"><a href="#2-3-1-最大似然估计-MLE" class="headerlink" title="2.3.1 最大似然估计(MLE)"></a>2.3.1 最大似然估计(MLE)</h4><ul>
+<li><p><strong>定义:</strong> 对于一批数据 <script type="math/tex">x_1,x_2,...,x_n</script> ，假设数据服从于某个分布(模型已知)，但是参数 <script type="math/tex">\theta</script> 未知，目的是通过找到这样一个参数值，使得每条样本出现的概率最大。</p>
+</li>
+<li><p><strong>数学表示:</strong></p>
+<script type="math/tex; mode=display">
+argmax P(x_1,x_2,...,x_n|\theta)\\
+假设样本独立同分布,则有 argmax \prod_{i=1}^n P(x_i|\theta)</script></li>
+</ul>
+<h4 id="2-3-2-最大后验概率-MAP"><a href="#2-3-2-最大后验概率-MAP" class="headerlink" title="2.3.2 最大后验概率(MAP)"></a>2.3.2 最大后验概率(MAP)</h4><ul>
+<li><p><strong>定义:</strong> 对于一批数据 <script type="math/tex">x_1,x_2,...,x_n</script> ，假设数据服从于某个分布(模型已知)，虽然参数 <script type="math/tex">\theta</script> 未知，但是估计服从某个分布(先验分布),目的是通过找到这样一个参数值，使得每条样本出现的概率最大。</p>
+</li>
+<li><p>数学表示</p>
+<script type="math/tex; mode=display">
+argmaxP(\theta|x_1,x_2,...,x_n) \\
+argmaxP(\theta|x_1,x_2,...,x_n)=\frac{P(x_1,...,x_n|\theta)P(\theta)}{P(x_1,x_2,...,x_n)}</script></li>
+</ul>
+<h4 id="2-3-3-概率相关概念"><a href="#2-3-3-概率相关概念" class="headerlink" title="2.3.3 概率相关概念"></a>2.3.3 概率相关概念</h4><ul>
+<li><p><strong>随机变量:</strong> 概率中通常将试验的结果成为随机变量，随机变量将每一个可能出现的试验结果赋予了一个数值，包含<strong>离散型随机变量</strong>和<strong>连续型随机变量</strong>，连续型随机变量是连续变量在某个区间内的一点。</p>
+</li>
+<li><p><strong>数学期望:</strong> 对随机变量中心位置的一种度量</p>
+<script type="math/tex; mode=display">
+E(x) = \sum xf(x)</script></li>
+<li><p><strong>方差: </strong>对风险的度量，随机变量的变异性</p>
+<script type="math/tex; mode=display">
+Var(x) = \sum(x-\mu)^2f(x)</script></li>
+</ul>
+<h4 id="2-3-4-概率分布"><a href="#2-3-4-概率分布" class="headerlink" title="2.3.4 概率分布"></a>2.3.4 概率分布</h4><ul>
+<li><p><strong>二项分布:</strong> 离散型的概率分布，两种可能的结果:成功 or 失败</p>
+<script type="math/tex; mode=display">
+f(x) = \begin{pmatrix}n \\ x \end{pmatrix}p^x(1-p)^{n-x}\\
+数学期望:E(x) = np; 方差:Var(x) = np (1-p)</script><p><strong>例子:</strong>掷硬币，计算抛硬币n次，恰巧有x次正面朝上的概率</p>
+</li>
+<li><p><strong>泊松概率分布: </strong>离散型概率分布，令二项分布的n趋于无穷进行求解，</p>
+<script type="math/tex; mode=display">
+f(x) = \frac{u^{x}e^{-u}}{x!}\\
+u为发生次数的数学期望，x代表发生的次数</script><p><strong>满足条件:</strong> 1.独立事件；2.事情发生的频率是稳定的；3.时间发生的概率是很小的；</p>
+<p><strong>用途:</strong> 用于估计某事件在特定时间或空间中发生的次数</p>
+<p><strong>例子:</strong> 24小时内中奖的次数为7的概率，可以令u为平时发生的概率，令x为7求出24小时内中奖的次数为7的概率。</p>
+</li>
+<li><p><strong>正态分布:</strong> 常见的连续概率分布，经常用在自然和社会科学代表不明随机变量</p>
+<script type="math/tex; mode=display">
+f(x) = \frac 1 {\sigma\sqrt{2\pi}} e^{-(x-u)^2/2\sigma^2}\\
+u代表均值，\sigma代表标准差</script></li>
+</ul>
+<h4 id="2-3-5-概率分布相关性"><a href="#2-3-5-概率分布相关性" class="headerlink" title="2.3.5 概率分布相关性"></a>2.3.5 概率分布相关性</h4><ul>
+<li><p><strong>信息论: </strong>量化数据中的信息,事件发生概率越大，获得信息量越小;</p>
+<p>比如说，哪哪哪发生地震了，时间发生概率很小，就会对世界的影响很大。</p>
+<script type="math/tex; mode=display">
+H(X) = - \sum^n_{i=1}p(x_i)log(p(x_i))\\
+即:量化概率事件分布中的期望</script></li>
+<li><p><strong>KL散度(相对熵): </strong>量化两种概率分布之间的差异,当两个随机分布相同时，它们的相对熵为0，差别增大时，它们的相对熵也会增大</p>
+<script type="math/tex; mode=display">
+D_{KL}(p||q) = \sum_{i=1}^{n}p(x_i)log(\frac{p(x_i)}{q(x_i)})</script><ul>
+<li>不对称性:  <script type="math/tex">D_{KL}(p||q) \neq D_{KL(q||p)}</script></li>
+<li>非负性：相对熵的值是非负值</li>
+</ul>
+</li>
+<li><p><strong>JS散度:</strong> 基于KL散度的变体，解决非对称问题</p>
+<script type="math/tex; mode=display">
+JS(P||Q) = \frac{1}{2}KL(P||\frac{P+Q}{2})+\frac 1 2 KL(Q||\frac{P+Q}{2})</script><p>JS散度的取值范围为: <script type="math/tex">0\leq JS(P||Q)\leq log2</script>， 当P与Q完全相同时，JS散度取0，完全不相同取log2</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://JiaqiuZhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/" title="数学常见函数表达式">http://JiaqiuZhou.github.io/2019/10/26/Knowledge/Math/MathNormalFunction/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Math/" rel="tag"><i class="fa fa-tag"></i>	   			# Math
+	      </a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/15/Software/Architecture/Architecture/" rel="next" title="SoftwareArchitecture">
+                  <i class="fa fa-chevron-left"></i> SoftwareArchitecture
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/02/Software/system/sysdesign/" rel="prev" title="软件系统设计">
+                  软件系统设计 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-数学表达式"><span class="nav-number">1.</span> <span class="nav-text">1. 数学表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-数学极限表达"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 数学极限表达</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-数学函数"><span class="nav-number">2.</span> <span class="nav-text">2. 数学函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-取整函数"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 取整函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-积分函数"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 积分函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-一重积分"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 一重积分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-二重积分"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 二重积分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-概率函数"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 概率函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-最大似然估计-MLE"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 最大似然估计(MLE)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-最大后验概率-MAP"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 最大后验概率(MAP)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-概率相关概念"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 概率相关概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-4-概率分布"><span class="nav-number">2.3.4.</span> <span class="nav-text">2.3.4 概率分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-5-概率分布相关性"><span class="nav-number">2.3.5.</span> <span class="nav-text">2.3.5 概率分布相关性</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <a href="/">
+    <img class="site-author-image" itemprop="image"
+       src="/images/qiu.jpg"
+       alt="Ball" />
+  </a>
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/JiaqiuZhou" title="GitHub &rarr; https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail &rarr; mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">246k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">3:43</span>
+</div>
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("10/01/2019 00:00:00");//修改为自己的blog建站时间
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="本站已安全运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+}
+show_date_time();
+</script>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/copy.js"></script>
+</body>
+</html>
