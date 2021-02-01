@@ -42,7 +42,17 @@
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/GraphMatching/NodeMatching.png">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/GraphMatching/InexactGraphMatching.png">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/GraphMatching/ModifiedGraphRepresentation.png">
-<meta property="og:updated_time" content="2021-01-29T06:43:29.245Z">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/2018ICANN_GraphVAE_architecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/GraphVAE_p.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/2018ICLR_DeepGenerative.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/JTVAE_JunctionTree.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/2018ICML_Graph_update.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/VJTNN.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/Graphite.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/ScalableDeepGeneration.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/ConditionalStructureGAN.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/09/Knowledge/DeepLearning/Task/GCN/CondGAN_architecture.png">
+<meta property="og:updated_time" content="2021-02-01T08:32:41.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图卷积网络(GCN)学习">
 <meta name="twitter:description" content="介绍对于GCN学习的理解">
@@ -235,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-29 14:43:29" itemprop="dateModified" datetime="2021-01-29T14:43:29+08:00">2021-01-29</time>
+                <time title="修改时间：2021-02-01 16:32:41" itemprop="dateModified" datetime="2021-02-01T16:32:41+08:00">2021-02-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -595,7 +605,108 @@ s(G_1,G_2) = \frac 1 H \sum_{i=1} ^H tanh(h_{G_1i})\cdot tanh(h_{G_2i})</script>
 <p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/GraphMatching/ModifiedGraphRepresentation.png" alt="LayoutAdjacency"></p>
 </li>
 </ul>
-<h3 id="7-图结构生成相关研究"><a href="#7-图结构生成相关研究" class="headerlink" title="7.图结构生成相关研究"></a>7.图结构生成相关研究</h3>
+<h3 id="7-图结构生成相关研究"><a href="#7-图结构生成相关研究" class="headerlink" title="7.图结构生成相关研究"></a>7.图结构生成相关研究</h3><ul>
+<li>相关综述论文: Deep Graph Generators A Survey</li>
+</ul>
+<h4 id="7-1-开山之作"><a href="#7-1-开山之作" class="headerlink" title="7.1 开山之作"></a>7.1 开山之作</h4><p><strong>7.1.1 2018ICANN_GraphVAE: Towards Generation of Small Graphs Using Variational Autoencoders</strong></p>
+<ul>
+<li><p><strong>Introduction:</strong>  作者通过利用variational autoencoders(VAE)来从一个连续的分布生成图，通过解码器来输出一个预定义好最大大小的全连接图的概率。</p>
+</li>
+<li><p><strong>Challenges:</strong> 图是离散结构，可以有随意的连接方式并且没有可以线性化的方式来生成</p>
+</li>
+<li><p><strong>Method:</strong> A表示节点之间的连接关系，E表示边的属性，即边的类型，F表示节点的属性，即节点属于什么类型</p>
+<script type="math/tex; mode=display">
+L(\phi,\theta;G) = E_{q_\phi(z|G)}[-logp_{\theta}(G|z)]+KL[q_\phi(z|G)||p(z)]</script><p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/2018ICANN_GraphVAE_architecture.png" alt="GraphVAE_architecture"></p>
+</li>
+<li><p><strong>Loss function详解：</strong>KL描述的是让拟合正态分布，<script type="math/tex">log_{p_\theta}(G|z)</script> 等同于最小化Graph与gt graph之间的距离，文中为了更好的描述Graph之间的相似性，作者通过graph matching的方法计算了一个矩阵X来对Graph进行转换, X怎么来的具体见paper:</p>
+<script type="math/tex; mode=display">
+A' =XAX^T; \tilde{F'}=X^T\tilde{F};\tilde{E'_{.,.,l}}=X^T\tilde{E_{.,.,l}}X</script><p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/GraphVAE_p.png" alt="GraphVAE_p"></p>
+</li>
+<li><p><strong>Advantages:</strong> 利用最近比较热门的网络VAE来生成图</p>
+</li>
+<li><p><strong>Disadvantages:</strong> 生成的graph需要规定好大小，对于不同大小的graph无法满足</p>
+</li>
+</ul>
+<p><strong>7.1.2 2018 ICLR_Learning Deep Generative Models of Graphs</strong></p>
+<ul>
+<li><p><strong>Introduction:</strong> 通过使用GNN网络来描述图中的节点与边的依赖，学习任何图的分布</p>
+</li>
+<li><p><strong>Method:</strong> 将整个分子图生成的过程当成一个序列化生成的过程，通过使用一系列的过程每次生成一个节点然后连接每个节点到图中</p>
+<p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/2018ICLR_DeepGenerative.png" alt="2018ICLR_DeepGenerative"></p>
+</li>
+</ul>
+<h4 id="7-2-专注于分子生成"><a href="#7-2-专注于分子生成" class="headerlink" title="7.2 专注于分子生成"></a>7.2 专注于分子生成</h4><p><strong>7.2.1 2018ICML_Junction Tree Variational Autoencoder for Molecular Graph Generation(结构分解)</strong></p>
+<ul>
+<li><p><strong>Introduction:</strong> 研究的是分子图生成的过程，提出了一个新的分子图生成模型</p>
+</li>
+<li><p><strong>Method:</strong> 将分子图生成的过程分解为两种过程，第一种是总体骨架Tree的一个生成过程，然后是骨架中每个点所代表的子结构生成</p>
+<p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/JTVAE_JunctionTree.png" alt="JTVAE_JunctionTree"></p>
+</li>
+<li><p><strong>Loss function详解:</strong>  Tree的损失函数,p代表当前节点的下一个节点是否有节点，q代表这个节点的label与gt label是否一致</p>
+<script type="math/tex; mode=display">
+L_c(\mathcal T) = \sum_t L^d(p_t,\hat p_t) + \sum_j L^l(q_j,\hat q_j)</script><p>然后是Graph的损失函数，即Tree有了以后，对子结构进行生成，利用gt的子结构sub-graph来计算损失</p>
+<script type="math/tex; mode=display">
+L_g(G) = \sum_i\left[f^a(G_i)-log\sum_{G_i'\in\mathcal G_i}exp(f^a(G_i'))\right]</script></li>
+</ul>
+<p><strong>7.2.2 2018ICML_GraphRNN: Generating Realistic Graphs with Deep Auto-regressive Models(order序列生成)</strong></p>
+<p>参考资料:<a href="https://duvenaud.github.io/learn-discrete/slides/graphrnn.pdf" target="_blank" rel="noopener">https://duvenaud.github.io/learn-discrete/slides/graphrnn.pdf</a></p>
+<ul>
+<li><p><strong>Introduction:</strong> 为了解决生成复杂图结构分布的生成挑战，提出了一种能够解决这种挑战的模型结构，通过将图生成的过程分解为一系列节点和边的生成，还提出了一种基于Maximum Mean Discrepancy 作为衡量图生成效果的指标</p>
+</li>
+<li><p><strong>Challenges:</strong></p>
+<ul>
+<li>图的变化搜索空间大: <script type="math/tex">n^2</script> 种结构</li>
+<li>不唯一的表示: n! 种连接方式</li>
+<li>每条边不独立，新生成的边取决于原先的边</li>
+</ul>
+</li>
+<li><p><strong>Method:</strong> 借鉴于上一篇2018ICLR那一篇通过将图的生成分解为边和节点的生成，作者考虑了生成的顺序，S表示边的更新，如下公式所示，它可以表示其他节点<strong>与要生成的i节点的连接关系</strong>，这样就可以生成一个需要的图，h表示节点的更新，将图的生成转化为S的生成</p>
+<script type="math/tex; mode=display">
+S_i^\pi=(A_{1,i}^\pi, ...,A_{i-1, i}^\pi)^T, \forall i\in\{2,...,n\}.</script><p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/2018ICML_Graph_update.png" alt="Graph_update"></p>
+</li>
+<li><p><strong>Advantage:</strong> </p>
+<ul>
+<li>采用RNN来进行一步步得生成，这样可以比较符合一个生成得过程</li>
+<li>将图的生成优化成边的生成，使任务简化</li>
+</ul>
+</li>
+<li><p><strong>Disadvantage:</strong> 对于节点数太多的方案，这种生成过程太费时间和空间</p>
+</li>
+</ul>
+<h4 id="7-3-专注于生成分子多样性"><a href="#7-3-专注于生成分子多样性" class="headerlink" title="7.3 专注于生成分子多样性"></a>7.3 专注于生成分子多样性</h4><p><strong>7.3.1 2019 ICLR_LEARNING MULTIMODAL GRAPH-TO-GRAPH TRANSLATION FOR MOLECULAR OPTIMIZATION</strong></p>
+<ul>
+<li><p><strong>Introduction:</strong> 主要是将分子优化问题作为一个graph-to-graph的转化问题，其框架是基于JTVAE的框架来实现的，同时关注了graph生成的一个多样性</p>
+</li>
+<li><p><strong>Method:</strong>  通过将Junction Tree的结构融入到分子生成中，利用diffVAE的方式，计算source graph X与target graphY之间的高维差，然后映射到正态分布中，然后再decoder恢复出原来的graph。为了加入生成分子有效性的约束，还加入gan的方法进行训练</p>
+<p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/VJTNN.png" alt="VJTNN"></p>
+</li>
+</ul>
+<h4 id="7-4-大网络图生成"><a href="#7-4-大网络图生成" class="headerlink" title="7.4 大网络图生成"></a>7.4 大网络图生成</h4><p><strong>7.4.1 2019 ICML_Graphite: Iterative Generative Modeling of Graphs</strong></p>
+<ul>
+<li><p><strong>Introduction:</strong> 关注的是可扩展图生成任务，可用于生成比较大型的网络</p>
+</li>
+<li><p><strong>Method:</strong>  采用的是VAE的框架，通过一个初始的重建特征，然后通过message passing function进行refine，一个可以用于非监督学习的框架，采用GNN作为inference(encoding) 和generation(decoding)，具体的数学形式比较复杂，后面有接触再补充</p>
+<p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/Graphite.png" alt="Graphite"></p>
+</li>
+</ul>
+<p><strong>7.4.2 2020 ICML_Scalable Deep Generative Modeling for Sparse Graphs</strong></p>
+<ul>
+<li><p><strong>Introduction:</strong> 考虑的是超过10000个节点的图生成方法，目前的方法都只能满足于100个节点的生成</p>
+</li>
+<li><p><strong>Method:</strong> 通过利用边的稀疏性来避免生成一个完全的连接图，然后降低图生成的复杂性，可以用来生成更大的图</p>
+<p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/ScalableDeepGeneration.png" alt="ScalableDeepGeneration"></p>
+</li>
+</ul>
+<h4 id="7-5-Condition分子生成"><a href="#7-5-Condition分子生成" class="headerlink" title="7.5 Condition分子生成"></a>7.5 Condition分子生成</h4><p><strong>7.5.1 2019 NIPS_Conditional Structure Generation through<br>Graph Variational Generative Adversarial Nets</strong></p>
+<ul>
+<li><p><strong>Introduction:</strong> 专注于一个考虑输入需求的分子结构生成包含排列不变性的方法</p>
+<p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/ConditionalStructureGAN.png" alt="ConditionalStructureGAN"></p>
+</li>
+<li><p><strong>Method:</strong> 基于GAN的方法来对这一过程进行实现，同样是一个graph-to-graph的一个网络框架</p>
+<p><img src="/2020/11/09/Knowledge/DeepLearning/Task/GCN/CondGAN_architecture.png" alt="CondGAN_architecture"></p>
+</li>
+</ul>
+
     </div>
 
     
@@ -696,7 +807,7 @@ s(G_1,G_2) = \frac 1 H \sum_{i=1} ^H tanh(h_{G_1i})\cdot tanh(h_{G_2i})</script>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Why-GCN？"><span class="nav-text">1. Why GCN？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基础知识"><span class="nav-text">2. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无向权重图"><span class="nav-text">2.1 无向权重图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相似矩阵-邻接矩阵W"><span class="nav-text">2.2 相似矩阵(邻接矩阵W)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-拉普拉斯矩阵"><span class="nav-text">2.3 拉普拉斯矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-拉普拉斯算子"><span class="nav-text">2.4 拉普拉斯算子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-图的遍历"><span class="nav-text">2.5 图的遍历</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-图的定义"><span class="nav-text">3. 图的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-GraphConvolution"><span class="nav-text">4. GraphConvolution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-GraphConvolutionNetwork"><span class="nav-text">5. GraphConvolutionNetwork</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-基于邻接矩阵的图网络"><span class="nav-text">5.1 基于邻接矩阵的图网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-考虑图边特征的图网络"><span class="nav-text">5.2 考虑图边特征的图网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-图结构匹配相关研究"><span class="nav-text">6. 图结构匹配相关研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-图像scene-graph匹配"><span class="nav-text">6.1 图像scene graph匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-Graph-特征匹配"><span class="nav-text">6.2 Graph 特征匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-Graph结构匹配-Inexact-graph-matching"><span class="nav-text">6.3 Graph结构匹配(Inexact graph matching)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-图结构生成相关研究"><span class="nav-text">7.图结构生成相关研究</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Why-GCN？"><span class="nav-text">1. Why GCN？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基础知识"><span class="nav-text">2. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无向权重图"><span class="nav-text">2.1 无向权重图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相似矩阵-邻接矩阵W"><span class="nav-text">2.2 相似矩阵(邻接矩阵W)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-拉普拉斯矩阵"><span class="nav-text">2.3 拉普拉斯矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-拉普拉斯算子"><span class="nav-text">2.4 拉普拉斯算子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-图的遍历"><span class="nav-text">2.5 图的遍历</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-图的定义"><span class="nav-text">3. 图的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-GraphConvolution"><span class="nav-text">4. GraphConvolution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-GraphConvolutionNetwork"><span class="nav-text">5. GraphConvolutionNetwork</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-基于邻接矩阵的图网络"><span class="nav-text">5.1 基于邻接矩阵的图网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-考虑图边特征的图网络"><span class="nav-text">5.2 考虑图边特征的图网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-图结构匹配相关研究"><span class="nav-text">6. 图结构匹配相关研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-图像scene-graph匹配"><span class="nav-text">6.1 图像scene graph匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-Graph-特征匹配"><span class="nav-text">6.2 Graph 特征匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-Graph结构匹配-Inexact-graph-matching"><span class="nav-text">6.3 Graph结构匹配(Inexact graph matching)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-图结构生成相关研究"><span class="nav-text">7.图结构生成相关研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-开山之作"><span class="nav-text">7.1 开山之作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-专注于分子生成"><span class="nav-text">7.2 专注于分子生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-专注于生成分子多样性"><span class="nav-text">7.3 专注于生成分子多样性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-4-大网络图生成"><span class="nav-text">7.4 大网络图生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-5-Condition分子生成"><span class="nav-text">7.5 Condition分子生成</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
