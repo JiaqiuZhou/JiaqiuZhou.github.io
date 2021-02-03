@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2019/11/08/Software/fundation/Network/three_connect.jpg">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2019/11/08/Software/fundation/Network/four_disconnect.jpg">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2019/11/08/Software/fundation/Network/connect.jpg">
-<meta property="og:updated_time" content="2020-12-11T11:25:26.933Z">
+<meta property="og:updated_time" content="2021-02-02T03:00:58.566Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络通讯协议">
 <meta name="twitter:description" content="介绍有关网络有关的知识。">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-11 19:25:26" itemprop="dateModified" datetime="2020-12-11T19:25:26+08:00">2020-12-11</time>
+                <time title="修改时间：2021-02-02 11:00:58" itemprop="dateModified" datetime="2021-02-02T11:00:58+08:00">2021-02-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -269,7 +269,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.5k</span>
+              <span>4.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -403,6 +403,16 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> domain, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol)</span></span>; <span class="comment">//create Socket,normaly the protocol set to 0 </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct sockaddr *servaddr, <span class="keyword">socklen_t</span> addrlen)</span></span>; <span class="comment">//connect to socket</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct sockaddr *myaddr, <span class="keyword">socklen_t</span> addrlen)</span></span>; <span class="comment">//assigns a local protocol address to a socket</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> backlog)</span></span>; </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd, struct sockaddr *cliaddr, <span class="keyword">socklen_t</span> *addrlen)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(<span class="keyword">int</span> sockfd)</span></span>; <span class="comment">//deallocate the network endpoint only when the last active reference is closed</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shutdown</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> how)</span></span>; <span class="comment">//allows us to deactivate a socket independently of the number of active file descriptors referencing it.</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<h2 id="3-网络安全通讯"><a href="#3-网络安全通讯" class="headerlink" title="3. 网络安全通讯"></a>3. 网络安全通讯</h2><h3 id="3-1-RSA非对称算法密码认证"><a href="#3-1-RSA非对称算法密码认证" class="headerlink" title="3.1 RSA非对称算法密码认证"></a>3.1 RSA非对称算法密码认证</h3><ul>
+<li><strong>公钥与私钥:</strong> 公钥与私钥组成一对，私钥用于解开利用公钥加密的信息</li>
+<li><strong>加密过程:</strong>  客户端认证服务器过程<ul>
+<li>客户端通过某种方式将公钥放到服务器上</li>
+<li>服务器对于第二次客户端发来的请求，先是用公钥加密发回</li>
+<li>客户端对于加密密文利用私钥解密，发回给服务器</li>
+<li>服务器认证成功，两者建立连接</li>
+</ul>
+</li>
+</ul>
 
     </div>
 
@@ -504,7 +514,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-网络通讯"><span class="nav-text">1. 网络通讯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-概念理解"><span class="nav-text">1.1 概念理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Local-Area-Networks"><span class="nav-text">1.2 Local Area Networks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-网络通讯各组件介绍"><span class="nav-text">1.2.1 网络通讯各组件介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-网络连接类型-Local-Area-Networks"><span class="nav-text">1.2.2 网络连接类型(Local Area Networks)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-网络协议"><span class="nav-text">1.3 网络协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-网络通讯具体流程"><span class="nav-text">1.4 网络通讯具体流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-网络端口的知识"><span class="nav-text">1.5 网络端口的知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-ssh"><span class="nav-text">1.6 ssh</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-网络进程通信—Sockets"><span class="nav-text">2. 网络进程通信—Sockets</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Socket-Address-Structure"><span class="nav-text">2.1 Socket Address Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Byte-Ordering-Function"><span class="nav-text">2.2 Byte Ordering Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-地址查找表"><span class="nav-text">2.3 地址查找表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Address-conversion-function"><span class="nav-text">2.4 Address conversion function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Elementary-TCP-Socket"><span class="nav-text">2.5 Elementary TCP Socket</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-网络通讯"><span class="nav-text">1. 网络通讯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-概念理解"><span class="nav-text">1.1 概念理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Local-Area-Networks"><span class="nav-text">1.2 Local Area Networks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-网络通讯各组件介绍"><span class="nav-text">1.2.1 网络通讯各组件介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-网络连接类型-Local-Area-Networks"><span class="nav-text">1.2.2 网络连接类型(Local Area Networks)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-网络协议"><span class="nav-text">1.3 网络协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-网络通讯具体流程"><span class="nav-text">1.4 网络通讯具体流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-网络端口的知识"><span class="nav-text">1.5 网络端口的知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-ssh"><span class="nav-text">1.6 ssh</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-网络进程通信—Sockets"><span class="nav-text">2. 网络进程通信—Sockets</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Socket-Address-Structure"><span class="nav-text">2.1 Socket Address Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Byte-Ordering-Function"><span class="nav-text">2.2 Byte Ordering Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-地址查找表"><span class="nav-text">2.3 地址查找表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Address-conversion-function"><span class="nav-text">2.4 Address conversion function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Elementary-TCP-Socket"><span class="nav-text">2.5 Elementary TCP Socket</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-网络安全通讯"><span class="nav-text">3. 网络安全通讯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-RSA非对称算法密码认证"><span class="nav-text">3.1 RSA非对称算法密码认证</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
