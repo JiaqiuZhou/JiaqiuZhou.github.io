@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/AttnGAN.jpg">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/ControlGAN.png">
 <meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/VAE_train.jpg">
-<meta property="og:updated_time" content="2021-02-03T08:27:58.985Z">
+<meta property="og:updated_time" content="2021-02-03T08:31:39.968Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VisionGeneration">
 <meta name="twitter:description" content="介绍有关于视觉生成的相关知识">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-03 16:27:58" itemprop="dateModified" datetime="2021-02-03T16:27:58+08:00">2021-02-03</time>
+                <time title="修改时间：2021-02-03 16:31:39" itemprop="dateModified" datetime="2021-02-03T16:31:39+08:00">2021-02-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -385,8 +385,8 @@ min_Gmax_DV(D,G) = E_{x\sim p_{data}(x)}[logD(x)]+E_{z\sim p_z(z))}
 <li><strong>函数原理:</strong> 通过概率分布对D进行分析有:</li>
 </ul>
 <script type="math/tex; mode=display">
-P(D|x) = \begin {cases} D(x), & x\sim p_{data}(x)\\\\
-1-D(G(z)), & z\sim p_{z}(z) \end{cases} \\\\
+P(D|x) = \begin {cases} D(x), & x\sim p_{data}(x)\\
+1-D(G(z)), & z\sim p_{z}(z) \end{cases} \\
 \Longrightarrow P(D|x) = D(x)^{p_{data}(x)}*[1-D(G(z))]^{p_g(x)}</script><p>为了使得概率分布最大，采用极大似然估计方式</p>
 <script type="math/tex; mode=display">
 max \prod^n_{i=1}P(D|x) \Longleftrightarrow max \prod^{n}_{i=1} logP(D|x) \\\\
@@ -616,9 +616,7 @@ c_j = \sum^{T-1}_{i=0}\beta_{j,i}e'_{i}, where\  \beta_{j,i} = \frac{exp(s'_{j,i
 <li><p><strong>损失函数:</strong> AttnGAN所采用的损失函数与stackGAN++所采用的损失函数类似，不过其判别器以及生成器的输入改成了带有权重的语义,以及在生成器的损失函数，原有的基础上新增加了<script type="math/tex">{\cal L}_{DAMSM}</script></p>
 <script type="math/tex; mode=display">
 {\cal L} ={\cal L}_G +\lambda{\cal L}_{DAMSM},where \ {\cal L}_G = \sum_{i=0}^{m-1} {\cal L}_{G_i}\\\\
-{\cal L}_{G_i} = -\frac 1 2 \Bbb E_{\hat x_i\sim p_{G_i}[log(D_i(\hat x_i))]}-\frac 1 2 \Bbb E_{\hat x\sim p_{G_i}[log(D_i(\hat x_i, \overline e))]}</script></li>
-</ul>
-<h5 id="Deep-Attentional-Multimodal-Similarity-Model-DAMSM"><a href="#Deep-Attentional-Multimodal-Similarity-Model-DAMSM" class="headerlink" title="Deep Attentional Multimodal Similarity Model(DAMSM)"></a>Deep Attentional Multimodal Similarity Model(DAMSM)</h5><ul>
+{\cal L}_{G_i} = -\frac 1 2 \Bbb E_{\hat x_i\sim p_{G_i}[log(D_i(\hat x_i))]}-\frac 1 2 \Bbb E_{\hat x\sim p_{G_i}[log(D_i(\hat x_i, \overline e))]}</script><h5 id="Deep-Attentional-Multimodal-Similarity-Model-DAMSM"><a href="#Deep-Attentional-Multimodal-Similarity-Model-DAMSM" class="headerlink" title="Deep Attentional Multimodal Similarity Model(DAMSM)"></a>Deep Attentional Multimodal Similarity Model(DAMSM)</h5></li>
 <li><p><strong>The text encoder:</strong> 采用bi-directional Long Short-Term Memory(Bi-LSTM),所有单词所代表的特征矩阵表示为<script type="math/tex">e\in \Bbb R^{D \times T}</script> ,第i列<script type="math/tex">e_i</script>表示第i哥单词特征向量，D表示单词向量的维度，T表示单词的数目。LSTM的最后一层输出表示为<script type="math/tex">\overline{e} \in \Bbb R^D</script> </p>
 </li>
 <li><p><strong>The image encoder:</strong> 图像特征的提取采用的是在imagenet上预训练的Inception-v3模型，图像特征<script type="math/tex">f\in \Bbb R^{768\times 289}</script> ,768是图像特征向量的维度，289是图像划分区域的数量，最后一层<script type="math/tex">\overline{f} \in \Bbb R^{2048}</script> , 通过一层感知层，将图像特征编码成<script type="math/tex">v \in \Bbb R^{D\times 289}</script> ,<script type="math/tex">v_i</script>代表的是第i个区域的图片特征，形式如下</p>
@@ -643,9 +641,9 @@ P(D_i|Q_i) =\frac {exp(\gamma_3R(Q_i,D_i))}{\sum^M_{j=1}exp(\gamma_3R(Q_i,D_i))}
 <script type="math/tex; mode=display">
 R(Q,D)=(\overline{v}^T\overline{e})/(||\overline v|||\overline e||)</script><p>则有，s代表sentence，用上述公式代替，则得到<script type="math/tex">{\cal L}^s_1 {\cal L}_2^s</script></p>
 <script type="math/tex; mode=display">
-{\cal L}_{DAMSM} = {\cal L}_1^w+{\cal L}_2^w+{\cal L}_1^s+{\cal L}_2^s</script></li>
+{\cal L}_{DAMSM} = {\cal L}_1^w+{\cal L}_2^w+{\cal L}_1^s+{\cal L}_2^s</script><h3 id="4-8-ControlGAN"><a href="#4-8-ControlGAN" class="headerlink" title="4.8 ControlGAN"></a>4.8 ControlGAN</h3></li>
 </ul>
-<h3 id="4-8-ControlGAN"><a href="#4-8-ControlGAN" class="headerlink" title="4.8 ControlGAN"></a>4.8 ControlGAN</h3><h4 id="4-8-1-基本概念"><a href="#4-8-1-基本概念" class="headerlink" title="4.8.1 基本概念"></a>4.8.1 基本概念</h4><ul>
+<h4 id="4-8-1-基本概念"><a href="#4-8-1-基本概念" class="headerlink" title="4.8.1 基本概念"></a>4.8.1 基本概念</h4><ul>
 <li><strong>问题定义:</strong> 目前语句生成图片的生成网络是不可控的，当改变了语句中的单词时，生成的图片就会完全不一样，比如说一个描述颜色的发生改变，生成图片中的位置和姿态同时都发生改变</li>
 <li><strong>本文亮点:</strong> 提出一个可以拥有控制图片生成的生成网络框架，允许人去手动改变物体的属性</li>
 <li><strong>方法简介:</strong> 利用multi-stage框架生成coarse到fine的图片，加入channel-wise attention模块，利用word-level的判别器来判别与图片相关的单词特征，引入perceptual loss损失函数</li>
