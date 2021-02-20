@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="大致介绍在压缩模型过程中所需要用到的基础知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模型压缩">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="大致介绍在压缩模型过程中所需要用到的基础知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/Quantization_scale.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/Quantization_inference.png">
+<meta property="article:published_time" content="2020-01-15T12:42:42.000Z">
+<meta property="article:modified_time" content="2020-11-07T14:21:03.312Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="ModelCompression">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/Quantization_scale.png">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>模型压缩 | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          模型压缩
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-15 20:42:42" itemprop="dateCreated datePublished" datetime="2020-01-15T20:42:42+08:00">2020-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 22:21:03" itemprop="dateModified" datetime="2020-11-07T22:21:03+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DeepLearning-Task/" itemprop="url" rel="index"><span itemprop="name">DeepLearning-Task</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/" class="post-meta-item leancloud_visitors" data-flag-title="模型压缩" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>大致介绍在压缩模型过程中所需要用到的基础知识</p>
+<a id="more"></a>
+<p>借鉴于<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/64744154">https://zhuanlan.zhihu.com/p/64744154</a></p>
+<h3 id="1-模型压缩基本概念"><a href="#1-模型压缩基本概念" class="headerlink" title="1. 模型压缩基本概念"></a>1. 模型压缩基本概念</h3><h4 id="1-1-参数量与计算量"><a href="#1-1-参数量与计算量" class="headerlink" title="1.1 参数量与计算量"></a>1.1 参数量与计算量</h4><ul>
+<li><strong>参数量:</strong> 模型文件中所含有的参数，例如对于卷积层来说，卷积核的参数量为<script type="math/tex">K_w*K_h*C_{in}</script>，即weight的参数量，在神经网络中，一般使用float64的tensor来保证网络的训练精度。</li>
+<li><strong>计算量:</strong> 计算量包括了计算的加法次数和乘法次数等等，比如说对于一个卷积操作来说，一个3x3的卷积核则需要对图像每个区域执行9次乘法和一次加法。</li>
+</ul>
+<h4 id="1-2-为什么需要模型压缩"><a href="#1-2-为什么需要模型压缩" class="headerlink" title="1.2 为什么需要模型压缩"></a>1.2 为什么需要模型压缩</h4><ul>
+<li><strong>实时性:</strong> 图像的相关应用程序需要实时处理数据，这意味着网络模型的参数需要更小。空间上，参数要完全加载进内存，则需要参数量更小；时间上，为了实时，则需要计算量更小</li>
+<li><strong>精度与容量的关系:</strong> 从以往网络的发展历程来说，网络的参数量越大，则精度越高，如果对容量进行削减，则精度就会一定程度上得到削减</li>
+</ul>
+<h4 id="1-3-逐层量化、逐组量化和逐通道量化"><a href="#1-3-逐层量化、逐组量化和逐通道量化" class="headerlink" title="1.3 逐层量化、逐组量化和逐通道量化"></a>1.3 逐层量化、逐组量化和逐通道量化</h4><ul>
+<li><strong>逐层量化:</strong> 整个layer的权重共用一组缩放因子S和偏移量Z</li>
+<li><strong>逐组量化:</strong> 以组为单位，每个group使用一组S和Z</li>
+<li><strong>逐通道量化:</strong> 以通道为单位，每个channel单独使用一组S和Z</li>
+</ul>
+<h4 id="1-4-在线量化和离线量化"><a href="#1-4-在线量化和离线量化" class="headerlink" title="1.4 在线量化和离线量化"></a>1.4 在线量化和离线量化</h4><ul>
+<li><strong>在线量化:</strong> 激活值S和Z在实际推断的过程中根据实际的激活值动态计算</li>
+<li><strong>离线量化:</strong> 提前准备好激活值的S和Z</li>
+<li><strong>KL散度校准法:</strong> 通过计算KL散度来衡量量化过后两个分布之间的差异，通过寻找KL散度最小(即两个分布之间差异最小)的截断值来求得Z和S作为最终的结果</li>
+</ul>
+<h3 id="2-网络压缩基本概念"><a href="#2-网络压缩基本概念" class="headerlink" title="2. 网络压缩基本概念"></a>2. 网络压缩基本概念</h3><ul>
+<li>DepthwiseConv(DwConv)</li>
+<li>Residuals connect</li>
+<li>Global Average Pooling</li>
+</ul>
+<h3 id="3-参数量化"><a href="#3-参数量化" class="headerlink" title="3. 参数量化"></a>3. 参数量化</h3><h4 id="3-1-线性量化"><a href="#3-1-线性量化" class="headerlink" title="3.1 线性量化"></a>3.1 线性量化</h4><ul>
+<li><p><strong>量化类型:</strong> </p>
+<ul>
+<li><strong>对称量化:</strong> 从(-max, max) 量化到(-128, 127)的范围内</li>
+<li><strong>非对称量化:</strong> 从(min, max)量化到(-128,127)范围内</li>
+</ul>
+</li>
+<li><p><strong>基本概念:</strong> 直接量化会要求需要量化的值的范围分布比较均匀，用最大最小值量化的方法对精度的损失会稍微减少一点</p>
+</li>
+<li><p><strong>Scale的概念:</strong> 缩放的尺度,如下讨论了两种方法，一种是利用阈值缩放，另外一种是利用最大最小值缩放，我们采用的是最大最小值缩放</p>
+<p><img src="/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/Quantization_scale.png" alt="Quantization_scale"></p>
+<ul>
+<li><strong>数学公式:</strong> 最大最小值缩放数学定义如下:</li>
+</ul>
+<script type="math/tex; mode=display">
+output(float)\in[output(f)_{min},output(f)_{max}]\\ scale = \frac{output(f)_{max}-output(f)_{min}}{quantized_{max}-quantized_{min}}\\
+zeropoint = quantized_{max} - \frac {output(f)_{max}}{scale}\\
+output(quantized) = \frac{output(float)}{scale} +zeropoint</script><ul>
+<li><p><strong>Example:</strong> 举一个例子进行说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[0,1]--&gt;[-128,127]--&gt;scale:255</span><br><span class="line">[0,1] * scale --&gt; [0, 255] --&gt;zeropoint:128</span><br><span class="line">[0,256] - 128 --&gt; [-128, 127](最终结果)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>直接量化关键:</strong> 找到<strong>合适的截断值</strong>，使得量化后的分布与量化前的分布相似，使得量化后的参数不会与原参数偏移较大范围</p>
+</li>
+</ul>
+<h4 id="3-2-比特量化"><a href="#3-2-比特量化" class="headerlink" title="3.2 比特量化"></a>3.2 比特量化</h4><ul>
+<li><strong>二进制神经网络:</strong> 二进制的权重和激活值</li>
+</ul>
+<script type="math/tex; mode=display">
+Binarize\ function: w_b = \begin{cases} +1, if\ w >= 0 \\
+-1, otherwise\end{cases} \\
+Clip\ weight\ fuction:w_b = \begin{cases} +1, with\ probability\ p = \sigma(w);\\
+-1, with\ probability\ 1-p\end{cases}</script><ul>
+<li><p><strong>三元权重网络:</strong> 权重约束为+1,0和-1的神经网络</p>
+</li>
+<li><p><strong>XNOR网络:</strong> 使用二进制运算来近似卷积</p>
+</li>
+<li><p><strong>八比特量化训练:</strong> 经典量化论文Quantization and Training of Neural Networks </p>
+</li>
+<li><p><strong>基本概念:</strong> (Google 模拟量化方法)</p>
+<ul>
+<li><strong>解决问题:</strong> 在移动设备上进行部署需要巨大的计算量，并且希望移动设备无延迟问题</li>
+<li><strong>直接量化概念:</strong> 对于训练完的浮点模型，直接对参数进行量化，使得参数取值范围为整型，常见于大模型的量化，而对于小模型容易造成大幅度性能降低  </li>
+</ul>
+</li>
+<li><p><strong>模拟量化概念:</strong>通过量化公式然后反量化回来进行模拟量化的过程，实际上也就是说没有怎么量化过，名为使适应这种量化的方式，效果还挺好的</p>
+</li>
+<li><p><strong>主要方法</strong> </p>
+<ul>
+<li><p><strong>Quantized Inference量化预测:</strong> 其量化的方案如下,公式解读可以看直接量化这一章，考虑到weight在矩阵卷积之后会变成uint32，因此bias也选择uint32</p>
+<script type="math/tex; mode=display">
+r = S(q-Z) \\
+int32 += uint8 * uint8 \\
+ReLU6 = min(max(features,0),6)</script><p>其结构图如下所示:</p>
+<p><img src="/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/Quantization_inference.png" alt="Quantization_inference"></p>
+</li>
+<li><p><strong>Training with simulated quantiazation模拟量化训练:</strong> </p>
+<ul>
+<li><strong>motivation:</strong> Post training的方法(完全训练后采用以上方法进行量化)对大模型的影响比较小，然而对小模型的影响却比较大。</li>
+<li><strong>提出方法:</strong> 模拟训练过程的量化过程，但是训练的时候，反向传播的时候还是使用浮点数的形式</li>
+<li><strong>量化公式:</strong> [a,b]代表需要量化值的范围，你会发现这个公式。。。就是乘下去再乘回来，我的天</li>
+</ul>
+<script type="math/tex; mode=display">
+clamp(r;a,b) := min(max(x,a),b)\\
+s(a,b,n) := \frac {b-a}{n-1}(n为量化梯度，如2^8)\\
+q(r;a,b,n) := \lfloor \frac{clamp(r;a,b)-a}{s(a,b,n)} \rceil s(a,b,n) + a</script></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/" title="模型压缩">http://jiaqiuzhou.github.io/2020/01/15/Knowledge/DeepLearning/Task/ModelCompression/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ModelCompression/" rel="tag"># ModelCompression</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/16/Project/Make-Lock/Make-Lock/" rel="prev" title="Make_Lock">
+      <i class="fa fa-chevron-left"></i> Make_Lock
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/01/Knowledge/AcademicPapers/Paperwriting/Paperwrite-lecture/" rel="next" title="PaperwriteLecture">
+      PaperwriteLecture <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1. 模型压缩基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F"><span class="nav-text">1.1 参数量与计算量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9"><span class="nav-text">1.2 为什么需要模型压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E9%80%90%E5%B1%82%E9%87%8F%E5%8C%96%E3%80%81%E9%80%90%E7%BB%84%E9%87%8F%E5%8C%96%E5%92%8C%E9%80%90%E9%80%9A%E9%81%93%E9%87%8F%E5%8C%96"><span class="nav-text">1.3 逐层量化、逐组量化和逐通道量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E5%9C%A8%E7%BA%BF%E9%87%8F%E5%8C%96%E5%92%8C%E7%A6%BB%E7%BA%BF%E9%87%8F%E5%8C%96"><span class="nav-text">1.4 在线量化和离线量化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BD%91%E7%BB%9C%E5%8E%8B%E7%BC%A9%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2. 网络压缩基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%8F%82%E6%95%B0%E9%87%8F%E5%8C%96"><span class="nav-text">3. 参数量化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E7%BA%BF%E6%80%A7%E9%87%8F%E5%8C%96"><span class="nav-text">3.1 线性量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E6%AF%94%E7%89%B9%E9%87%8F%E5%8C%96"><span class="nav-text">3.2 比特量化</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

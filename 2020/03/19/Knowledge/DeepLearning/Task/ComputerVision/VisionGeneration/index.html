@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍有关于视觉生成的相关知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VisionGeneration">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍有关于视觉生成的相关知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/DCGAN.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/stackGAN.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/stackGAN++.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/AttnGAN.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/ControlGAN.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/VAE_train.jpg">
+<meta property="article:published_time" content="2020-03-19T13:28:52.000Z">
+<meta property="article:modified_time" content="2021-02-18T01:52:34.346Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="ComputerVision">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/DCGAN.jpg">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>VisionGeneration | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VisionGeneration
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-19 21:28:52" itemprop="dateCreated datePublished" datetime="2020-03-19T21:28:52+08:00">2020-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-18 09:52:34" itemprop="dateModified" datetime="2021-02-18T09:52:34+08:00">2021-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DeepLearning-Task/" itemprop="url" rel="index"><span itemprop="name">DeepLearning-Task</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/" class="post-meta-item leancloud_visitors" data-flag-title="VisionGeneration" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍有关于视觉生成的相关知识</p>
+<a id="more"></a>
+<h2 id="1-GAN综述"><a href="#1-GAN综述" class="headerlink" title="1. GAN综述"></a>1. GAN综述</h2><ul>
+<li>作为一种通过对抗的方式来学习的强大生成模型，生成对抗网络(Generative Adversarial Networks, GANs)在图像（视频）生成等视觉领域任务上取得了十分显著的成果，其中包括图像生成(Image Generation)、视频帧预测(Video Prediction)、图像风格迁移(Image Translation)等。</li>
+</ul>
+<h3 id="1-1-图像生成领域"><a href="#1-1-图像生成领域" class="headerlink" title="1.1 图像生成领域"></a>1.1 图像生成领域</h3><ul>
+<li><strong>开山鼻祖:</strong> 在图像生成领域中，Good Fellow等人在2014年第一次提出了生成对抗网络 <a href="Generative adversarial nets">1</a> 的概念，他们提出了一种通过对抗过程来优化生成模型的框架，主要由生成模型与判别模型组成，生成模型用于生成分布与真实数据相近的图片，判别模型用于将生成图片与真实图片区分开来。</li>
+<li><strong>方法详述:</strong> 这种框架启发于极大极小二人零和博弈(minimax two-player game)过程，生成模型与判别模型为二人零和博弈中的博弈者，生成模型需要生成尽量逼真的图片来骗过判别模型，增大判别模型犯错的几率。作者将这个过程转化成了优化函数并且证明了生成数据分布与真实数据分布相同时，函数才能取得最优解。</li>
+<li><strong>针对问题提出:</strong> 针对于生成对抗网络生成高分辨率图片的问题，Emily Denton等人提出了LAPGAN模型 <a href="Deep generative image models using a￼ laplacian pyramid of adversarial networks">2</a> ，利用了拉普拉斯金字塔框架(Laplacian pyramid framework)，通过一系列卷积神经网络从粗到细生成高分辨率的图片。</li>
+<li><strong>方法详述:</strong> 在金字塔的每一层，作者都分别采用了生成对抗网络模型来生成图片，将最终生成高分辨率图片的过程转化成分步过程，用每一层低分辨率的图片同时作为输入来逐级单独训练生成图片的过程，降低了网络直接生成高分辨率图片的难度。</li>
+<li><strong>进一步地:</strong> 受到LAPGAN模型的启发，Alec Radford等人尝试使用生成对抗网络来完成无监督学习任务，提出了DCGANs模型 <a href="Unsupervised representation learning with deep convolutional generative adversarial networks">3</a> ，</li>
+<li><strong>方法详述:</strong> 利用全卷积层来替换生成对抗网络中生成模型以及判别模型的全连接结构以及池化网络层(pooling layer)来生成图片，将批量归一化层引入生成模型以及判别模型，同时对生成对抗网络中生成模型所产生的图片特征进行可视化分析，提高了利用生成对抗网络生成图片的质量。</li>
+<li><strong>针对问题:</strong> 针对于生成对抗网络生成的图片容易产生模式坍塌的问题，Martin Arjovsky等人提出了WGANs模型 <a href="Wasserstein generative adversarial networks">4</a> ，作者引入了Wasserstein距离来度量真实数据的分布与生成样本分布之间的距离，使得在两个分布没有重叠的情况下也能够很好的衡量两个分布的差别。该模型通过模拟Wasserstein距离的优化函数来优化生成对抗网络模型，避免了模式坍塌问题，使得训练更加稳定。</li>
+</ul>
+<h3 id="1-2-视频帧预测领域"><a href="#1-2-视频帧预测领域" class="headerlink" title="1.2 视频帧预测领域"></a>1.2 视频帧预测领域</h3><ul>
+<li><strong>2016年:</strong> Michael Mathieu等人提出了利用卷积神经网络来生成给定场景的下一帧内容 <a href="Deep multi-scale video prediction beyond mean square error">5</a> ，他们基于卷积神经网络设计了多尺度生成网络来生成从低分辨率到高分辨率的图片。</li>
+<li><strong>方法详述:</strong> 通过生成视频帧与真实视频帧之间的差异来计算误差，接着利用生成对抗网络的基本框架设计了判别生成视频帧真假的判别模型，最后结合了图片预测梯度的误差、图片的生成误差以及生成对抗网络的训练误差来设计损失函数对网络进行训练。</li>
+<li><strong>2017年:</strong> Sergey Tulyakov等人认为视频帧的生成可以分为视频中内容的生成以及动作的生成，提出了MoCoGAN模型 <a href="Mocogan: Decomposing motion and content for video generation">6</a> 。</li>
+<li><strong>方法详述:</strong> 该模型通过一系列随机变量输入到循环神经网络中来生成动作编码，再通过高斯分布对随机变量进行采样得到内容编码，然后将动作编码与内容编码输入到生成对抗网络中的生成模型来生成一系列图片，其中对抗部分采用了两个判别器，一个用于判别生成的视频帧是否真实，另一个用于判别生成视频帧组成的视频是否真实，最终训练得到一个能够生成同一人物不同动作以及同一动作不同人物视频的模型，在视频帧预测中取得了比较好的效果。</li>
+</ul>
+<h3 id="1-3-图像风格迁移领域"><a href="#1-3-图像风格迁移领域" class="headerlink" title="1.3 图像风格迁移领域"></a>1.3 图像风格迁移领域</h3><ul>
+<li><strong>堪称经典:</strong> Phillip Isola等人提出了一个简单且有效的图像转换框架pix2pix <a href="Image-to-image translation with conditional adversarial networks">7</a>，该模型通过生成的随机向量以及输入图像来生成目标图像，作者认为判别模型在图片的低频信息上的真假判别已经比较准确。</li>
+<li><strong>方法详述:</strong> 设计了一个马尔可夫判别器(Markovian discriminator)用来判别图片的高频信息，生成模型采用的是编码-解码模型来学习输入图片与目标图片之间的映射，并通过生成对抗网络的框架对两个模型进行训练，在完成从边缘图像重建图片以及为图像着色任务上取得了良好的效果。同时，在对偶学习研究中所介绍的CycleGAN模型与DualGAN模型，也是对抗生成网络与对偶学习进行结合的成果，在图像风格迁移任务上取得了不错的效果。</li>
+</ul>
+<h3 id="1-4-近期工作"><a href="#1-4-近期工作" class="headerlink" title="1.4 近期工作"></a>1.4 近期工作</h3><ul>
+<li><strong>ICLR2018会议:</strong> 英伟达在上提出的Progressive GAN模型 <a href="Progressive growing of gans for improved quality, stability, and variation">8</a> 能很好的生成细节信息真实的高分辨率图像。基于Takeru Miyato提出的SNGAN模型 <a href="Spectral normalization for generative adversarial networks">9</a> ，Good Fellow在其基础上引入了Self-Attention机制，提出了一个新的图像生成模型——SAGAN模型 <a href="Self-Attention Generative Adversarial Networks">10</a> </li>
+<li><strong>进一步地:</strong> 通过改变模型的网络结构大小，以及训练时Mini-batch SGD的批量大小，DeepMind提出BigGAN模型 <a href="Large scale gan training for high fidelity natural image synthesis">11</a> ，在图像总体和细节纹理的生成上都取得了飞跃性的突破。另一方面，在图像超分辨率重建任务中，为了进一步提高图像的逼真程度</li>
+<li><strong>进一步地:</strong> Christian Ledig等人提出一种SRGAN模型，模型在原有L1范数损失函数的基础上，引入Adversarial Loss，用以生成重建图像中缺失的细节信息。在SRGAN模型的基础上，Xintao Wang针对其模型结构以及优化函数进行了改进，提出一种增强的SRGAN模型——ESRGAN模型，该模型通过平衡L1范数损失函数和对抗损失函数训练出来模型的参数，进而达到同时满足指标效果与视觉效果的目的。</li>
+</ul>
+<h2 id="2-数据集"><a href="#2-数据集" class="headerlink" title="2. 数据集"></a>2. 数据集</h2><h3 id="2-1-CUB-dataset"><a href="#2-1-CUB-dataset" class="headerlink" title="2.1 CUB dataset"></a>2.1 CUB dataset</h3><ul>
+<li>有200个鸟类总共11788张图片，80%的鸟占图片的比重小于0.5</li>
+<li>每张图片有十个描述</li>
+</ul>
+<h3 id="2-2-Oxford-102-dataset"><a href="#2-2-Oxford-102-dataset" class="headerlink" title="2.2 Oxford-102 dataset"></a>2.2 Oxford-102 dataset</h3><ul>
+<li>有102个类总共8189张图片</li>
+<li>每张图片有10个描述</li>
+</ul>
+<h3 id="2-3-MS-COCO"><a href="#2-3-MS-COCO" class="headerlink" title="2.3 MS COCO"></a>2.3 MS COCO</h3><ul>
+<li>多物体和丰富北京</li>
+<li>有80k张训练集图片和40k张测试集图片</li>
+<li>每张图片在COCO中有五个描述</li>
+</ul>
+<h2 id="3-评价指标"><a href="#3-评价指标" class="headerlink" title="3. 评价指标"></a>3. 评价指标</h2><h3 id="3-1-Inception-score"><a href="#3-1-Inception-score" class="headerlink" title="3.1 Inception score"></a>3.1 Inception score</h3><ul>
+<li><p><strong>指标目标:</strong> 描述生成图片的多样性以及真实性</p>
+</li>
+<li><p><strong>公式定义:</strong> <script type="math/tex">y</script> 是通过Inception model进行预测得到的label，x表示生成的样本，希望如下生成的样本分布与原分布差别比较大，来衡量生成的图片具有更多意义</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+I=exp({\Bbb E_xD_{KL}(p(y|x)||p(y))})</script><ul>
+<li><strong>公式解释:</strong> <script type="math/tex">p(y|x)</script> 代表的是将生成的图片x输入到Inception V3，得到1000维的一个向量y，从理论来说，<strong>一张清晰的图片，它属于某一类的概率非常大，属于其他类的概率应该很小（假设1）</strong>，因此其<strong>熵应该很小</strong>(均匀分布的混乱度最大)；<script type="math/tex">p(y)</script> 代表的是一个模型生成多样的图片，得到每个图片归属于某一类别之和,应该是均匀分布，<strong>其熵应该很大（假设2）</strong></li>
+</ul>
+<script type="math/tex; mode=display">
+p(y) = \frac 1 N \sum_{i=1}^Np(y|x^{(i)})</script><ul>
+<li><strong>存在问题:</strong> <ul>
+<li>IS大，不一定图片就真实<ul>
+<li>假设1:如果生成的图片在网络中不存在，其分布函数并不尖锐</li>
+<li>假设2:如果在每一类上生成的大多数图片都是一模一样的</li>
+</ul>
+</li>
+<li>可能两个分布差别很大，但是并不是满足其分布的要求</li>
+<li>只考虑生成样本本身的分布问题，没有反应真实数据与样本之间的距离</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-Frechet-Inception-Distance"><a href="#3-2-Frechet-Inception-Distance" class="headerlink" title="3.2 Frechet Inception Distance"></a>3.2 Frechet Inception Distance</h3><ul>
+<li><p><strong>指标目标:</strong> 描述生成图片与真是图片之间在feature层面的距离</p>
+</li>
+<li><p><strong>公式定义:</strong>  <script type="math/tex">\mu_r, \sum_r</script> 代表真实图片的特征的均值以及协方差矩阵; <script type="math/tex">\mu_g,\sum_g</script>代表生成图片的特征的均值记忆协方差矩阵;</p>
+<script type="math/tex; mode=display">
+FID = ||\mu_r - \mu_g||^2+Tr(\sum_r+\sum_g-2(\sum_r\sum_g)^{(1/2)})</script></li>
+<li><p><strong>公式解释:</strong> 对于真实图片以及生成图片来说，生成的特征应该是类似的，并不依赖于它判断图片的具体类别，更小的值意味着生成的分布与真实数据的分布越相近</p>
+</li>
+<li><p><strong>存在问题:</strong></p>
+<ul>
+<li>单层特征分布是否可以衡量真实分布与生成数据分布的距离</li>
+<li>不同框架下的实现对特征分布的影响</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-GAN文本生成图片"><a href="#4-GAN文本生成图片" class="headerlink" title="4. GAN文本生成图片"></a>4. GAN文本生成图片</h2><ul>
+<li>从最初形态的GAN到图像生成GAN的发展史</li>
+</ul>
+<h3 id="4-1-GAN"><a href="#4-1-GAN" class="headerlink" title="4.1 GAN"></a>4.1 GAN</h3><h4 id="4-1-1-基本概念"><a href="#4-1-1-基本概念" class="headerlink" title="4.1.1 基本概念"></a>4.1.1 基本概念</h4><ul>
+<li><p><strong>数学推导:</strong> <a target="_blank" rel="noopener" href="https://alberthg.github.io/2018/05/05/introduction-gan/">https://alberthg.github.io/2018/05/05/introduction-gan/</a></p>
+</li>
+<li><p><strong>针对问题: </strong>希望生成的数据分布与真实的数据分布相近</p>
+</li>
+<li><strong>提出方法:</strong> 通过定义判别器D判断生成器G生成的数据分布是否与真实数据的分布相近，此处利用sample得到的数据来代替真实数据分布</li>
+</ul>
+<h4 id="4-1-2-数学定义"><a href="#4-1-2-数学定义" class="headerlink" title="4.1.2 数学定义"></a>4.1.2 数学定义</h4><ul>
+<li><strong>优化以下函数</strong></li>
+</ul>
+<script type="math/tex; mode=display">
+min_Gmax_DV(D,G) = E_{x\sim p_{data}(x)}[logD(x)]+E_{z\sim p_z(z))}
+[log(1-D(G(z)))]</script><p>​        读作找到一个G使得函数值最小，找到一个D使得函数值最大</p>
+<ul>
+<li><strong>函数原理:</strong> 通过概率分布对D进行分析有:</li>
+</ul>
+<script type="math/tex; mode=display">
+P(D|x) = \begin {cases} D(x), & x\sim p_{data}(x)\\
+1-D(G(z)), & z\sim p_{z}(z) \end{cases} \\
+\Longrightarrow P(D|x) = D(x)^{p_{data}(x)}*[1-D(G(z))]^{p_g(x)}</script><p>为了使得概率分布最大，采用极大似然估计方式</p>
+<script type="math/tex; mode=display">
+max \prod^n_{i=1}P(D|x) \Longleftrightarrow max \prod^{n}_{i=1} logP(D|x) \\\\
+\Longrightarrow max \sum_{i=1}^{n}p_{data}(x)log[D(x)]+p_g(x)log[1-D(x)]</script><p>​        因此，对于D来说需要使得函数值最大，而对于G来说,需要骗过D，则需要使得函数值最小，达到零和博弈的结果。</p>
+<h4 id="4-1-3-理论及证明"><a href="#4-1-3-理论及证明" class="headerlink" title="4.1.3 理论及证明"></a>4.1.3 理论及证明</h4><h5 id="理论1-全局最优点在-p-g-p-data-处"><a href="#理论1-全局最优点在-p-g-p-data-处" class="headerlink" title="理论1: 全局最优点在 p_g = p_{data} 处"></a>理论1: 全局最优点在 <script type="math/tex">p_g = p_{data}</script> 处</h5><ul>
+<li><p>首先证明: 要使得函数值取得最大，</p>
+<script type="math/tex; mode=display">
+D^*(x) = \frac{p_{data}(x)}{p_{data}(x)+p_g(x)}</script><p>对于上述提出的价值函数有:</p>
+<script type="math/tex; mode=display">
+V(G,D) = \int_x p_{data}(x)log(D(x))dx+\int_xp_z(z)log(1-D(g(z)))dz 
+\\\\(此处假设G(x)是可逆函数，被忽略了)\\\\
+= \int_x p_{data}(x)log(D(x))+p_g(x)log[1-D(g(z))]dx</script><p>对于给定的数据 <script type="math/tex">x</script> 来说，求上述函数就相当于求被积函数的最大值，将其抽象为以下函数进行求导，则有</p>
+<script type="math/tex; mode=display">
+f(y) = a logy+blog(1-y) \\\\ 
+\Longrightarrow f^{’}(y) = 0 \Longrightarrow y = \frac{a}{a+b}(f''(y)<0)</script><p>可以得到，使得函数取得极大值的<script type="math/tex">D^{*}_{G}</script> 得证。</p>
+</li>
+<li><p>接下来证明，当D取得极大值，对于G来说，当且仅当 <script type="math/tex">p_g = p_{data}</script> 时，函数取得极大值</p>
+<p>当 <script type="math/tex">p_g = p_{data}</script> 时，函数值</p>
+<script type="math/tex; mode=display">
+C(G) = max_{D}V(G,D^*) \\\\
+=E_{x\sim p_{data}}[-log2] + E_{x\sim p_g}[-log2] = - log4</script><p>而对于V(G,D)函数，可以分解如下:</p>
+<script type="math/tex; mode=display">
+max_DV(G,D^*) = \int_xp_{data}(x)log(\frac{p_{data}(x)}{p_{data}(x)+p_g(x)})+p_g(x)log(\frac{p_g(x)}{p_{data}(x)+p_g(x)})dx\\\\
+= \int_xp_{data}(x)log(\frac{p_{data(x)}}{\frac{p_{data}(x)+p_g(x)}{2}}*\frac 1 2) +p_g(x)log(\frac{p_{g(x)}}{\frac{p_{data}(x)+p_g(x)}{2}}*\frac 1 2)dx\\\\
+=\int_x(p_{data}(x)+p_g(x))log\frac 1 2 + KL(p_{data}||\frac{p_{data}+p_g}{2})+KL(p_g||\frac{p_{data}+p_g}{2})\\\\
+=-log(4) + 2*JSD(p_{data}||p_g)</script><p>由于JS散度的最小值为0，因此，当D固定时，对于这个函数来说G使得 <script type="math/tex">p_g=p_{data}</script> 时，函数会取得最小值。</p>
+</li>
+</ul>
+<h5 id="理论2-如果G和D给定足够的容量，将能够训练得到局部最优解的G"><a href="#理论2-如果G和D给定足够的容量，将能够训练得到局部最优解的G" class="headerlink" title="理论2: 如果G和D给定足够的容量，将能够训练得到局部最优解的G"></a>理论2: 如果G和D给定足够的容量，将能够训练得到局部最优解的G</h5><h4 id="4-1-4-Advantages-and-disadvantages"><a href="#4-1-4-Advantages-and-disadvantages" class="headerlink" title="4.1.4 Advantages and disadvantages"></a>4.1.4 Advantages and disadvantages</h4><ul>
+<li><strong>训练不稳定:</strong> 即两个分布相差太大导致距离“无穷大”<ul>
+<li>判别器D太强了导致产生了过拟合</li>
+<li>生成器产生的数据都是一个映射到高维空间的低维流型</li>
+</ul>
+</li>
+<li><strong>不需要马尔可夫随机过程，不需要预测值</strong></li>
+</ul>
+<h4 id="4-1-5-实际算法流程"><a href="#4-1-5-实际算法流程" class="headerlink" title="4.1.5 实际算法流程"></a>4.1.5 实际算法流程</h4><ul>
+<li><p>初始化 <script type="math/tex">\theta_D</script> 与 <script type="math/tex">\theta_G</script> 决定的D和G</p>
+</li>
+<li><p>循环迭代过程：</p>
+<ul>
+<li><p>训练判别器D的过程，循环k次：</p>
+<ul>
+<li><p>从真实数据<script type="math/tex">p_{data}(x)</script>抽样m个样本{<script type="math/tex">x^{(1)},x^{(2)},x^{(3)},...,x^{(m)}</script>}</p>
+</li>
+<li><p>从先验分布<script type="math/tex">p_{prior}(x)</script> 抽样m个噪声向量{<script type="math/tex">z^{(1)},z^{(2)},z^{(3)},...,z^{(m)}</script>}</p>
+</li>
+<li><p>利用生成器G生成m个生成样本{<script type="math/tex">\hat x^{(1)},\hat x^{(2)},\hat x^{(3)},...,\hat x^{(m)}</script>}</p>
+</li>
+<li><p>最大化 V 更新判别器参数 <script type="math/tex">\theta_D</script></p>
+<script type="math/tex; mode=display">
+V= \frac 1 m \sum_{i=1}^m logD(\hat x^{(i)})+\frac 1 m \sum_{i=1}^m log[1-D(\hat x^{(i)})] \\\\
+\theta_D := \theta_D - \eta\nabla V(\theta_D)</script></li>
+</ul>
+</li>
+<li><p>训练生成器G的过程，循环1次</p>
+<ul>
+<li><p>从先验分布<script type="math/tex">p_{prior}(x)</script> 抽样m个噪声向量{<script type="math/tex">z^{(1)},z^{(2)},z^{(3)},...,z^{(m)}</script>}</p>
+</li>
+<li><p>最小化V更新生成器参数<script type="math/tex">\theta_D</script></p>
+<script type="math/tex; mode=display">
+V= \frac 1 m \sum_{i=1}^m logD(x^{(i)})（常数项)+\frac 1 m \sum_{i=1}^m log[1-D(G(z^{(i)}))] \\\\
+\theta_G := \theta_G - \eta\nabla V(\theta_G)</script></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-Conditional-Adversarial-Nets"><a href="#4-2-Conditional-Adversarial-Nets" class="headerlink" title="4.2 Conditional Adversarial Nets"></a>4.2 Conditional Adversarial Nets</h3><h4 id="4-2-1-基本概念"><a href="#4-2-1-基本概念" class="headerlink" title="4.2.1 基本概念"></a>4.2.1 基本概念</h4><ul>
+<li><strong>解决问题:</strong> 利用GAN学习一个多模态的模型，回避棘手的概率计算近似问题，即有控制的<strong>生成符合我们要求</strong>或者具有某些特质的数据</li>
+<li><strong>提出方法:</strong> 通过加入额外的信息在生成器G以及判别器D中进行训练，来得到额外的信息</li>
+</ul>
+<h4 id="4-2-2-方法详述"><a href="#4-2-2-方法详述" class="headerlink" title="4.2.2 方法详述"></a>4.2.2 方法详述</h4><ul>
+<li><p><strong>优化以下函数:</strong> 通过加入额外的标签对生成器以及判别器进行训练</p>
+<script type="math/tex; mode=display">
+min_Gmax_DV(D,G) = E_{x\sim p_{data}(x)}[logD(x|y)]+E_{x\sim p_z(z)}[log(1-D(G(z|y)))]</script></li>
+<li><p>例如：在MNIST数据集上，通过将label的ont-hot变量以及100维均匀分布的噪声输入合并在一起作为输入，输出是图像的28*28维数据，这样训练后的结果就能通过label的ont-hot变量去生成图像数据</p>
+</li>
+</ul>
+<h3 id="4-3-ACGAN"><a href="#4-3-ACGAN" class="headerlink" title="4.3 ACGAN"></a>4.3 ACGAN</h3><h4 id="4-3-1-基本概念"><a href="#4-3-1-基本概念" class="headerlink" title="4.3.1 基本概念"></a>4.3.1 基本概念</h4><ul>
+<li><strong>解决问题:</strong> 利用GAN来生成高分辨率的真实图像</li>
+<li><strong>提出方法:</strong> 在CGAN的基础上，修改了优化的目标函数</li>
+</ul>
+<h4 id="4-3-2-方法详述"><a href="#4-3-2-方法详述" class="headerlink" title="4.3.2 方法详述"></a>4.3.2 方法详述</h4><ul>
+<li><p>针对于训练出对应class label的生成样本，定义了以下函数</p>
+<script type="math/tex; mode=display">
+L_S=E[logP(S=real|X_{real})]+E[logP(S=fake|X_{fake})]\\\\
+L_C=E[logP(C=c|X_{real})]+E[logP(C=c|X_{fake})]</script><p>判别器D训练目标是最大化目标函数 <script type="math/tex">L_S+L_C</script>, 生成器G训练目标是最大化目标函数<script type="math/tex">L_C-L_S</script></p>
+</li>
+<li><p><strong>问题:</strong> 随着类别的提升，模型生成的质量会越低</p>
+</li>
+</ul>
+<h4 id="4-3-3-实验结论"><a href="#4-3-3-实验结论" class="headerlink" title="4.3.3 实验结论"></a>4.3.3 实验结论</h4><ul>
+<li>生成高分辨率的图片会提高判别精度</li>
+<li>利用MS-SSIM测量生成图片的多样性( 847of 1000 class满足多样性)</li>
+<li>生成的图片不仅多样化而且可分辨</li>
+</ul>
+<h3 id="4-4-DCGAN"><a href="#4-4-DCGAN" class="headerlink" title="4.4 DCGAN"></a>4.4 DCGAN</h3><h4 id="4-4-1-基本概念"><a href="#4-4-1-基本概念" class="headerlink" title="4.4.1 基本概念"></a>4.4.1 基本概念</h4><ul>
+<li><strong>解决问题:</strong> 通过文字生成图片</li>
+<li><strong>拆分问题:</strong> <ul>
+<li>学习一个文字特征代表抓住重要的图像的可视化特征</li>
+<li>使用这些特征去生成对于人类来说被误认为真的图片</li>
+</ul>
+</li>
+<li><strong>存在挑战:</strong><ul>
+<li>对于图片和文字的描述并不是一一映射的关系，一张图片不同人可能有不同的描述</li>
+</ul>
+</li>
+<li><strong>本文方法简介:</strong> 第一篇尝试从文字描述进行生成图片的文章</li>
+</ul>
+<h4 id="4-4-2-方法详述"><a href="#4-4-2-方法详述" class="headerlink" title="4.4.2 方法详述"></a>4.4.2 方法详述</h4><ul>
+<li><p><strong>基本结构:</strong> GAN结构+Text embedding method</p>
+</li>
+<li><p><strong>基本定义: </strong>噪声分布:<script type="math/tex">z\in \Bbb R^Z \sim \cal N(0,1)</script>, 对于生成器<script type="math/tex">G: \Bbb R^Z \times \Bbb R^T \rightarrow \Bbb R ^D</script>, 对于判别器<script type="math/tex">D: \Bbb R^D \times \Bbb R^T \rightarrow \{0,1\}</script> ,<script type="math/tex">\varphi</script> 是对图片描述的语言的集成，其具体结构如下所示:</p>
+<p><img src="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/DCGAN.jpg" alt="DCGAN architecture"></p>
+</li>
+<li><p><strong>Matching-aware discriminator(GAN-CLS)</strong></p>
+<p>原图片定义为<script type="math/tex">x</script>, 针对生成的图片定义为<script type="math/tex">\hat x</script>, 图片匹配的文字为<script type="math/tex">t</script>, 图片不匹配的文字为<script type="math/tex">\hat t</script>, 生成向量的函数<script type="math/tex">\varphi</script>, 有</p>
+<script type="math/tex; mode=display">
+s_r \leftarrow D(x,\varphi(t))\{real \ image,right \ text\}\\\\
+s_w \leftarrow D(x,\varphi(\hat t))\{real \ image,wrong \ text\}\\\\
+s_f \leftarrow D(\hat x,\varphi(t))\{fake \ image,right \ text\}
+\\\\
+L_D\leftarrow log(s_r)+(log(1-s_w)+log(1-s_f))/2</script></li>
+<li><p><strong>Learning with manifold interpolation(GAN-INT)</strong></p>
+<p>以下，<script type="math/tex">\beta</script> 定义不同类别的图片语义<script type="math/tex">t_1</script>, 同一细粒度高的类别中的图片语义<script type="math/tex">t_2</script> 之间的比率,<script type="math/tex">z</script> 指的是噪声的分布</p>
+<script type="math/tex; mode=display">
+\Bbb E_{t_1,t_2\sim p_{data}}[log(1-D(G(z,\beta t_1+(1-\beta)t_2)))]</script></li>
+</ul>
+<h4 id="4-4-3-存在问题"><a href="#4-4-3-存在问题" class="headerlink" title="4.4.3 存在问题"></a>4.4.3 存在问题</h4><ul>
+<li>生成的图片分辨率太低，而且缺少细节以及重要的物体部分</li>
+</ul>
+<h3 id="4-5-StackGAN"><a href="#4-5-StackGAN" class="headerlink" title="4.5 StackGAN"></a>4.5 StackGAN</h3><h4 id="4-5-1-基本概念"><a href="#4-5-1-基本概念" class="headerlink" title="4.5.1 基本概念"></a>4.5.1 基本概念</h4><ul>
+<li><strong>解决问题:</strong>  从文本描述中生成高质量的图片，包含重要的细节以及有效的物体部分</li>
+<li><strong>存在挑战:</strong> 自然图片的分布与模型生成的图像分布没有覆盖高分辨率的像素图片空间</li>
+<li><strong>方法简述:</strong> Stage-I 通过将文本描述作为输入捕捉物体主要的颜色和形状生成低分辨率的图片，然后Stage-II 将Stage-I的结果和文本描述作为描述，为图片添加细节，生成高分辨率图片。</li>
+</ul>
+<h4 id="4-5-2-方法详述"><a href="#4-5-2-方法详述" class="headerlink" title="4.5.2 方法详述"></a>4.5.2 方法详述</h4><h5 id="Stage-I-GAN"><a href="#Stage-I-GAN" class="headerlink" title="Stage-I GAN"></a>Stage-I GAN</h5><ul>
+<li><p><strong>任务:</strong> 生成物体大致形状和正确颜色的图片</p>
+</li>
+<li><p><strong>优化函数:</strong> <script type="math/tex">\hat c_0</script> 是从<script type="math/tex">\cal N(\mu_0(\varphi_t),\sum_0(\varphi_t))</script> 进行sample的变量，随机变量<script type="math/tex">z</script>，<script type="math/tex">I_0</script> 表示的是从数据分布中得到的图像，t表示数据分布中的文字描述，其优化函数可以定义为:</p>
+<script type="math/tex; mode=display">
+{\cal L}_{D_0} = \Bbb E_{(I_0,t)\sim p_{data}}[logD_0(I_0,\varphi_t)] + \Bbb E_{z\sim p_z,t\sim p_{data}}[log(1-D_0(G_0(z,\hat c_0),\varphi_t))]\\\\
+{\cal L}_{G_0} = \Bbb {E}_{z\sim p_z,t\sim p_{data}}[log(1-D_0(G_0(z,\hat c_0),\varphi_t))]+\lambda D_{KL}({\cal N}(\mu_0(\varphi_t),\sum_{0}(\varphi_t))||{\cal N}(0,I))</script></li>
+<li><p><strong>模型结构:</strong> 其具体的网络结构如图所示，将文字描述生成embedding变量<script type="math/tex">\varphi_t</script>, 再通过计算高斯分布得到平均值和方差，可以得到<script type="math/tex">\hat c_0</script> :</p>
+<script type="math/tex; mode=display">
+\hat c_0 = \mu_0+\sigma_0\bigodot \epsilon\\
+\bigodot表示的是元素相乘，\epsilon \sim \cal N(0,I)</script><p><img src="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/stackGAN.jpg" alt="stage-I GAN"></p>
+</li>
+</ul>
+<h5 id="Stage-II-GAN"><a href="#Stage-II-GAN" class="headerlink" title="Stage-II GAN"></a>Stage-II GAN</h5><ul>
+<li><p><strong>任务:</strong> 通过Stage-I GAN的结果去生成更高分辨率的结果</p>
+</li>
+<li><p><strong>优化函数:</strong> <script type="math/tex">\hat c</script> 与上一阶段的<script type="math/tex">\hat c_0</script> 分享一致的文本encode变量，<script type="math/tex">s_0</script> 来自于生成器通过噪声变量的生成结果，其优化函数如下:</p>
+<script type="math/tex; mode=display">
+{\cal L}_{D} = \Bbb E_{(I,t)\sim p_{data}}[logD(I,\varphi_t)] + \Bbb E_{s_0\sim p_{G_0},t\sim p_{data}}[log(1-D_0(G_0(s_0,\hat c),\varphi_t))]\\\\
+{\cal L}_{G} = \Bbb {E}_{s
+_0\sim p_{G_0},t\sim p_{data}}[log(1-D(G(s_0,\hat c),\varphi_t))]+\lambda D_{KL}({\cal N}(\mu_0(\varphi_t),\sum(\varphi_t))||{\cal N}(0,I))</script></li>
+<li><p><strong>模型结构:</strong> 与之前结果类似，输入发生了改变</p>
+</li>
+</ul>
+<h4 id="4-5-3-设计结构的组件分析"><a href="#4-5-3-设计结构的组件分析" class="headerlink" title="4.5.3 设计结构的组件分析:"></a>4.5.3 设计结构的组件分析:</h4><ul>
+<li><strong>Conditioning Augmentation(CA)</strong> 对网络的生成上可以提高鲁棒性</li>
+</ul>
+<h3 id="4-6-StackGAN"><a href="#4-6-StackGAN" class="headerlink" title="4.6 StackGAN++"></a>4.6 StackGAN++</h3><h4 id="4-6-1-基本概念"><a href="#4-6-1-基本概念" class="headerlink" title="4.6.1 基本概念"></a>4.6.1 基本概念</h4><ul>
+<li><strong>存在问题:</strong> <ul>
+<li>训练不稳定，对不同的超参数的选择会产生不同的结果</li>
+<li>问题尤其凸显在生成高分辨率的图片上，许多生成样本会包含相同颜色和纹理的模式</li>
+</ul>
+</li>
+<li><strong>完成任务:</strong> 通过多个阶段的生成对抗网络来处理有条件或者无条件生成图片的任务。 </li>
+<li><strong>解决方法:</strong> 多个阶段的网络结构来融合逼近多种图像分布，提高生成图片的质量以及训练的稳定性，包含多个生成器和多个判别器</li>
+</ul>
+<h4 id="4-6-2-方法详述："><a href="#4-6-2-方法详述：" class="headerlink" title="4.6.2 方法详述："></a>4.6.2 方法详述：</h4><ul>
+<li><p>利用stackGAN的结构，将stackGAN扩展成生成多尺度图片的模型—stackGAN++</p>
+</li>
+<li><p><strong>整体结构</strong></p>
+<p><img src="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/stackGAN++.jpg" alt="stackGAN++ architecture"></p>
+</li>
+<li><p><strong>多尺度图片分布逼近:</strong> </p>
+<ul>
+<li><strong>推断数学定义:</strong> <script type="math/tex">z\sim p_{noise}</script> 作为每一个生成器的输入，对于网络隐藏层的输入，每一个生成器的输入feature为<script type="math/tex">h_i</script>, 其函数定义如下:</li>
+</ul>
+<script type="math/tex; mode=display">
+h_0 = F_0(z); h_i = F_i(h_{i-1},z),i = 1,2,...,m-1</script><p>​    对于每一个由生成器生成的sample，其定义如下:</p>
+<script type="math/tex; mode=display">
+s_i = G_i(h_i),i =0,1,...,m-1</script><ul>
+<li><strong>损失函数定义: </strong> 对于不同尺度的图片<script type="math/tex">x_i</script>, 其来自于不同尺度的图片分布<script type="math/tex">p_{data}</script>, 判别器只需判断每个生成器生成的图片是否来自该尺度的分布，以及是否为真，其损失函数定义如下:<script type="math/tex; mode=display">
+{\cal L}_{D_i} = - \Bbb E_{x_i\sim p_{data_{i}}}[logD_{i}(x_i)]-\Bbb E_{s_i\sim p_{G_i}}[log(1-D_i(s_i)]</script>对于生成器来说，其损失函数定义如下：<script type="math/tex; mode=display">
+{\cal L}_G = \sum_{i=1}^{m}{\cal L}_{G_i},{\cal L}_{G_i}=-{\Bbb E}_{s_i\sim p_{G_i}}[logD_i(s_i)]</script><strong>主要想法</strong>在于如果哪一个scale的生成器训练得到一个优化，这样整个训练流程就会得到加快，因为生成器可以更加关注于生成更高分辨率和细节部分。</li>
+</ul>
+</li>
+<li><p><strong>融合条件分布逼近以及非条件分布逼近</strong></p>
+<ul>
+<li><strong>unconditional loss and the conditional loss: </strong> 对于非条件图片上生成，其没有语义的加入，即前面stackGAN所提到的向量c<script type="math/tex; mode=display">
+{\cal L}_{D_i}=-\Bbb E_{x_i \sim p_{data_i}}[logD_i(x_i)]-\Bbb E_{s_i\sim p_{G_{i}}}[1-logD_i(s_i)](uncoditional \ loss)+\\\\
+- \Bbb E_{x_i \sim p_{data_i}}[logD_i(x_i,c)]-\Bbb E_{s_i\sim p_{G_{i}}}[1-logD_i(s_i,c)](conditional \  loss)</script>对于生成器来说，其loss函数定义如下:<script type="math/tex; mode=display">
+{\cal L}_{G_i} = - \Bbb E_{s_i\sim p_{G_i}}[logD_i(s_i)](uncoditional \ loss)\\\\- \Bbb E_{s_i\sim p_{G_i}}[logD_i(s_i,c)](conditional\ loss)</script></li>
+</ul>
+</li>
+<li><p><strong>颜色连续性归一化</strong></p>
+<ul>
+<li>对于每一个在图片中的元素 <script type="math/tex">x_k = (R,G,B)^T</script> , 均值<script type="math/tex">\mu = \sum_kx_k/N</script>, 像素和为<script type="math/tex">\sum = \sum_k(x_k -\mu)(x_k-\mu)^T/N</script>, 其损失函数数学定义如下:<script type="math/tex; mode=display">
+{\cal L}_{C_i} = \frac 1 N \sum^n_{j=1}(\lambda_1||\mu_{s_i^{j}}-\mu_{s_{i-1}^j}||^2_2+\lambda_2||\sum_{s_i^{j}}-\sum_{s_{i-1}^j}||^2_F) \\\\ 
+{\cal L}^{'}_{G_i} = {\cal L}_{G_i} + \alpha*{\cal L}_{c_i}</script>当做非条件任务的时候，<script type="math/tex">\alpha =50.0</script> 在这篇文章中，做text to image任务时，<script type="math/tex">\alpha= 0.0</script>，表示图像连续性对于非条件任务比较关键</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-7-AttnGAN"><a href="#4-7-AttnGAN" class="headerlink" title="4.7 AttnGAN"></a>4.7 AttnGAN</h3><h4 id="4-7-1-基本概念"><a href="#4-7-1-基本概念" class="headerlink" title="4.7.1 基本概念"></a>4.7.1 基本概念</h4><ul>
+<li><strong>存在问题:</strong> 对图片的文字描述上生成的图片缺少了重要的经过提炼过的文字信息；高质量图片的生成仍然是个问题</li>
+<li><strong>完成任务:</strong> 从文本描述中生成图片</li>
+<li><strong>解决方法:</strong> 通过<strong>attention模型</strong>关注图片区域以及和文本描述的单词结合;然后通过模型进行计算匹配损失来训练生成器</li>
+</ul>
+<h4 id="4-7-2-方法详述"><a href="#4-7-2-方法详述" class="headerlink" title="4.7.2 方法详述"></a>4.7.2 方法详述</h4><p>​    其由attentional genrative network和the depp attentional multimodal similarity model组成，结构如图所示</p>
+<p><img src="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/AttnGAN.jpg" alt="AttnGAN architecture"></p>
+<h5 id="Attentional-Generative-Network"><a href="#Attentional-Generative-Network" class="headerlink" title="Attentional Generative Network"></a>Attentional Generative Network</h5><ul>
+<li><p><strong>推断函数: </strong>每个单词的feature通过attention模型来获取和图片对应区域的关注区域来获得更加关注局部的生成图片,<script type="math/tex">\overline{e}</script> 表示全局的句子向量，e表示单词的一个向量矩阵，<script type="math/tex">h_{i}</script> 表示的是每一层的output feature.</p>
+<script type="math/tex; mode=display">
+h_0 = F_0(z,F^{ca}(\overline{e}));\\\\
+h_i = F_i(h_{i-1},F_i^{attn}(e,h_{i-1})) for i = 1,2,...,m-1;\\\\
+\hat x_i = G_i(h_i)</script></li>
+<li><p><strong>Attention机制:</strong> 每一层输出的图片feature为<script type="math/tex">h_{i}\in {\Bbb R}^{\hat D \times N}</script> ,句子中单词组成的矩阵为<script type="math/tex">e\in \Bbb R^{D\times T}</script>，D代表单词向量的维度，T代表单词的数量，有如下函数定义: </p>
+<script type="math/tex; mode=display">
+c_j = \sum^{T-1}_{i=0}\beta_{j,i}e'_{i}, where\  \beta_{j,i} = \frac{exp(s'_{j,i})}{\sum_{k=0}^{T-1}exp(s'_{j,k})} \\\\
+其中,e'_{i} = Ue \in(\hat D\times D),s'_{j,i} = h^T_{j} e'_i</script><p>也就是说，其将图像的特征分为T个区域，每个区域都会去计算与每个单词特征的乘积，得出每个单词的关注程度，在经过一层softmax得到<strong>每个单词的权重</strong>输入到下一层的生成中</p>
+</li>
+<li><p><strong>损失函数:</strong> AttnGAN所采用的损失函数与stackGAN++所采用的损失函数类似，不过其判别器以及生成器的输入改成了带有权重的语义,以及在生成器的损失函数，原有的基础上新增加了<script type="math/tex">{\cal L}_{DAMSM}</script></p>
+<script type="math/tex; mode=display">
+{\cal L} ={\cal L}_G +\lambda{\cal L}_{DAMSM},where \ {\cal L}_G = \sum_{i=0}^{m-1} {\cal L}_{G_i}\\\\
+{\cal L}_{G_i} = -\frac 1 2 \Bbb E_{\hat x_i\sim p_{G_i}[log(D_i(\hat x_i))]}-\frac 1 2 \Bbb E_{\hat x\sim p_{G_i}[log(D_i(\hat x_i, \overline e))]}</script><h5 id="Deep-Attentional-Multimodal-Similarity-Model-DAMSM"><a href="#Deep-Attentional-Multimodal-Similarity-Model-DAMSM" class="headerlink" title="Deep Attentional Multimodal Similarity Model(DAMSM)"></a>Deep Attentional Multimodal Similarity Model(DAMSM)</h5></li>
+<li><p><strong>The text encoder:</strong> 采用bi-directional Long Short-Term Memory(Bi-LSTM),所有单词所代表的特征矩阵表示为<script type="math/tex">e\in \Bbb R^{D \times T}</script> ,第i列<script type="math/tex">e_i</script>表示第i哥单词特征向量，D表示单词向量的维度，T表示单词的数目。LSTM的最后一层输出表示为<script type="math/tex">\overline{e} \in \Bbb R^D</script> </p>
+</li>
+<li><p><strong>The image encoder:</strong> 图像特征的提取采用的是在imagenet上预训练的Inception-v3模型，图像特征<script type="math/tex">f\in \Bbb R^{768\times 289}</script> ,768是图像特征向量的维度，289是图像划分区域的数量，最后一层<script type="math/tex">\overline{f} \in \Bbb R^{2048}</script> , 通过一层感知层，将图像特征编码成<script type="math/tex">v \in \Bbb R^{D\times 289}</script> ,<script type="math/tex">v_i</script>代表的是第i个区域的图片特征，形式如下</p>
+<script type="math/tex; mode=display">
+v = Wf, \overline v = \overline{W}\overline{f},</script></li>
+<li><p><strong>The attention-driven image-text matching score:</strong> 衡量图片在attention模型下与文本描述的匹配程度，其中<script type="math/tex">s_{i,j}</script> 表示的是句子中第i个单词与图像第j个区域的相似性，T代表单词数目,D代表单词特征的维度，对图片特征进行attention如下:</p>
+<script type="math/tex; mode=display">
+s =e^Tv,\overline s_{i,j} =\frac{exp(s_{i,j})}{\sum^{T-1}_{k=0}exp(s_{k,j})} (e\in \Bbb R^{D\times T},v\in \Bbb R^{D\times289})</script><p>即:计算第i个单词在第j个区域的相似程度, <script type="math/tex">s\in \Bbb R^{D\times289}</script></p>
+<script type="math/tex; mode=display">
+c_i = \sum^{288}_{j=0}\alpha_jv_j,where\ \alpha_j = \frac{exp(\gamma_1\overline{s}_{i,j})}{\sum_{k=0}^{288}exp(\gamma_1\overline{s}_{i,k})}</script><p>其中，<script type="math/tex">\gamma_1</script> 决定了计算单词与图片关联的程度，<script type="math/tex">v_i</script> 表示图像的特征编码，<script type="math/tex">\alpha_i</script> 表示该单词占整个图片的比重，<script type="math/tex">c_i</script> 表示该单词所呈现出的图片的特征向量，为了评价图片和文本描述之间的匹配分数，其函数定义如下:</p>
+<script type="math/tex; mode=display">
+R(Q,D) = log(\sum_{i=1}^{T-1}exp(\gamma_2R(c_i,e_i)))^{\frac 1 {\gamma_2}} \\\\
+R(c_i,e_i) = (c_i^Te_i)/(||c_i||||e_i||) \\\\
+when \ \gamma_2 \rightarrow \infty, R(Q,D)\rightarrow max_{i=1}^{T-1}R(c_i,e_i)</script><p>其中，<script type="math/tex">\gamma_2</script> 决定对文本描述与图片的关联的放大程度</p>
+</li>
+<li><p><strong>The DAMSM loss:</strong> 对于图片<script type="math/tex">Q_i</script> ，句子<script type="math/tex">D_i</script> 的匹配程度来说，定义如下:</p>
+<script type="math/tex; mode=display">
+P(D_i|Q_i) =\frac {exp(\gamma_3R(Q_i,D_i))}{\sum^M_{j=1}exp(\gamma_3R(Q_i,D_i))}</script><p>则有，w代表word</p>
+<script type="math/tex; mode=display">
+{\cal L_1^{w}} = -\sum_{i=1}^{M}logP(D_i|Q_i),\\\\
+{\cal L_2^{w}} = -\sum_{i=1}^{M}logP(Q_i|D_i)</script><p>定义最后一层</p>
+<script type="math/tex; mode=display">
+R(Q,D)=(\overline{v}^T\overline{e})/(||\overline v|||\overline e||)</script><p>则有，s代表sentence，用上述公式代替，则得到<script type="math/tex">{\cal L}^s_1 {\cal L}_2^s</script></p>
+<script type="math/tex; mode=display">
+{\cal L}_{DAMSM} = {\cal L}_1^w+{\cal L}_2^w+{\cal L}_1^s+{\cal L}_2^s</script><h3 id="4-8-ControlGAN"><a href="#4-8-ControlGAN" class="headerlink" title="4.8 ControlGAN"></a>4.8 ControlGAN</h3></li>
+</ul>
+<h4 id="4-8-1-基本概念"><a href="#4-8-1-基本概念" class="headerlink" title="4.8.1 基本概念"></a>4.8.1 基本概念</h4><ul>
+<li><strong>问题定义:</strong> 目前语句生成图片的生成网络是不可控的，当改变了语句中的单词时，生成的图片就会完全不一样，比如说一个描述颜色的发生改变，生成图片中的位置和姿态同时都发生改变</li>
+<li><strong>本文亮点:</strong> 提出一个可以拥有控制图片生成的生成网络框架，允许人去手动改变物体的属性</li>
+<li><strong>方法简介:</strong> 利用multi-stage框架生成coarse到fine的图片，加入channel-wise attention模块，利用word-level的判别器来判别与图片相关的单词特征，引入perceptual loss损失函数</li>
+</ul>
+<h4 id="4-8-2-方法详述"><a href="#4-8-2-方法详述" class="headerlink" title="4.8.2 方法详述"></a>4.8.2 方法详述</h4><ul>
+<li><p><strong>整体网络框架:</strong> Controllable Generative Adversarial Networks</p>
+<p><img src="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/ControlGAN.png" alt="ControlGAN"></p>
+</li>
+</ul>
+<h2 id="5-GAN的训练"><a href="#5-GAN的训练" class="headerlink" title="5. GAN的训练"></a>5. GAN的训练</h2><h3 id="5-1-GAN训练技巧"><a href="#5-1-GAN训练技巧" class="headerlink" title="5.1 GAN训练技巧"></a>5.1 GAN训练技巧</h3><ul>
+<li><strong>Batchsize:</strong> 小的batchsize相对于生成器模型以及判别器模型来说的话，应该会使得训练过程更加稳定</li>
+<li><strong>生成网络与判别网络拟合能力:</strong> 两种网络的拟合能力如果能做到相当的话，对于训练来说是有好处的，但是总体来说应该是在收敛的情况下会work</li>
+</ul>
+<h2 id="6-GAN的前沿工作"><a href="#6-GAN的前沿工作" class="headerlink" title="6. GAN的前沿工作"></a>6. GAN的前沿工作</h2><h3 id="6-1-对抗攻击与防御"><a href="#6-1-对抗攻击与防御" class="headerlink" title="6.1 对抗攻击与防御"></a>6.1 对抗攻击与防御</h3><ul>
+<li><p><strong>现阶段攻击:</strong> L1/L2/L无穷范数的攻击—这种攻击是已知的，也就是白盒化</p>
+</li>
+<li><p><strong>提高模型的鲁棒性:</strong> data augmentation所起的作用，是不是模型的精度越高也就意味着模型的泛化性能越差，比方说人的识别精度没有机器好，但是对于图像的鲁棒性还是高于机器的</p>
+</li>
+<li><p><strong>仍停留在何为攻击样本层面:</strong> 深度学习是否需要与人对齐，欺骗了人的样本算不算攻击</p>
+</li>
+</ul>
+<h2 id="7-VAE-Variational-AutoEncoder-原理"><a href="#7-VAE-Variational-AutoEncoder-原理" class="headerlink" title="7.VAE(Variational AutoEncoder)原理"></a>7.VAE(Variational AutoEncoder)原理</h2><h3 id="7-1-基础理论"><a href="#7-1-基础理论" class="headerlink" title="7.1 基础理论"></a>7.1 基础理论</h3><ul>
+<li><p><strong>参考:</strong> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/147657034">https://zhuanlan.zhihu.com/p/147657034</a></p>
+</li>
+<li><p><strong>概述:</strong> VAE就是通过将输入分布<script type="math/tex">p(X)</script>映射到正态分布<script type="math/tex">z\sim\mathcal N(0,1)</script>中，然后再从正态分布中采样来生成所需要的样本<script type="math/tex">p(X)</script>，达到多样性的目的</p>
+<script type="math/tex; mode=display">
+P(x)=\int P(x|z;\theta)P(z)dz</script></li>
+<li><p><strong>为什么要构建这样的分布:</strong> 直接构建<script type="math/tex">p(X)</script> 比较难，往往是不知道的，而且难以获取</p>
+</li>
+<li><p><strong>原理:</strong> 任何d维的正态分布都可以通过一个足够复杂的函数来映射到任意的d维分布</p>
+</li>
+</ul>
+<h3 id="7-2-公式推导"><a href="#7-2-公式推导" class="headerlink" title="7.2 公式推导"></a>7.2 公式推导</h3><ul>
+<li><p><strong>目标:</strong> 最大化概率<script type="math/tex">p(X)</script></p>
+</li>
+<li><p><strong>分析:</strong> 采用蒙特卡洛采样法可以写为<script type="math/tex">P(x_i) = \frac 1 m \sum_{j=1}^mP(x_i|z_j)</script> ，但是这些都只是近似的写法，<script type="math/tex">z\sim\mathcal N(0,1)</script> 分布太大了，采样无法得到这样的概率，通过贝叶斯公式进行转化</p>
+<script type="math/tex; mode=display">
+P(x_i|z_j) = \frac{P(z_j|x_i)P(x_i)}{P(z_j)}</script><p>转化为求<script type="math/tex">Q(z_j|x_i)\sim \mathcal N(z|\mu(X;\theta),\sum(X;\theta))</script></p>
+</li>
+<li><p><strong>损失函数:</strong> 利用KL散度使得<script type="math/tex">Q(z|x)</script> 逼近<script type="math/tex">P(z|x)</script></p>
+<script type="math/tex; mode=display">
+KL(Q(z|x)||P(z|x)) = E_{z\sim Q(z|x)}[logQ(z|x)-logP(z|x)] \\\\
+=E_{z\sim Q(z|x)}[logQ(z|x)-logP(x|z)-logP(z)] +logP(x) \\\\
+\Longrightarrow  logP(x) - KL(Q(z|x)||P(z|x)) = E_{z\sim Q(z|x)}[logP(x|z)-logQ(z|x)+logP(z)] \\\\
+=E_{z\sim Q(z|x)}[logP(x|z)]-KL(Q(z|x)||P(z)) \\\\
+\Longrightarrow -KL(Q(z|x)||P(z|x)) = \int Q(z|x)(logP(z|x)-logQ(z|x))dz\\\\
+=\int Q(z|x)logP(z|x)dz -\int Q(z|x)logQ(z|x)dz \\\\
+=\int\mathcal N(z;\mu,\sigma^2)log\mathcal N(z;0,I)dz-\int \mathcal N(z;\mu,\sigma^2_j)log\mathcal N(z;\mu,\sigma^2)\\\\
+=\frac 1 2 \sum_{j=1}^J(1+log((\sigma)^2))-(\mu_j)^2-(\sigma_j)^2)</script><p>所以最终的效果就在于最大化 <script type="math/tex">logP(x)</script> </p>
+<script type="math/tex; mode=display">
+Max\ logP(x) = Max\ \{KL(Q(z|x)||P(z|x))+\\
+E_{z\sim Q(z|x)}[logP(x|z)]-KL(Q(z|x)||P(z))\}\\
+\Longrightarrow Min\{E_{z\sim Q(z|x)}[-logP(x|z)]+KL(Q(z|x)||P(z))\}</script></li>
+<li><p><strong>训练过程:</strong>  左边为理论VAE的一个传播过程，右边为近似的一个传播过程，这样的话backpropagation可以将梯度进行传递回去，用了reparameterization trick</p>
+<p><img src="/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/VAE_train.jpg" alt="img"></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/" title="VisionGeneration">http://jiaqiuzhou.github.io/2020/03/19/Knowledge/DeepLearning/Task/ComputerVision/VisionGeneration/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ComputerVision/" rel="tag"># ComputerVision</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/18/Project/RenderingLayout/Reference/layoutRender-Reference/" rel="prev" title="layoutRender_Reference">
+      <i class="fa fa-chevron-left"></i> layoutRender_Reference
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/21/Project/Make-Lock/Makelock-ProblemRecord/" rel="next" title="Makelock-ProblemRecord">
+      Makelock-ProblemRecord <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-GAN%E7%BB%BC%E8%BF%B0"><span class="nav-text">1. GAN综述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90%E9%A2%86%E5%9F%9F"><span class="nav-text">1.1 图像生成领域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%A7%86%E9%A2%91%E5%B8%A7%E9%A2%84%E6%B5%8B%E9%A2%86%E5%9F%9F"><span class="nav-text">1.2 视频帧预测领域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%9B%BE%E5%83%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB%E9%A2%86%E5%9F%9F"><span class="nav-text">1.3 图像风格迁移领域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E8%BF%91%E6%9C%9F%E5%B7%A5%E4%BD%9C"><span class="nav-text">1.4 近期工作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-text">2. 数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-CUB-dataset"><span class="nav-text">2.1 CUB dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Oxford-102-dataset"><span class="nav-text">2.2 Oxford-102 dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-MS-COCO"><span class="nav-text">2.3 MS COCO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="nav-text">3. 评价指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Inception-score"><span class="nav-text">3.1 Inception score</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Frechet-Inception-Distance"><span class="nav-text">3.2 Frechet Inception Distance</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-GAN%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E5%9B%BE%E7%89%87"><span class="nav-text">4. GAN文本生成图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-GAN"><span class="nav-text">4.1 GAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.1.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-2-%E6%95%B0%E5%AD%A6%E5%AE%9A%E4%B9%89"><span class="nav-text">4.1.2 数学定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-3-%E7%90%86%E8%AE%BA%E5%8F%8A%E8%AF%81%E6%98%8E"><span class="nav-text">4.1.3 理论及证明</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%90%86%E8%AE%BA1-%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E7%82%B9%E5%9C%A8-p-g-p-data-%E5%A4%84"><span class="nav-text">理论1: 全局最优点在 p_g &#x3D; p_{data} 处</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%90%86%E8%AE%BA2-%E5%A6%82%E6%9E%9CG%E5%92%8CD%E7%BB%99%E5%AE%9A%E8%B6%B3%E5%A4%9F%E7%9A%84%E5%AE%B9%E9%87%8F%EF%BC%8C%E5%B0%86%E8%83%BD%E5%A4%9F%E8%AE%AD%E7%BB%83%E5%BE%97%E5%88%B0%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84G"><span class="nav-text">理论2: 如果G和D给定足够的容量，将能够训练得到局部最优解的G</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-4-Advantages-and-disadvantages"><span class="nav-text">4.1.4 Advantages and disadvantages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-5-%E5%AE%9E%E9%99%85%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="nav-text">4.1.5 实际算法流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Conditional-Adversarial-Nets"><span class="nav-text">4.2 Conditional Adversarial Nets</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.2.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0"><span class="nav-text">4.2.2 方法详述</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-ACGAN"><span class="nav-text">4.3 ACGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.3.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0"><span class="nav-text">4.3.2 方法详述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-3-%E5%AE%9E%E9%AA%8C%E7%BB%93%E8%AE%BA"><span class="nav-text">4.3.3 实验结论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-DCGAN"><span class="nav-text">4.4 DCGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.4.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0"><span class="nav-text">4.4.2 方法详述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-3-%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98"><span class="nav-text">4.4.3 存在问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-StackGAN"><span class="nav-text">4.5 StackGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.5.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0"><span class="nav-text">4.5.2 方法详述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stage-I-GAN"><span class="nav-text">Stage-I GAN</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Stage-II-GAN"><span class="nav-text">Stage-II GAN</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-3-%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E7%9A%84%E7%BB%84%E4%BB%B6%E5%88%86%E6%9E%90"><span class="nav-text">4.5.3 设计结构的组件分析:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-StackGAN"><span class="nav-text">4.6 StackGAN++</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.6.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0%EF%BC%9A"><span class="nav-text">4.6.2 方法详述：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-AttnGAN"><span class="nav-text">4.7 AttnGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.7.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0"><span class="nav-text">4.7.2 方法详述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Attentional-Generative-Network"><span class="nav-text">Attentional Generative Network</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Deep-Attentional-Multimodal-Similarity-Model-DAMSM"><span class="nav-text">Deep Attentional Multimodal Similarity Model(DAMSM)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-8-ControlGAN"><span class="nav-text">4.8 ControlGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">4.8.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0"><span class="nav-text">4.8.2 方法详述</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-GAN%E7%9A%84%E8%AE%AD%E7%BB%83"><span class="nav-text">5. GAN的训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-GAN%E8%AE%AD%E7%BB%83%E6%8A%80%E5%B7%A7"><span class="nav-text">5.1 GAN训练技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-GAN%E7%9A%84%E5%89%8D%E6%B2%BF%E5%B7%A5%E4%BD%9C"><span class="nav-text">6. GAN的前沿工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E4%B8%8E%E9%98%B2%E5%BE%A1"><span class="nav-text">6.1 对抗攻击与防御</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-VAE-Variational-AutoEncoder-%E5%8E%9F%E7%90%86"><span class="nav-text">7.VAE(Variational AutoEncoder)原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA"><span class="nav-text">7.1 基础理论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC"><span class="nav-text">7.2 公式推导</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

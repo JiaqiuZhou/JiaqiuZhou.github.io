@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍有关特征值，特征向量，范数, 导数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="范数以及Matrix特征值介绍">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2019/10/11/Knowledge/Math/MathMatrix/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍有关特征值，特征向量，范数, 导数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2019/10/11/Knowledge/Math/MathMatrix/Feature-vector.png">
+<meta property="article:published_time" content="2019-10-11T01:58:42.000Z">
+<meta property="article:modified_time" content="2020-11-07T14:21:03.443Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="Math">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2019/10/11/Knowledge/Math/MathMatrix/Feature-vector.png">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2019/10/11/Knowledge/Math/MathMatrix/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>范数以及Matrix特征值介绍 | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2019/10/11/Knowledge/Math/MathMatrix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          范数以及Matrix特征值介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-11 09:58:42" itemprop="dateCreated datePublished" datetime="2019-10-11T09:58:42+08:00">2019-10-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 22:21:03" itemprop="dateModified" datetime="2020-11-07T22:21:03+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Knowledge/" itemprop="url" rel="index"><span itemprop="name">Knowledge</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2019/10/11/Knowledge/Math/MathMatrix/" class="post-meta-item leancloud_visitors" data-flag-title="范数以及Matrix特征值介绍" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/11/Knowledge/Math/MathMatrix/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/11/Knowledge/Math/MathMatrix/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍有关特征值，特征向量，范数, 导数</p>
+<a id="more"></a>
+<h2 id="1-范数"><a href="#1-范数" class="headerlink" title="1. 范数"></a>1. 范数</h2><h3 id="1-1-范数的定义"><a href="#1-1-范数的定义" class="headerlink" title="1.1 范数的定义"></a>1.1 范数的定义</h3><ul>
+<li>范数是具有<strong>“长度”概念的函数</strong>,为向量空间内的所有向量赋予非零的正长度或大小</li>
+</ul>
+<h3 id="1-2-绝对值范数-1-范数"><a href="#1-2-绝对值范数-1-范数" class="headerlink" title="1.2 绝对值范数(1-范数)"></a>1.2 绝对值范数(1-范数)</h3><ul>
+<li>对于一个数来说， <script type="math/tex">\parallel  x \parallel_{1} = x</script>  就是对一个数取绝对值</li>
+<li>对于一个向量来说， <script type="math/tex">\parallel x \parallel_{1}=\sum_{i=1}^{N}\vert x_{i} \vert</script> 计算的是向量的各个元素的绝对值之和</li>
+<li>对于一个矩阵来说，<script type="math/tex">\parallel X \parallel _{1}=max_{j}\sum_{i=1}^{m}\vert x_{i,j}\vert</script> 即每列绝对值之和的最大值</li>
+<li>对于一个集合来说，对集合取绝对值|A|就等于集合里元素的个数</li>
+</ul>
+<h3 id="1-3-欧几里德范数-2-范数"><a href="#1-3-欧几里德范数-2-范数" class="headerlink" title="1.3 欧几里德范数(2-范数)"></a>1.3 欧几里德范数(2-范数)</h3><ul>
+<li>对于一个数来说，<script type="math/tex">\parallel x \parallel _{2} = x</script> ， 其实没什么意义</li>
+<li>对于一个向量来说， <script type="math/tex">\parallel x \parallel_{2} = \sqrt{\sum_{i=1}^{N}x_{i}^{2}}\quad</script> ，向量元素绝对值的平方和再开方，即描述<strong>向量的长度</strong></li>
+<li>对于一个矩阵来说，<script type="math/tex">\parallel X \parallel_{2} = \sqrt \lambda_{1} \quad</script>， <script type="math/tex">\lambda</script> 为<script type="math/tex">X^TX</script> 的最大特征值，即矩阵转置与矩阵的乘积的最大特征值的开方</li>
+<li>矩阵范数反映线性映射把一个向量映射为另一个向量，<strong>向量的“长度”缩放的比例</strong></li>
+</ul>
+<h2 id="2-矩阵"><a href="#2-矩阵" class="headerlink" title="2. 矩阵"></a>2. 矩阵</h2><h3 id="2-1-对称矩阵"><a href="#2-1-对称矩阵" class="headerlink" title="2.1 对称矩阵"></a>2.1 对称矩阵</h3><ul>
+<li><p><strong>定义:</strong> 以主对角线为对称轴，各元素对应相等的矩阵，对称矩阵是方形矩阵，其转置矩阵和自身相等</p>
+</li>
+<li><p><strong>数学定义:</strong> </p>
+<script type="math/tex; mode=display">
+a_{ij} = a_{ji} (0\leq i, j \leq n-1 )</script></li>
+</ul>
+<h3 id="2-2-正交矩阵"><a href="#2-2-正交矩阵" class="headerlink" title="2.2 正交矩阵"></a>2.2 正交矩阵</h3><ul>
+<li><strong>定义:</strong> 转置等于其逆的矩阵，其数学定义如下<script type="math/tex; mode=display">
+AA^T = A^{-1}A</script></li>
+</ul>
+<h3 id="2-3-正定矩阵"><a href="#2-3-正定矩阵" class="headerlink" title="2.3 正定矩阵"></a>2.3 正定矩阵</h3><ul>
+<li><p><strong>定义:</strong> 设M为n阶方阵，如果对任何非零向量z，都有<script type="math/tex">z^TMz>0</script> ，<script type="math/tex">z^T</script>表示z的转置，则称M为正定矩阵</p>
+<ul>
+<li><p><strong>对称正定矩阵:</strong> 定义如下，</p>
+<script type="math/tex; mode=display">
+设A\in R^{n \times n}, 若A=A^T,对任意的0\neq X\in R^n,都有X^TAX>0, 则称A为对称正定矩阵。</script></li>
+<li><p><strong>Hermite正定矩阵:</strong> 定义如下，</p>
+<script type="math/tex; mode=display">
+设A\in R^{n \times n}, 若A=A^*,对任意的0\neq X\in C^m,都有X^*AX>0, 则称A为Hermite正定矩阵。</script></li>
+</ul>
+</li>
+<li><p><strong>性质:</strong> 具体查百度百科</p>
+<ul>
+<li>正定矩阵的行列式恒为正</li>
+<li>正定矩阵的逆矩阵也是正定矩阵</li>
+</ul>
+</li>
+<li><p><strong>判定方法:</strong> 判断实对称矩阵的所有特征值是否均为正数</p>
+</li>
+<li><p><strong>半正定矩阵:</strong></p>
+<script type="math/tex; mode=display">
+对任意不为0的实列向量X，都有X'AX\geq 0</script></li>
+</ul>
+<h2 id="3-特征值与特征向量"><a href="#3-特征值与特征向量" class="headerlink" title="3. 特征值与特征向量"></a>3. 特征值与特征向量</h2><h3 id="3-1-特征值与特征向量的定义"><a href="#3-1-特征值与特征向量的定义" class="headerlink" title="3.1 特征值与特征向量的定义"></a>3.1 特征值与特征向量的定义</h3><ul>
+<li><strong>特征分解:</strong> 充要条件为存在n阶方阵存在n个线性无关的特征向量；矩阵的谱分解，特征分解和对角化都是同一个概念</li>
+<li><strong>数学上的定义</strong>：设A是n阶方阵，如果存在常数<script type="math/tex">\lambda</script> 及非零n向量x，使得<script type="math/tex">Ax=\lambda x</script> ,则称<script type="math/tex">\lambda</script>是矩阵A的特征值，x是A属于特征值<script type="math/tex">\lambda</script>的特征向量。</li>
+<li>求法:令该特征多项式构成的方程<script type="math/tex">\vert \lambda E - A \vert = 0</script> 求得<script type="math/tex">\lambda</script>, 然后带入<script type="math/tex">(\lambda E-A)x=0</script>求得特征向量x</li>
+</ul>
+<h3 id="3-2-特征值与特征向量的几何意义"><a href="#3-2-特征值与特征向量的几何意义" class="headerlink" title="3.2 特征值与特征向量的几何意义"></a>3.2 特征值与特征向量的几何意义</h3><ul>
+<li><p>从<script type="math/tex">Ax = \lambda x</script> 可以看出矩阵A是可以使得一个特征向量x<strong>变换大小尺度</strong>为特征值<script type="math/tex">\lambda</script> ，方向不变，如下</p>
+<p><img src="/2019/10/11/Knowledge/Math/MathMatrix/Feature-vector.png" alt="feature vector"></p>
+</li>
+<li><p>因而，在矩阵的二范数的含义中，其得到的是使得向量可以由<strong>原来的方向最大变化</strong>的尺度</p>
+</li>
+</ul>
+<h3 id="3-3-特征值与特征向量的应用"><a href="#3-3-特征值与特征向量的应用" class="headerlink" title="3.3 特征值与特征向量的应用"></a>3.3 特征值与特征向量的应用</h3><ul>
+<li><strong>图片压缩</strong>：对一个图片matrix <script type="math/tex">A = P\Lambda P</script> 进行特征值分解，取特征值的前百分之五十，再进行恢复，会发现看起来与原来的图片只是失去了一些细节的描述</li>
+<li><strong>PCA降维</strong>：利用主成分分析的方法减少数据集的维数，同时保持数据集的对方差贡献最大</li>
+</ul>
+<h2 id="4-导数"><a href="#4-导数" class="headerlink" title="4. 导数"></a>4. 导数</h2><p>转自<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010976453/article/details/54381248">https://blog.csdn.net/u010976453/article/details/54381248</a></p>
+<h3 id="4-1-关于标量的导数"><a href="#4-1-关于标量的导数" class="headerlink" title="4.1 关于标量的导数"></a>4.1 关于标量的导数</h3><ul>
+<li><p><strong>标量关于标量x的求导</strong>: 就是平时的代数求导<script type="math/tex">\frac{\partial y}{\partial x}</script></p>
+</li>
+<li><p><strong>向量关于标量x的求导:</strong> (正切向量)</p>
+<script type="math/tex; mode=display">
+\frac{\partial y}{\partial x} = [\frac{\partial y_1}{\partial x},\frac{\partial y_2}{\partial x},...,\frac{\partial y_n}{\partial x}]^{T}</script></li>
+<li><p><strong>矩阵关于标量x的求导:</strong> 同上述向量对标量的形式,只不过维度扩展为矩阵形式,也是求导one by one</p>
+<script type="math/tex; mode=display">
+\frac{\partial Y}{\partial x}=\begin{pmatrix}
+        \frac{\partial y_{11}}{\partial x} & \frac{\partial y_{12}}{\partial x} & \cdots & \frac{\partial y_{1n}}{\partial x} \\
+        \frac{\partial y_{21}}{\partial x} & \frac{\partial y_{22}}{\partial x} & \cdots & \frac{\partial y_{2n}}{\partial x} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \frac{\partial y_{n1}}{\partial x} & \frac{\partial y_{n2}}{\partial x} & \cdots & \frac{\partial y_{nn}}{\partial x} \\
+        \end{pmatrix}</script></li>
+</ul>
+<h3 id="4-2-关于向量的导数"><a href="#4-2-关于向量的导数" class="headerlink" title="4.2 关于向量的导数"></a>4.2 关于向量的导数</h3><ul>
+<li><p><strong>标量关于向量x的导数</strong>:(梯度向量)</p>
+<script type="math/tex; mode=display">
+\frac{\partial y}{\partial x} = [\frac{\partial y}{\partial x_1},\frac{\partial y}{\partial x_2},...,\frac{\partial y}{\partial x_n}]</script></li>
+<li><p><strong>向量关于向量x的导数</strong>:Jacobian矩阵(雅可比矩阵)</p>
+<p>输出 <script type="math/tex">y=[y_1,y_2,...,y_n]</script>  输入 <script type="math/tex">x=[x_1,x_2,...,x_n]</script>, 其求导形式可以表示为以下形式:</p>
+<script type="math/tex; mode=display">
+\frac{\partial y}{\partial x}=\begin{pmatrix}
+        \frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2} & \cdots & \frac{\partial y_1}{\partial x_n} \\
+        \frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2} & \cdots & \frac{\partial y_2}{\partial x_n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \frac{\partial y_n}{\partial x_1} & \frac{\partial y_n}{\partial x_2} & \cdots & \frac{\partial y_n}{\partial x_n} \\
+        \end{pmatrix}</script></li>
+<li><p><strong>矩阵关于向量x的导数:</strong></p>
+<script type="math/tex; mode=display">
+\frac{\partial Y}{\partial x}=\begin{pmatrix}
+        \frac{\partial y_{11}}{\partial x_1} & \frac{\partial y_{12}}{\partial x_2} & \cdots & \frac{\partial y_{1n}}{\partial x_n} \\
+        \frac{\partial y_{21}}{\partial x_1} & \frac{\partial y_{22}}{\partial x_2} & \cdots & \frac{\partial y_{2n}}{\partial x_n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \frac{\partial y_{n1}}{\partial x_1} & \frac{\partial y_{n2}}{\partial x_2} & \cdots & \frac{\partial y_{nn}}{\partial x_n} \\
+        \end{pmatrix}</script></li>
+</ul>
+<h3 id="4-3-关于矩阵的导数"><a href="#4-3-关于矩阵的导数" class="headerlink" title="4.3 关于矩阵的导数"></a>4.3 关于矩阵的导数</h3><ul>
+<li>一般之考虑标量关于矩阵的导数</li>
+</ul>
+<script type="math/tex; mode=display">
+\frac{\partial y}{\partial X}=\begin{pmatrix}
+        \frac{\partial y}{\partial x_{11}} & \frac{\partial y}{\partial x_{12}} & \cdots & \frac{\partial y}{\partial x_{1n}} \\
+        \frac{\partial y}{\partial x_{21}} & \frac{\partial y}{\partial x_{22}} & \cdots & \frac{\partial y}{\partial x_{2n}} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \frac{\partial y}{\partial x_{n1}} & \frac{\partial y}{\partial x_{n2}} & \cdots & \frac{\partial y}{\partial x_{nn}} \\
+        \end{pmatrix}</script><h3 id="4-4-关于求导的实际应用"><a href="#4-4-关于求导的实际应用" class="headerlink" title="4.4 关于求导的实际应用"></a>4.4 关于求导的实际应用</h3><ul>
+<li>用到之后回来补充</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2019/10/11/Knowledge/Math/MathMatrix/" title="范数以及Matrix特征值介绍">http://jiaqiuzhou.github.io/2019/10/11/Knowledge/Math/MathMatrix/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Math/" rel="tag"># Math</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/10/Project/CVTE/LED-Background-knowledge/" rel="prev" title="LED_Background-knowledge">
+      <i class="fa fa-chevron-left"></i> LED_Background-knowledge
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/12/Knowledge/Finanical/financial-blockchain/" rel="next" title="FinancialBlockChain">
+      FinancialBlockChain <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%8C%83%E6%95%B0"><span class="nav-text">1. 范数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%8C%83%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">1.1 范数的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%BB%9D%E5%AF%B9%E5%80%BC%E8%8C%83%E6%95%B0-1-%E8%8C%83%E6%95%B0"><span class="nav-text">1.2 绝对值范数(1-范数)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%B7%E8%8C%83%E6%95%B0-2-%E8%8C%83%E6%95%B0"><span class="nav-text">1.3 欧几里德范数(2-范数)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%9F%A9%E9%98%B5"><span class="nav-text">2. 矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AF%B9%E7%A7%B0%E7%9F%A9%E9%98%B5"><span class="nav-text">2.1 对称矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%AD%A3%E4%BA%A4%E7%9F%A9%E9%98%B5"><span class="nav-text">2.2 正交矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%AD%A3%E5%AE%9A%E7%9F%A9%E9%98%B5"><span class="nav-text">2.3 正定矩阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%89%B9%E5%BE%81%E5%80%BC%E4%B8%8E%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F"><span class="nav-text">3. 特征值与特征向量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E7%89%B9%E5%BE%81%E5%80%BC%E4%B8%8E%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">3.1 特征值与特征向量的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%89%B9%E5%BE%81%E5%80%BC%E4%B8%8E%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E7%9A%84%E5%87%A0%E4%BD%95%E6%84%8F%E4%B9%89"><span class="nav-text">3.2 特征值与特征向量的几何意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E7%89%B9%E5%BE%81%E5%80%BC%E4%B8%8E%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-text">3.3 特征值与特征向量的应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AF%BC%E6%95%B0"><span class="nav-text">4. 导数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%85%B3%E4%BA%8E%E6%A0%87%E9%87%8F%E7%9A%84%E5%AF%BC%E6%95%B0"><span class="nav-text">4.1 关于标量的导数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%85%B3%E4%BA%8E%E5%90%91%E9%87%8F%E7%9A%84%E5%AF%BC%E6%95%B0"><span class="nav-text">4.2 关于向量的导数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%85%B3%E4%BA%8E%E7%9F%A9%E9%98%B5%E7%9A%84%E5%AF%BC%E6%95%B0"><span class="nav-text">4.3 关于矩阵的导数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E5%85%B3%E4%BA%8E%E6%B1%82%E5%AF%BC%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="nav-text">4.4 关于求导的实际应用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

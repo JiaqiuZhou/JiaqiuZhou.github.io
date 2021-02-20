@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录自动驾驶任务相关的论文以及背景知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autonomous_papers">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="记录自动驾驶任务相关的论文以及背景知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/GARLASimulatorDataset_town.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/GARLASimulatorDataset.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/CamConv_arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/Multi-modal_Sensor_Fusion_Autonomous_Scene_understanding_architecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/More_detail_Architecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/AutomousDriving_dataset.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/AutomousDriving_architecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/Auxiliary-Model%20Regulated%20Gating%20Networks.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/Safe_architecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/camera_pinhole.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/intrinsic_matrix.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/Cam-Conv.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/2D_pointcloud_fusion.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/2D_pointcloud_correct.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/multi_RGB_steer.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/Depth_RGB_sterr.png">
+<meta property="article:published_time" content="2020-06-09T15:56:04.000Z">
+<meta property="article:modified_time" content="2020-11-07T14:21:03.229Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="ComputerVision">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/GARLASimulatorDataset_town.png">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Autonomous_papers | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Autonomous_papers
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-09 23:56:04" itemprop="dateCreated datePublished" datetime="2020-06-09T23:56:04+08:00">2020-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 22:21:03" itemprop="dateModified" datetime="2020-11-07T22:21:03+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DeepLearning-Task/" itemprop="url" rel="index"><span itemprop="name">DeepLearning-Task</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/" class="post-meta-item leancloud_visitors" data-flag-title="Autonomous_papers" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录自动驾驶任务相关的论文以及背景知识</p>
+<a id="more"></a>
+<h2 id="多传感器图像融合自动驾驶任务"><a href="#多传感器图像融合自动驾驶任务" class="headerlink" title="多传感器图像融合自动驾驶任务"></a>多传感器图像融合自动驾驶任务</h2><h3 id="1-数据集"><a href="#1-数据集" class="headerlink" title="1. 数据集"></a>1. 数据集</h3><h4 id="1-1-Human-Activity-Recognition-Dataset"><a href="#1-1-Human-Activity-Recognition-Dataset" class="headerlink" title="1.1 Human Activity Recognition Dataset"></a>1.1 Human Activity Recognition Dataset</h4><ul>
+<li><strong>动作识别数据集:</strong> 利用<strong>加速度传感器，陀螺仪</strong>两个传感器采样30个年龄在19-48之间的人，活动类型有:<strong>走路、上楼梯、下楼梯、坐下、站着、躺着</strong>，共561个特征，有<strong>10299</strong>个样本</li>
+</ul>
+<h4 id="1-2-The-CAD-60-Dataset"><a href="#1-2-The-CAD-60-Dataset" class="headerlink" title="1.2 The CAD-60 Dataset"></a>1.2 The CAD-60 Dataset</h4><ul>
+<li><strong>动作识别数据集:</strong> 利用RGB-D相机采集<strong>60个RGB-D的视频</strong>，包含了客厅、办公室等<strong>五个不同的环境</strong>，刷牙、做饭、在白板写字、在电脑前工作等<strong>十二种不同的活动</strong>，标注有提取的骨架</li>
+</ul>
+<h4 id="1-3-Unity-Monitor-Dataset"><a href="#1-3-Unity-Monitor-Dataset" class="headerlink" title="1.3 Unity Monitor Dataset"></a>1.3 Unity Monitor Dataset</h4><ul>
+<li><p><strong>Unity模拟环境数据集:</strong> 利用Unity模拟真实的环境来创建自动驾驶模拟的数据集</p>
+</li>
+<li><p><strong>CARLA Simulator:</strong></p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/GARLASimulatorDataset_town.png" alt="GARLASimulatorDataset_town"></p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/GARLASimulatorDataset.png" alt="GARLASimulatorDataset"></p>
+</li>
+</ul>
+<h4 id="1-4-CoRL2017-benchmark"><a href="#1-4-CoRL2017-benchmark" class="headerlink" title="1.4 CoRL2017 benchmark"></a>1.4 CoRL2017 benchmark</h4><h4 id="1-5-NoCrash-benchmark"><a href="#1-5-NoCrash-benchmark" class="headerlink" title="1.5 NoCrash benchmark"></a>1.5 NoCrash benchmark</h4><h3 id="2-调研论文"><a href="#2-调研论文" class="headerlink" title="2. 调研论文"></a>2. 调研论文</h3><h4 id="2-1-CAM-Convs-Camera-Aware-Multi-Scale-Convolutions-for-Single-View-Depth"><a href="#2-1-CAM-Convs-Camera-Aware-Multi-Scale-Convolutions-for-Single-View-Depth" class="headerlink" title="2.1 CAM-Convs: Camera-Aware Multi-Scale Convolutions for Single-View Depth"></a>2.1 CAM-Convs: Camera-Aware Multi-Scale Convolutions for Single-View Depth</h4><ul>
+<li><p><strong>基本概念:</strong> 作者考虑到现有的depth估计的论文没有考虑到相机参数的不同，导致深度估计无法泛化到内参不同的相机拍摄的图片上，因此考虑将相机参数融入到框架中</p>
+</li>
+<li><p><strong>方法简介:</strong> 利用相机的内参矩阵作为图像提取特征的通道，融入图像深度估计的网络中</p>
+</li>
+<li><p><strong>核心算法:</strong>  将图像通过内参矩阵的参数转换成为图像提取特征的通道在进行卷积，</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/CamConv_arch.png" alt="CamConv_arch"></p>
+<ul>
+<li><strong>损失函数:</strong>  包含了depth和normal的loss，还有置信度loss<script type="math/tex; mode=display">
+\cal L = \lambda_1\cal L_d+\lambda_2\cal L_g +\lambda_3\cal L_c+\lambda_4\cal L_n,\\
+Depth\ loss: \cal L_d = \sum_{i,j}|\xi(i,j)-\hat\xi(i,j)|\\
+Confidence\ Loss: \cal L_c =\sum_{i,j}|c(i,j)-\hat c(i,j)|.\\
+Normal Loss: L_n =\sum_{i,j}||n(i,j)-\hat n(i,j)||_2.</script></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-Multi-modal-Sensor-Fusion-Based-Deep-Neural-Network-for-End-to-end-Autonomous-Driving-with-Scene-Understanding"><a href="#2-2-Multi-modal-Sensor-Fusion-Based-Deep-Neural-Network-for-End-to-end-Autonomous-Driving-with-Scene-Understanding" class="headerlink" title="2.2 Multi-modal Sensor Fusion-Based Deep Neural Network for End-to-end Autonomous Driving with Scene Understanding"></a>2.2 Multi-modal Sensor Fusion-Based Deep Neural Network for End-to-end Autonomous Driving with Scene Understanding</h4><ul>
+<li><p><strong>基本概念:</strong> 这篇论文提出单纯利用自动驾驶汽车的方向盘转角信号来做监督信号可能不足够指导模型训练，于是提出引入附加的场景分割任务来提高获取与转角信息更相关的特征以及使用多传感器信号融合的方式来训练端到端的网络结构</p>
+</li>
+<li><p><strong>方法简介:</strong> 其实故事讲得比较好，先从多模态的信息入手，利用RGB图像以及Depth图像输入到网络中，然后添加额外的任务比如场景理解任务来使得预测更佳准确，实验证明，预测也得到了更佳精确的效果</p>
+<p><strong><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/Multi-modal_Sensor_Fusion_Autonomous_Scene_understanding_architecture.png" alt="Multi-modal_Sensor_Fusion_Autonomous_Scene_understanding_architecture"></strong></p>
+</li>
+<li><p><strong>核心算法:</strong>  </p>
+<ul>
+<li><p><strong>构建数据以及数据处理:</strong> 利用CARLA模拟器来模拟数据的生成，利用town1作为训练集，town2作为测试集，侧重于弯道的训练还有速度停和加速的训练</p>
+</li>
+<li><p><strong>整体框架:</strong> 设计的整体框架如图，其损失函数如下:</p>
+<script type="math/tex; mode=display">
+min_{\theta}\lambda_1L_{steer}+\lambda_2L_{speed}+\lambda_3L_{scene}\\
+L_{steer} = \frac 1 L \sum_{i=1}^L(1+\alpha|a_i^{steer,gt}|^{\beta})^{\gamma}(a_i^{steer}-a_i^{steer,gt})^2,\\
+L_{speed} = \frac 1 L \sum_{i=1}^{L}(a_i^{speed}-a_i^{speed,gt})^2,\\
+L_scene = \frac 1 L\sum_{i=1}^L -s_i^{gt}log(s_i)</script></li>
+</ul>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/More_detail_Architecture.png" alt="More_detail_Architecture"></p>
+</li>
+</ul>
+<h4 id="2-3-An-End-to-End-Deep-Neural-Network-for-Autonomous-Driving-Designed-for-Embedded-Automotive-Platforms"><a href="#2-3-An-End-to-End-Deep-Neural-Network-for-Autonomous-Driving-Designed-for-Embedded-Automotive-Platforms" class="headerlink" title="2.3 An End-to-End Deep Neural Network for Autonomous Driving Designed for Embedded Automotive Platforms"></a>2.3 An End-to-End Deep Neural Network for Autonomous Driving Designed for Embedded Automotive Platforms</h4><ul>
+<li><p><strong>基本概念:</strong> 通过神经网络来构建在硬件资源限制条件下的End-to-End从一张图片预测出方向盘转角的轻量级网络模型，需要考虑在保证精度的情况下井可能的压缩模型，使其可以部署在硬件平台上</p>
+</li>
+<li><p><strong>创建数据的方式:</strong> 利用Unity创建游戏环境，通过在电脑上模拟自动驾驶的环境，在车辆上放了三个相机以获取不同的视角，利用鼠标，键盘的输入自动收集每一帧图像和转角的信号</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/AutomousDriving_dataset.png" alt="AutomousDriving_dataset"></p>
+</li>
+<li><p><strong>方法简介:</strong> 对图像跟自动驾驶无关的那一部分比如天空等进行裁剪，其网络的主要框架如下:</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/AutomousDriving_architecture.png" alt="AutomousDriving_architecture"></p>
+</li>
+</ul>
+<h4 id="2-4-Deep-Neural-Networks-with-Auxiliary-Model-Regulated-Gating-for-Resilient-Multi-Modal-Sensor-Fusion"><a href="#2-4-Deep-Neural-Networks-with-Auxiliary-Model-Regulated-Gating-for-Resilient-Multi-Modal-Sensor-Fusion" class="headerlink" title="2.4 Deep Neural Networks with Auxiliary-Model Regulated Gating for Resilient Multi-Modal Sensor Fusion"></a>2.4 Deep Neural Networks with Auxiliary-Model Regulated Gating for Resilient Multi-Modal Sensor Fusion</h4><ul>
+<li><p><strong>基本概念:</strong> 这篇文章关注了多传感器融合之间传感器发生失效的问题, 提出了对传感器设置一个控制门的概念</p>
+</li>
+<li><p><strong>方法简述:</strong> 借鉴了NetGate框架的思想，通过预测传感器之间的weight来衡量传感器之间的权重，使得预测任务的训练更为鲁棒</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/Auxiliary-Model Regulated Gating Networks.png" alt="Auxiliary-Model Regulated Gating Networks"></p>
+</li>
+<li><p><strong>核心算法:</strong> 添加了Aux Model对输入的传感器进行分类，通过分类得到的loss能量权重来中和weight权重，其核心损失函数如下:</p>
+<script type="math/tex; mode=display">
+Loss = \alpha\cdot Loss_{main}+\beta \cdot \sum_{k=1}^{K}w_{fusion}^kLoss_{aux}^k\\
++\sum_{k=1}^K(w_{fusion}^k-e^{-Loss_{aux}^k2})^2</script></li>
+</ul>
+<h2 id="多传感器自动驾驶任务总结报告"><a href="#多传感器自动驾驶任务总结报告" class="headerlink" title="多传感器自动驾驶任务总结报告"></a>多传感器自动驾驶任务总结报告</h2><h3 id="一、调研目的"><a href="#一、调研目的" class="headerlink" title="一、调研目的"></a>一、调研目的</h3><ul>
+<li>探究在自动驾驶任务中多传感器数据融合方式以及其表现能力。</li>
+</ul>
+<h3 id="二、调研问题定义"><a href="#二、调研问题定义" class="headerlink" title="二、调研问题定义"></a>二、调研问题定义</h3><ul>
+<li>多传感器有几种常见的传感器模态？</li>
+<li>多传感器相比单传感器的优点？</li>
+<li>多传感器数据现阶段有怎样的融合方式以及具体表现？</li>
+</ul>
+<h3 id="三、调研方案"><a href="#三、调研方案" class="headerlink" title="三、调研方案"></a>三、调研方案</h3><ul>
+<li>阅读多传感器在自动驾驶方向盘控制任务方面以及融合方面的论文，并总结多传感器的一些特性。</li>
+</ul>
+<h3 id="四、调研结果与分析"><a href="#四、调研结果与分析" class="headerlink" title="四、调研结果与分析"></a>四、调研结果与分析</h3><h4 id="4-1-多传感器常见模态"><a href="#4-1-多传感器常见模态" class="headerlink" title="4.1 多传感器常见模态"></a>4.1 多传感器常见模态</h4><ul>
+<li><p>对于不同任务而言，传感器的模态多种多样，但具体到在深度学习中自动驾驶中的方向盘转角预测以及三维物体检测任务中，常见的有以下三种:</p>
+<p>​    a) 相机拍摄的RGB图像</p>
+<p>​    b) 传感器得到的深度图像</p>
+<p>​    c) 激光雷达得到的3D点云</p>
+</li>
+</ul>
+<h4 id="4-2-多传感器相比单传感器优点"><a href="#4-2-多传感器相比单传感器优点" class="headerlink" title="4.2 多传感器相比单传感器优点"></a>4.2 多传感器相比单传感器优点</h4><ul>
+<li>考虑到自动驾驶的具体任务中，<strong>安全性</strong>是首要前提，然后实现稳定控制，还需要更多<strong>的信息</strong>才能保证不与周围环境相碰撞</li>
+</ul>
+<h5 id="4-2-1-安全性—冗余多传感器架构设计"><a href="#4-2-1-安全性—冗余多传感器架构设计" class="headerlink" title="4.2.1 安全性—冗余多传感器架构设计"></a>4.2.1 安全性—冗余多传感器架构设计</h5><ul>
+<li><p>单传感器出现失效，很容易造成安全事故，考虑到传感器可能会失效的情况，可以通过设计一种门机制网络[1][2]来控制多传感器不同模态数据在网络中的权重来实现数据的融合，如图所示，从而提高网络的安全性能。</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/Safe_architecture.png" alt="Safe_architecture"></p>
+</li>
+</ul>
+<h5 id="4-2-2-更多的信息—多模态多传感器信息融合"><a href="#4-2-2-更多的信息—多模态多传感器信息融合" class="headerlink" title="4.2.2 更多的信息—多模态多传感器信息融合"></a>4.2.2 更多的信息—多模态多传感器信息融合</h5><ul>
+<li><p><strong>单模态多传感器信息融合:</strong> 单模态常见融合方式是<strong>多视角RGB图像的融合</strong>，人类驾驶车辆行驶不仅需要考虑车前方的感知，还要考虑到车周围的感知，因此对于只有RGB图片作为输入的网络来说，考虑多视角图像是必要的。</p>
+</li>
+<li><p><strong>多模态传感器信息融合:</strong> 多模态传感器信息的融合旨在取各模态传感器的优点，弥补各传感器在信息上的局限性。在自动驾驶任务中，主要分为以下两种:第一种是<strong>三维点云与2D图像的融合</strong>，这种方式在于利用稠密的2D图像来弥补三维点云稀疏的缺点进行融合；第二种是<strong>深度图像与2D图像的融合</strong>，这种方式在于三维感知任务中需要融合深度信息，但是其表现能力还是不如三维点云的真实场景效果好。</p>
+</li>
+</ul>
+<h4 id="4-3-现阶段多传感器融合方式以及具体表现"><a href="#4-3-现阶段多传感器融合方式以及具体表现" class="headerlink" title="4.3 现阶段多传感器融合方式以及具体表现"></a>4.3 现阶段多传感器融合方式以及具体表现</h4><h5 id="4-3-1-考虑相机模型的多传感器融合方式"><a href="#4-3-1-考虑相机模型的多传感器融合方式" class="headerlink" title="4.3.1 考虑相机模型的多传感器融合方式"></a>4.3.1 考虑相机模型的多传感器融合方式</h5><ul>
+<li><p><strong>相机模型简述:</strong> 针孔模型是对相机拍摄世界物体物理过程的简化模型，对处于三维世界的点P，其通过光心O成像到像素平面上，如图所示。</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/camera_pinhole.png" alt="camera pinhole"></p>
+<p>​    对针孔模型进行数学建模，这样，对于已经标定好内参矩阵的相机，可以通过内参矩阵，将外界三维点(X,Y,Z)转化为像素平面的二维点(U,V)，其公式如图所示。</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/intrinsic_matrix.png" alt="intrinsic matrix"></p>
+</li>
+<li><p><strong>单模态多传感器融合方式—多相机RGB图像融合: </strong>不同相机类型拍摄得到的图像由于本身焦距硬件的不同会导致生成的图像各不相同。在单相机图像的深度估计网络中，经常使用特定数据集进行训练，这样会导致训练得到的深度估计网络无法泛化到其他相机上[5]，因此设计了考虑相机模型的网络结构，如图所示。</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/Cam-Conv.png" alt="Cam-Conv"></p>
+</li>
+<li><p><strong>多模态传感器图像融合: </strong></p>
+<ul>
+<li><p><strong>2D图像与三维点云融合:</strong> 利用深度图片与内参矩阵可以生成伪点云[6]，更换了2D图片的表现形式，这类点云实际上就是将2D图片与深度图片建立起了三维的坐标点，只有与2D图片相关点的点云，其建立的三维点云如图所示。   </p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/2D_pointcloud_fusion.png" alt="2D_pointcloud_fusion"></p>
+<p>​    基于这样稠密的伪点云的形式，而从激光雷达得到的点云比较稀疏，于是可以利用稀疏点云与通过激光雷达获得的点云进行融合来对激光雷达获得的点云进行补充[7]，其补充效果如图所示。</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/2D_pointcloud_correct.png" alt="2D_pointcloud_correct"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="4-3-2-基于特征的多传感器融合方式"><a href="#4-3-2-基于特征的多传感器融合方式" class="headerlink" title="4.3.2 基于特征的多传感器融合方式"></a>4.3.2 基于特征的多传感器融合方式</h5><ul>
+<li><p><strong>多视角RGB图像的融合方式:</strong> 单模态多传感器主要是多视角RGB图像的融合，在具体部署的过程中，还要考虑到模型参数量大小[3], 其结构如图所示。</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/multi_RGB_steer.png" alt="multi_RGB_steer"></p>
+</li>
+<li><p><strong>深度图像与2D图像的融合:</strong> 从人开车的角度出发，人具有判断远近的能力，延伸到自动驾驶上就是车辆需要有判断车距的深度图，通过融合深度图与RGB图的信息，设计了端到端深度神经网络[4]并完成像素级场景分割任务和自动驾驶方向盘转角和速度控制任务，其示意结构如图所示。</p>
+<p><img src="/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/SearchReport/Depth_RGB_sterr.png" alt="Depth_RGB_steer"></p>
+</li>
+</ul>
+<h3 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h3><ul>
+<li><strong>多传感器的特性:</strong> 主要体现在安全性以及与单传感器相比更丰富的信息。多传感器本身可以进行相互交叉验证，体现了其安全性；各个传感器的用途不同，对遗漏的信息进行补充，体现了与单传感器更丰富的信息。</li>
+<li><strong>多传感器融合方式:</strong> 分为考虑相机模型的融合方式与不考虑相机模型的融合方式。考虑相机的融合方式主要是考虑到网络在不同相机的泛化性能以及将2D图像的信息显性利用到三维空间中；不考虑相机模型的融合方式，主要是利用网络对多传感器提取得到的特征进行融合，来完成任务。</li>
+</ul>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[1] Patel, N., Choromanska, A., Krishnamurthy, P., and Khor- rami, F. Sensor modality fusion with CNNs for UGV autonomous driving in indoor environments. *In Interna- tional Conference on Intelligent Robots and Systems (IROS). IEEE,* 2017.</span><br><span class="line">[2] Zhao, C., Shim, M.S., Li, Y., Zhang, X., and Li, P. Deep Neural Networks with Auxiliary-Model Regulated Gating for Resilient Multi-Modal Sensor Fusion. *arXiv preprint arXiv: 1901.10610*, 2019.</span><br><span class="line">[3] AKocić, J., Jovičić, N., and Drndarevic, V. An End-to-End Deep Neural Network for Autonomous Driving Designed for Embedded Automotive Platforms. *Sensors (Basel, Switzerland),* 2019.</span><br><span class="line">[4] Huang, Z., Lv, C., Xing, Y., and Wu, J. Multi-modal Sensor Fusion-Based Deep Neural Network for End-to-end Autonomous Driving with Scene Understanding. *arXiv preprint arXiv: 2005.09202,* 2020.</span><br><span class="line">[5] Fácil, J.M., Ummenhofer, B., Zhou, H., Montesano, L., Brox, T., and Civera, J. CAM-Convs: Camera-Aware Multi-Scale Convolutions for Single-View Depth. *In IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, pages 11818-11827, 2019.</span><br><span class="line">[6] Wang, Y., Chao, W., Garg, D., Hariharan, B., Campbell, M., and Weinberger, K.Q. Pseudo-LiDAR From Visual Depth Estimation: Bridging the Gap in 3D Object Detection for Autonomous Driving. *In IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, pages 8437-8445, 2019.</span><br><span class="line">[7] You, Y., Wang, Y., Chao, W., Garg, D., Pleiss, G., Hariharan, B., Campbell, M., and Weinberger, K.Q. Pseudo-LiDAR++: Accurate Depth for 3D Object Detection in Autonomous Driving. *In 8th International Conference on Learning Representations(ICLR),* 2020.</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/" title="Autonomous_papers">http://jiaqiuzhou.github.io/2020/06/09/Knowledge/DeepLearning/Task/ComputerVision/AutonomousDriving/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ComputerVision/" rel="tag"># ComputerVision</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/18/Software/tools/Git/" rel="prev" title="Git管理">
+      <i class="fa fa-chevron-left"></i> Git管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/21/Knowledge/DeepLearning/Theory/Federallearning/" rel="next" title="FederalLearning">
+      FederalLearning <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6%E4%BB%BB%E5%8A%A1"><span class="nav-text">多传感器图像融合自动驾驶任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-text">1. 数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-Human-Activity-Recognition-Dataset"><span class="nav-text">1.1 Human Activity Recognition Dataset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-The-CAD-60-Dataset"><span class="nav-text">1.2 The CAD-60 Dataset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-Unity-Monitor-Dataset"><span class="nav-text">1.3 Unity Monitor Dataset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-CoRL2017-benchmark"><span class="nav-text">1.4 CoRL2017 benchmark</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-NoCrash-benchmark"><span class="nav-text">1.5 NoCrash benchmark</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B0%83%E7%A0%94%E8%AE%BA%E6%96%87"><span class="nav-text">2. 调研论文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-CAM-Convs-Camera-Aware-Multi-Scale-Convolutions-for-Single-View-Depth"><span class="nav-text">2.1 CAM-Convs: Camera-Aware Multi-Scale Convolutions for Single-View Depth</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Multi-modal-Sensor-Fusion-Based-Deep-Neural-Network-for-End-to-end-Autonomous-Driving-with-Scene-Understanding"><span class="nav-text">2.2 Multi-modal Sensor Fusion-Based Deep Neural Network for End-to-end Autonomous Driving with Scene Understanding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-An-End-to-End-Deep-Neural-Network-for-Autonomous-Driving-Designed-for-Embedded-Automotive-Platforms"><span class="nav-text">2.3 An End-to-End Deep Neural Network for Autonomous Driving Designed for Embedded Automotive Platforms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-Deep-Neural-Networks-with-Auxiliary-Model-Regulated-Gating-for-Resilient-Multi-Modal-Sensor-Fusion"><span class="nav-text">2.4 Deep Neural Networks with Auxiliary-Model Regulated Gating for Resilient Multi-Modal Sensor Fusion</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6%E4%BB%BB%E5%8A%A1%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A"><span class="nav-text">多传感器自动驾驶任务总结报告</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%B0%83%E7%A0%94%E7%9B%AE%E7%9A%84"><span class="nav-text">一、调研目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%B0%83%E7%A0%94%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="nav-text">二、调研问题定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%B0%83%E7%A0%94%E6%96%B9%E6%A1%88"><span class="nav-text">三、调研方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%B0%83%E7%A0%94%E7%BB%93%E6%9E%9C%E4%B8%8E%E5%88%86%E6%9E%90"><span class="nav-text">四、调研结果与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B8%B8%E8%A7%81%E6%A8%A1%E6%80%81"><span class="nav-text">4.1 多传感器常见模态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E7%9B%B8%E6%AF%94%E5%8D%95%E4%BC%A0%E6%84%9F%E5%99%A8%E4%BC%98%E7%82%B9"><span class="nav-text">4.2 多传感器相比单传感器优点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-1-%E5%AE%89%E5%85%A8%E6%80%A7%E2%80%94%E5%86%97%E4%BD%99%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-text">4.2.1 安全性—冗余多传感器架构设计</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-2-%E6%9B%B4%E5%A4%9A%E7%9A%84%E4%BF%A1%E6%81%AF%E2%80%94%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E4%BF%A1%E6%81%AF%E8%9E%8D%E5%90%88"><span class="nav-text">4.2.2 更多的信息—多模态多传感器信息融合</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E7%8E%B0%E9%98%B6%E6%AE%B5%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E8%9E%8D%E5%90%88%E6%96%B9%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%85%B7%E4%BD%93%E8%A1%A8%E7%8E%B0"><span class="nav-text">4.3 现阶段多传感器融合方式以及具体表现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-1-%E8%80%83%E8%99%91%E7%9B%B8%E6%9C%BA%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E8%9E%8D%E5%90%88%E6%96%B9%E5%BC%8F"><span class="nav-text">4.3.1 考虑相机模型的多传感器融合方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-2-%E5%9F%BA%E4%BA%8E%E7%89%B9%E5%BE%81%E7%9A%84%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E8%9E%8D%E5%90%88%E6%96%B9%E5%BC%8F"><span class="nav-text">4.3.2 基于特征的多传感器融合方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93"><span class="nav-text">五、总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

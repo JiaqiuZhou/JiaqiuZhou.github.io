@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录在学习过程中所学到的算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SoftwareAlgorithm">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="记录在学习过程中所学到的算法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/import_function_n.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/MergeSortExample.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/QuickSortExample.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Closet-PaiAlgorithm.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Convexhull_divide.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/QuickHull.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/VoronoiDiagram.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/insertalogrithm.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/DFS.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/ArticulationPointAlgorithm.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/One-Nim.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Gaussian%20Elimination.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/AVLtree_definition.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/AVLTreeLeftRotate.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/AVL_DoubleRotat.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/B-TreeExample.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Horner&#39;s%20Rule.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Computing%20a%5En.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/2-3TreeConstruction.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/HeapAndHeapSort.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/CountingSort.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/ExtendableHash.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Prim&#39;sAlgorithmMST.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Kruskal&#39;sAlgorithmMST.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Dijkstra&#39;sAlgorithmShortestPath.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/2-wayMergeProblem.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Huffman&#39;sAlgorithmProblem.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/GaussianEliminationCircle.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/MultistageGraph.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/OptimalBST.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/KnapsackProblem.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Warshall&#39;sAlgorithm.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/Floyd&#39;sAlgorithmShortest.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/LCS.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/AssemblyLineScheduling.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/MatrixChainMultiply.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/nQueensBackTracking.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/BrachAndBound.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/PersonalAssignCostMatrix.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/LinearProgramming.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/SimplexMethod.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/SISD_SIMD_Arch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/MISD_MIMD.png">
+<meta property="article:published_time" content="2020-11-02T01:22:55.000Z">
+<meta property="article:modified_time" content="2020-11-07T14:21:03.822Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="Software-fundation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/import_function_n.png">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SoftwareAlgorithm | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SoftwareAlgorithm
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-02 09:22:55" itemprop="dateCreated datePublished" datetime="2020-11-02T09:22:55+08:00">2020-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 22:21:03" itemprop="dateModified" datetime="2020-11-07T22:21:03+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/11/02/Software/fundation/Algorithm/" class="post-meta-item leancloud_visitors" data-flag-title="SoftwareAlgorithm" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/11/02/Software/fundation/Algorithm/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/11/02/Software/fundation/Algorithm/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>23k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>21 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录在学习过程中所学到的算法</p>
+<a id="more"></a>
+<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h2><h3 id="1-1-why学习算法"><a href="#1-1-why学习算法" class="headerlink" title="1.1 why学习算法?"></a>1.1 why学习算法?</h3><ul>
+<li><strong>Theoretical importance:</strong> 计算机科学的核心</li>
+<li><strong>Practical importance:</strong>  程序员算法包，对新问题的算法设计和分析的框架基础</li>
+</ul>
+<h3 id="1-2-怎样学习？"><a href="#1-2-怎样学习？" class="headerlink" title="1.2 怎样学习？"></a>1.2 怎样学习？</h3><ul>
+<li>熟悉数据结构/熟悉算法设计技术和策略/更多的尝试DIY和案例分析</li>
+<li>设计的问题—&gt;定义的模型—&gt;算法的设计</li>
+</ul>
+<h3 id="1-3-算法概念"><a href="#1-3-算法概念" class="headerlink" title="1.3 算法概念"></a>1.3 算法概念</h3><ul>
+<li>算法是用来解决一个问题的明确的指令序列</li>
+<li>算法需要有固定的步骤，严格而明确的规定，有效输入，有效输出，步骤简单</li>
+<li><strong>描述算法:</strong> Nature Language、 Flow chart(流程图)、 Pseudocode(伪代码)</li>
+</ul>
+<h3 id="1-4-算法一览表"><a href="#1-4-算法一览表" class="headerlink" title="1.4 算法一览表"></a>1.4 算法一览表</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Brute force</th>
+<th>Divide and conquer</th>
+<th>Decrease and conquer</th>
+<th>Transform and conquer</th>
+<th>Space and time tradeoffs</th>
+<th>Dynamic Programming</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Iterative  improvement</strong></td>
+<td><strong>Greedy approach</strong></td>
+<td><strong>Approximation algorithms</strong></td>
+<td><strong>Randomized algorithms</strong></td>
+<td><strong>Parallel algorithms</strong></td>
+<td>Tabu search algorithm</td>
+</tr>
+<tr>
+<td><strong>Tree Search Strategies</strong></td>
+<td>Breadth-first-search</td>
+<td>Depth-first-search</td>
+<td>Hilling climbing</td>
+<td>Best Fist search</td>
+<td>Branch and bound</td>
+</tr>
+<tr>
+<td>A* algorithm</td>
+<td><strong>Intelligent algorithm</strong></td>
+<td>Evolutionary algorithm</td>
+<td>Simulated Annealing algorithm</td>
+<td>Ant colony algorithm</td>
+<td>Particle swarm optimization</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="1-5-算法分析"><a href="#1-5-算法分析" class="headerlink" title="1.5 算法分析"></a>1.5 算法分析</h3><ul>
+<li><p><strong>Time efficiency:</strong> n为input size，T为runing time,通过分析输入大小基本操作的重叠次数来计算时间，</p>
+<ul>
+<li><strong>基本操作:</strong> 代表算法耗时最长的操作</li>
+</ul>
+<script type="math/tex; mode=display">
+T(n)\approx c_{op}C(n); \\
+C_{op}表示基本操作的执行时间; C表示操作的数量</script><ul>
+<li><strong>Input Size:</strong> 输入大小决定于函数<ul>
+<li>在list中搜索值key—&gt;<strong>input size:</strong> list长度 <strong>基本操作:</strong> 比较</li>
+<li>两个矩阵相乘—&gt; <strong>input size:</strong> 矩阵维度 <strong>基本操作:</strong>两个数相乘</li>
+<li>检查一个数是否素数—&gt; <strong>input size:</strong> 数的大小 <strong>基本操作:</strong> 除法</li>
+<li>典型图问题—&gt; <strong>input size:</strong> 点和边的数目 <strong>基本操作:</strong> 查看顶点或遍历边</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Empirical analysis of time efficiency:</strong> 通过输入一个特殊的sample，然后将运行环境特殊化，使用物理计算时间的单元，分析数据对算法影响</p>
+<ul>
+<li><p><strong>考虑case:</strong> <script type="math/tex">C_{worst}(n)</script>,<script type="math/tex">C_{best}(n)</script>,<script type="math/tex">C_{avg}(n)</script> 代表对输入的一些最大值最小值和平均输入情况的考虑，通过这些情况分析算法性能 </p>
+</li>
+<li><p><strong>考虑当n—&gt; <script type="math/tex">\infty</script>:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/import_function_n.png" alt="important_function_n"></p>
+</li>
+</ul>
+</li>
+<li><p><strong>描述增长速度的函数:</strong> 忽略常量因子和小输入大小的比较函数: </p>
+<script type="math/tex; mode=display">
+前提条件:n > n_0 \\
+O(g(n)): 表示随着输入大小增加增长速度不超过g(n)的函数--(1)\\
+\Theta(g(n)):表示增长速度与g(n)相当的函数--(2)\\
+\Omega(g(n)):表示增长速度至少与g(n)相同的函数--(3)\\
+数学表示: O(g(n))\leqslant cg(n);c_1g(n)\leqslant \Theta(g(n))\leqslant c_2g(n);\\
+0\leqslant c\cdot g(n)\leqslant\Omega(g(n))</script></li>
+<li><p><strong>非递归算法时间复杂度分析步骤</strong></p>
+</li>
+<li><p><strong>确认输入的大小n</strong>—&gt;确认算法的基本操作</p>
+</li>
+<li><p>决定worst,average,best算法输入的case</p>
+<ul>
+<li><p><strong>计算被执行基本操作</strong>的综合—&gt;简化使用标准的公式和规则</p>
+<script type="math/tex; mode=display">
+\sum 1\rightarrow n;\sum n = n(n+1)/2\rightarrow n^2/2;\\
+\sum i^2 =n(n+1)(2n+1)/6\rightarrow n^3/3;\\
+\sum 2^i = 2^{n+1}-1</script></li>
+<li><p><strong>Example:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, n-<span class="number">2</span>):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, n-<span class="number">1</span>):</span><br><span class="line">		<span class="keyword">if</span> A[i] = A[j]</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"><span class="keyword">return</span> true</span><br></pre></td></tr></table></figure>
+<p>  上述代码操作计数计算如下:</p>
+<script type="math/tex; mode=display">
+sum_{op} = (n-1)+(n-2)+...+1 =(n-1+1)*(n-1)/2 = \Theta(n^2)</script></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>递归算法时间复杂度分析步骤:</strong></p>
+<ul>
+<li><p><strong>确认输入的大小n</strong>—&gt;确认算法的基本操作</p>
+</li>
+<li><p>确认基本操作是否与输入相关</p>
+</li>
+<li><p>配置初始状态，以及用数学关系表示递归状态计算递归函数</p>
+</li>
+<li><p><strong>Example:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BinRec</span><span class="params">(n)</span></span>&#123;</span><br><span class="line">  	<span class="keyword">if</span> n = <span class="number">1</span> <span class="keyword">return</span> <span class="number">1</span> <span class="comment">//+1</span></span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">return</span> BinRec(n/<span class="number">2</span>)+<span class="number">1</span> <span class="comment">//M(n/2) + 1</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>   上述代码操作计数计算如下:</p>
+<script type="math/tex; mode=display">
+if\ n>1, M(n) = M(n/2) + 1; if\ n=1, M(1) = 1 \\
+令n = 2^k, M(2^k) = M(2^{k-1})+1 \rightarrow M(2^k) = k \\
+M(n) = log_2n</script></li>
+</ul>
+</li>
+</ul>
+<h2 id="2-关键算法"><a href="#2-关键算法" class="headerlink" title="2. 关键算法"></a>2. 关键算法</h2><h3 id="2-1-暴力求解"><a href="#2-1-暴力求解" class="headerlink" title="2.1 暴力求解"></a>2.1 暴力求解</h3><ul>
+<li><p><strong>算法简介:</strong> 一种直接的方式求解问题，比方说计算两个矩阵相乘</p>
+</li>
+<li><p><strong>Example:</strong> </p>
+<ul>
+<li><p><strong>冒泡排序(Bubble Sort):</strong> 保证排完一次顺序后最右边的值最大或最小。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, n-<span class="number">2</span>):</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, n-<span class="number">2</span>-i):</span><br><span class="line">        <span class="keyword">if</span> A[j+<span class="number">1</span>] &gt; A[j]:</span><br><span class="line">            A[j] = A[j+<span class="number">1</span>].copy()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>最近对问题(Closest-Pair Problem):</strong> 寻找n个点中相邻最近的点，解法是通过计算所有的点的距离，找到距离最小的那个点对</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># input:(x1,y1),...(xn,yn)</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, n-<span class="number">1</span>):</span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, n):</span><br><span class="line">        distance = math.sqrt(math.<span class="built_in">pow</span>((xi-xj), <span class="number">2</span>)+math.<span class="built_in">pow</span>((yi-yj), <span class="number">2</span>))</span><br><span class="line">    <span class="keyword">if</span> distance &lt; min_distance:</span><br><span class="line">            distance = min_distance;</span><br><span class="line">            index1 = i; index2 = j;</span><br><span class="line"><span class="keyword">return</span> index1, index2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>优点:</strong><ul>
+<li>广泛应用且简单</li>
+<li>重要的问题产生合理算法</li>
+</ul>
+</li>
+<li><strong>缺点:</strong><ul>
+<li>有效算法比较少</li>
+<li>暴力求解一般比较慢</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-分治算法-分而治之-Divide-and-Conquer"><a href="#2-2-分治算法-分而治之-Divide-and-Conquer" class="headerlink" title="2.2 分治算法: 分而治之(Divide-and-Conquer)"></a>2.2 分治算法: 分而治之(Divide-and-Conquer)</h3><ul>
+<li><p><strong>算法思路:</strong> 通过将一个问题的处理范围<strong>一分为二</strong>，解决两个小的问题，结合两个小问题的解获得大问题解</p>
+</li>
+<li><p><strong>时间复杂度:</strong> 有一个公式如下</p>
+<script type="math/tex; mode=display">
+T(n) = aT(n/b)+f(n)\ where\ f(n)\in\Theta(n^d), d\geqslant0\\
+if\ a<b^d, T(n)\in \Theta(n^d) \\
+if\ a=b^d, T(n)\in \Theta(n^dlogn)\\
+if\ a>b^d, T(n)\in \Theta(n^{log_ba})</script></li>
+</ul>
+<h4 id="2-2-1-排序-归并排序和快速排序"><a href="#2-2-1-排序-归并排序和快速排序" class="headerlink" title="2.2.1 排序:归并排序和快速排序"></a>2.2.1 排序:归并排序和快速排序</h4><h5 id="2-2-1-1-归并排序"><a href="#2-2-1-1-归并排序" class="headerlink" title="2.2.1.1 归并排序"></a>2.2.1.1 归并排序</h5><ul>
+<li><p><strong>算法思路:</strong>  整个过程是迭代进行的，以下为迭代过程中的基本操作</p>
+<ul>
+<li>将数组A分解为两个一半的数组B和C</li>
+<li>对B和C进行排序</li>
+<li>将B和C元素进行比较，较小的值放到A中，到最后把剩余的复制到A中</li>
+</ul>
+</li>
+<li><p><strong>伪代码编程:</strong> </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Algorithm <span class="title">Mergesort</span><span class="params">(A[<span class="number">0.</span>.n<span class="number">-1</span>])</span></span></span><br><span class="line"><span class="function"><span class="comment">//Input: A[0..n-1]; Output:A[0..n-1]</span></span></span><br><span class="line"><span class="function">	<span class="keyword">if</span> n &gt; 1</span></span><br><span class="line">        copy A[0..floor(n/2)-1] to B[0..floor(n/2)-1]</span><br><span class="line">        copy A[<span class="built_in">floor</span>(n/<span class="number">2</span>)..n<span class="number">-1</span>] to C[<span class="number">0.</span>.<span class="built_in">ceil</span>(n/<span class="number">2</span>)<span class="number">-1</span>]</span><br><span class="line">		Mergesort(B[<span class="number">0.</span>.<span class="built_in">floor</span>(n/<span class="number">2</span>)<span class="number">-1</span>])</span><br><span class="line">        Mergesort(C[<span class="number">0.</span>.<span class="built_in">ceil</span>(n/<span class="number">2</span>)<span class="number">-1</span>])</span><br><span class="line">        Merge(B, C, A)</span><br><span class="line"><span class="function">Algorithm <span class="title">Merge</span><span class="params">(B[<span class="number">0.</span>.p<span class="number">-1</span>],C[<span class="number">0.</span>.q<span class="number">-1</span>],A[<span class="number">0.</span>.p+q<span class="number">-1</span>])</span></span></span><br><span class="line"><span class="function"><span class="comment">//Input:B[0..p-1],C[0..q-1]both sort; Output:Sorted A[0..p+q-1]</span></span></span><br><span class="line"><span class="function">    i </span>= <span class="number">0</span>; j = <span class="number">0</span>; k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; p <span class="keyword">and</span> j &lt; q <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> B[i] &lt;= C[j]</span><br><span class="line">            A[k] = B[i]; i = i + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span> A[k] = C[j]; j = j + <span class="number">1</span></span><br><span class="line">        k = k + <span class="number">1</span></span><br><span class="line">  	<span class="keyword">if</span> i = p</span><br><span class="line">        copy C[j..q<span class="number">-1</span>] to A[k..p+q<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">else</span> copy B[i..p<span class="number">-1</span>] to A[k..p+q<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法例子展示:</strong> 对[8,3,2,9,7,1,5,4]进行排序如下所示</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/MergeSortExample.png" alt="MergeSortExample"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> </p>
+<script type="math/tex; mode=display">
+T(n) = \begin{cases} b & if\ n <2\\ 2T(n/2)+bn\ & if\ n>=2 \end{cases}\\
+\rightarrow T(n) = 2^iT(n/2^i)+ibn\rightarrow T(n) = bn+bnlogn</script></li>
+</ul>
+<h5 id="2-2-1-2-快速排序"><a href="#2-2-1-2-快速排序" class="headerlink" title="2.2.1.2 快速排序"></a>2.2.1.2 快速排序</h5><ul>
+<li><p><strong>算法思路:</strong> </p>
+<ul>
+<li>选取第一个元素或者任意元素作为排序的元素作为分割值</li>
+<li>使其分为两个区间，左边小于这个值，右边大于这个值<ul>
+<li><strong>第一种解法:</strong> 分区过程中，两边指针同时开始逼近，当遇到右边大于分割值并且左边小于分割值的时候就将两个值进行交换</li>
+<li><strong>第二种解法:</strong> 以后有时间再研究</li>
+</ul>
+</li>
+<li>左右区间重复第二步的操作，直至完成排序</li>
+</ul>
+</li>
+<li><p><strong>伪代码编程:</strong> </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">Partition</span><span class="params">(A[l..r], l, r)</span></span></span><br><span class="line"><span class="function">    p </span>= A[l]</span><br><span class="line">    i = l; j = r+<span class="number">1</span></span><br><span class="line">    repeat</span><br><span class="line">        repeat i = i + <span class="number">1</span> until A[i] &lt;= p</span><br><span class="line">        repeat j = j - <span class="number">1</span> until A[j] &gt; p</span><br><span class="line">        swap(A[i], A[j])</span><br><span class="line">    until i &gt;= j</span><br><span class="line">    swap(A[i], A[j])</span><br><span class="line">    swap(A[l], A[j])</span><br><span class="line">    <span class="keyword">return</span> j</span><br><span class="line">ALGORITHM Quicksort(A[l..r])</span><br><span class="line">	<span class="keyword">if</span> l &lt; r</span><br><span class="line">        <span class="keyword">int</span> i = Partition(A, l, r)</span><br><span class="line">        Quicksort(A, l, i<span class="number">-1</span>)</span><br><span class="line">        Quicksort(A, i+<span class="number">1</span>, r)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法例子展示:</strong> 第一排代表的是index下标</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/QuickSortExample.png" alt="QuickSortExample"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> 具体分析可以看下论文，以下给出结论</p>
+<script type="math/tex; mode=display">
+Best\ case: \Theta(n log n) \\
+Worst\ case: \Theta(n^2) \\
+Average\ case: \Theta(nlogn)</script></li>
+</ul>
+<h4 id="2-2-2-两个大数相乘"><a href="#2-2-2-两个大数相乘" class="headerlink" title="2.2.2 两个大数相乘"></a>2.2.2 两个大数相乘</h4><ul>
+<li><p><strong>算法思路:</strong> 考虑两个比较大的数字相乘，乘法可以分解为如下的解法</p>
+<script type="math/tex; mode=display">
+A = A_1A_2\ B = B_1B_2 \\
+A * B = A_1*B_1*10^n+(A_1*B_2+A_2*B_1)*10^{n/2}+A_2*B_2\\
+Example: A = 2135 \ B=4014  \\
+\Longrightarrow n= 2\ A_1=21\ A_2=35\ B_1=40\ B_2=14</script><p>这样的话，需要计算A1、B1、A2、B2四个相乘四次乘法，如果考虑到</p>
+<script type="math/tex; mode=display">
+(A_1+A_2)*(B_1+B_2) = A_1*B_1+(A_1*B_2+A_2*B_1)+A_2*B_2\\
+\Longrightarrow (A_1*B_2+A_2*B_1) = (A_1+A_2)*(B_1+B_2)-A_1*B_1 - A_2*B_2</script><p>就可以将四次乘法转化为3次乘法加三次额外的加减法</p>
+</li>
+<li><p><strong>原本算法效率:</strong> </p>
+<script type="math/tex; mode=display">
+M(n) = 4M(n/2), M(1) =1 \rightarrow M(n) = n ^2</script></li>
+<li><p><strong>优化后算法效率分析:</strong></p>
+<script type="math/tex; mode=display">
+M(n) = 3M(n/2), M(1) = 1 \rightarrow M(1) = 1</script></li>
+</ul>
+<h4 id="2-2-3-矩阵相乘-Strassen的算法"><a href="#2-2-3-矩阵相乘-Strassen的算法" class="headerlink" title="2.2.3 矩阵相乘: Strassen的算法"></a>2.2.3 矩阵相乘: Strassen的算法</h4><h4 id="2-2-4-二叉树遍历"><a href="#2-2-4-二叉树遍历" class="headerlink" title="2.2.4 二叉树遍历"></a>2.2.4 二叉树遍历</h4><h4 id="2-2-5-求最近点-2D-3D"><a href="#2-2-5-求最近点-2D-3D" class="headerlink" title="2.2.5 求最近点: 2D, 3D"></a>2.2.5 求最近点: 2D, 3D</h4><ul>
+<li><p><strong>算法问题:</strong> 给定平面上n个点，找其中一对点，使得n个点的所有点对中，距离最小</p>
+</li>
+<li><p><strong>算法思路:</strong></p>
+<ul>
+<li><strong>Step1:</strong> 利用x=c将点集分割为两部分子点集，在子点集中计算距离最小d</li>
+<li><strong>Step2:</strong> 在x=c-d与x=c+d之间寻找边界两个子点集组成的距离最小d的点对，对于每个点寻找y=y+/-d范围内有其他点，如果没有就说明d是最小的，有就将d进行变换</li>
+<li><strong>Step3:</strong> 重复第一第二步，分治寻找出最小的点对</li>
+</ul>
+</li>
+<li><p><strong>算法例子展示:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Closet-PaiAlgorithm.png" alt="Closet-PaiAlgorithm"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> 按照公式计算可以得到</p>
+<script type="math/tex; mode=display">
+T(n) = 2T(n/2) + M(n), where\ M(n) \in O(n)\\
+T(n) \in O(nlogn)\</script></li>
+</ul>
+<h4 id="2-2-6-凸包算法-2D-3D"><a href="#2-2-6-凸包算法-2D-3D" class="headerlink" title="2.2.6 凸包算法: 2D, 3D"></a>2.2.6 凸包算法: 2D, 3D</h4><h5 id="2-2-6-1-凸包分治算法"><a href="#2-2-6-1-凸包分治算法" class="headerlink" title="2.2.6.1 凸包分治算法"></a>2.2.6.1 凸包分治算法</h5><ul>
+<li><p><strong>算法思路:</strong> 寻找能包围点集的最外围轮廓，点按照逆时针的方向</p>
+<ul>
+<li>将点集S划分为<script type="math/tex">S_L</script>和<script type="math/tex">S_R</script> 两个点集通过x=L进行划分</li>
+<li>迭代的求得两个点集的凸包，第一个凸包利用Graham扫描得到，第二个凸包通过第一个凸包内部点p求得到两个顶点v1，v2形成两个顺时针和逆时针的序列，最后利用Graham扫描进行合并，得到凸包</li>
+<li>重复一二步，分治合并凸包</li>
+</ul>
+</li>
+<li><p><strong>Graham扫描:</strong> </p>
+<ul>
+<li>参考链接:<a target="_blank" rel="noopener" href="https://www.cnblogs.com/aiguona/p/7232243.html">https://www.cnblogs.com/aiguona/p/7232243.html</a></li>
+<li>具体做法是采用计算极角进行排序的方式，并用叉积判断是顺时针还是逆时针</li>
+</ul>
+</li>
+<li><p><strong>算法例子展示:</strong>  求解得到三个序列</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Convexhull_divide.png" alt="Convexhull_divide"></p>
+</li>
+<li><p><strong>算法效率分析:</strong></p>
+<script type="math/tex; mode=display">
+Divide: O(n), Merge:O(n)\\
+T(n) = 2T(n/2) + O(n) = O(nlogn)</script></li>
+</ul>
+<h5 id="2-2-6-2-快包算法"><a href="#2-2-6-2-快包算法" class="headerlink" title="2.2.6.2 快包算法"></a>2.2.6.2 快包算法</h5><ul>
+<li><p><strong>算法思路:</strong> 寻找能包围点集的最外围轮廓，点按照逆时针的方向</p>
+<ul>
+<li>选取x轴两端的点P1和P2，通过P1和P2把点分为上凸包和下凸包</li>
+<li>通过计算三个点的面积，求得面积最大的点Pmax，存入外围轮廓点</li>
+<li>重复第二步，计算P1Pmax的最大点，P2Pmax的最大点</li>
+<li>重复第一二步，计算下凸包的外围轮廓点</li>
+</ul>
+</li>
+<li><p><strong>求Pmax点:计算最大面积</strong></p>
+<script type="math/tex; mode=display">
+input:q1(x_1,y_1), q2(x_2,y_2), q3(x_3,y_3)\ triangle:q1q2q3\\
+\begin{vmatrix} x_1 & y1 & 1 \\ x_2 & y_2 & 1 \\ x_3 & y_3 & 1\end{vmatrix} = x_1y_2+x_3y_1+x_2y_3-x_3y_2-x_2y_1-x_1y_3</script></li>
+<li><p><strong>算法例子展示:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/QuickHull.png" alt="QuickHull"></p>
+</li>
+<li><p><strong>算法效率分析:</strong></p>
+<script type="math/tex; mode=display">
+Worst\ case:\Theta(n^2)\\
+average\ case: \Theta(nlogn)</script></li>
+</ul>
+<h4 id="2-2-7-二维最大值点寻找问题"><a href="#2-2-7-二维最大值点寻找问题" class="headerlink" title="2.2.7 二维最大值点寻找问题"></a>2.2.7 二维最大值点寻找问题</h4><ul>
+<li><p><strong>算法思路:</strong> 在二维平面中，点的x1&gt;x2且y1&gt;y2被认为是更大的点，最大点也就是点集中寻找x1，y1最大的点</p>
+<ul>
+<li>通过x=c将点集分割成为两部分子点集</li>
+<li>迭代寻找子点集中的最大点</li>
+<li>将点投影到y轴上，寻找y最大的点，迭代得到最大的点</li>
+</ul>
+</li>
+<li><p><strong>算法效率分析:</strong></p>
+<script type="math/tex; mode=display">
+T(n) = 2T(n/2) +O(n) +O(nlogn)(n>1)\\
+let\ n = 2 ^k \Longrightarrow T(n) = O(nlogn)+O(nlog^2n) = O(nlog^2n)</script></li>
+</ul>
+<h4 id="2-2-8-Voronoi图构建"><a href="#2-2-8-Voronoi图构建" class="headerlink" title="2.2.8 Voronoi图构建"></a>2.2.8 Voronoi图构建</h4><ul>
+<li><p><strong>算法思路:</strong> Voronoi图的定义就是将点进行分割成一块一块的区域，然后在P区域的点q每个区域的点满足以下条件:</p>
+<script type="math/tex; mode=display">
+EuclideanDistance(q, p_i) < EuclideanDistance(q, p_j)\\ p_i \in P, j\neq i</script><ul>
+<li>将点集划分为左边点集和右边点集</li>
+<li>当两边点小于3时，就可以计算两个点集维诺图</li>
+<li>迭代到最后，进行<strong>合并维诺图</strong>，取两个点集最相近的点垂直平分线</li>
+<li>求得两个点集的凸包，获得两个连线段的垂直平分线，通过三个垂直平分线连线求得最后的维诺图</li>
+</ul>
+</li>
+<li><p><strong>算法例子展示:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/VoronoiDiagram.png" alt="VoronoiDiagram"></p>
+</li>
+<li><p><strong>算法效率分析:</strong></p>
+<script type="math/tex; mode=display">
+T(n) = 2T(n/2) +O(n) = O(nlogn)</script></li>
+</ul>
+<h3 id="2-3-减治算法-Decrease-and-Conquer"><a href="#2-3-减治算法-Decrease-and-Conquer" class="headerlink" title="2.3 减治算法(Decrease and Conquer)"></a>2.3 减治算法(Decrease and Conquer)</h3><ul>
+<li><p><strong>算法思路:</strong> 把问题减少成为一个小的问题，解决小问题，然后延伸到解决原始问题</p>
+</li>
+<li><p><strong>与其他算法的区别:</strong></p>
+<script type="math/tex; mode=display">
+暴力求解: a^n = a*a*a..a\\
+分治法: a^n = a^{n/2}\cdot a^{n/2}\\
+常数减治法: a^n = a^{n-1}*a \\
+倍数减治法: a^n = (a^{n/2})2</script></li>
+</ul>
+<h4 id="2-3-1-按常数减少-usually-by-1"><a href="#2-3-1-按常数减少-usually-by-1" class="headerlink" title="2.3.1 按常数减少(usually by 1)"></a>2.3.1 按常数减少(usually by 1)</h4><h5 id="2-3-1-1-插入排序"><a href="#2-3-1-1-插入排序" class="headerlink" title="2.3.1.1 插入排序"></a>2.3.1.1 插入排序</h5><ul>
+<li><p><strong>算法思路:</strong> 通过将数组分解成1和另外一个数组，然后一个一个进行插入</p>
+</li>
+<li><p><strong>算法实例:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/insertalogrithm.png" alt="insertalogrithm"></p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">InsertionSort</span><span class="params">(A[<span class="number">0.</span>.n<span class="number">-1</span>])</span></span></span><br><span class="line"><span class="function"><span class="comment">//Input:A[0..n-1]</span></span></span><br><span class="line"><span class="function">    <span class="keyword">for</span> i </span>= <span class="number">1</span> to n<span class="number">-1</span> <span class="keyword">do</span> </span><br><span class="line">        v = A[i]</span><br><span class="line">        j = i - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> j &gt;=<span class="number">0</span> <span class="keyword">and</span> A[j] &gt; v <span class="keyword">do</span></span><br><span class="line">            A[j+<span class="number">1</span>] = A[j]</span><br><span class="line">            j = j - <span class="number">1</span></span><br><span class="line">        A[j+<span class="number">1</span>] = v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法复杂度分析:</strong> </p>
+<script type="math/tex; mode=display">
+C_{worst}(n) = n(n-1)/2 \in \Theta(n^2) \\
+C_{avg}(n) \thickapprox n^2/4 \in \Theta(n^2) \\
+C_{best}(n) = n-1 \in \Theta(n)</script></li>
+</ul>
+<h5 id="2-3-1-1-图遍历算法-DFS-and-BFS"><a href="#2-3-1-1-图遍历算法-DFS-and-BFS" class="headerlink" title="2.3.1.1 图遍历算法(DFS and BFS)"></a>2.3.1.1 图遍历算法(DFS and BFS)</h5><ul>
+<li><p><strong>DFS(Depth-First Search):</strong></p>
+<ul>
+<li><p><strong>算法思路:</strong>  尽可能深的搜索树的分支，当发现节点v所在的边被搜寻过了，就会回溯到发现节点的起始节点，然后继续下一个节点，直到全部被遍历了，采用的是堆栈的结构，可以用来解决<strong>迷宫问题</strong></p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">DFS</span><span class="params">(G)</span></span></span><br><span class="line"><span class="function">  <span class="comment">//input:G=&lt;V,E&gt;</span></span></span><br><span class="line">    	mark each vertex in V with 0 as a mark of being &quot;unvisited&quot;</span><br><span class="line">      count = <span class="number">0</span></span><br><span class="line">      <span class="keyword">for</span> each vertex v in V <span class="keyword">do</span></span><br><span class="line">          <span class="keyword">if</span> v is marked with <span class="number">0</span></span><br><span class="line">              dfs(v)</span><br><span class="line">  ALGORITHM dfs(v)</span><br><span class="line">  	count = count + <span class="number">1</span>;mark v with count</span><br><span class="line">     	<span class="keyword">for</span> each vertex w in V adjacent to v <span class="keyword">do</span></span><br><span class="line">          <span class="keyword">if</span> w is marked with <span class="number">0</span></span><br><span class="line">              dfs(w)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法实例:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/DFS.png" alt="DFS"></p>
+</li>
+<li><p><strong>算法复杂度分析:</strong></p>
+<script type="math/tex; mode=display">
+adjacency\ matrices: \Theta(V^2) \\
+adjacency\ lists: \Theta(|V|+|E|)</script></li>
+</ul>
+</li>
+<li><p><strong>BFS(Breadth-first search):</strong></p>
+<ul>
+<li><p><strong>算法思路:</strong> 从根节点开始，沿着树的宽度遍历树的节点，访问所有的顶点，采用队列的结构,也就是先把浅层的全部访问了压到队列中，再一层层往下执行</p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">BFS</span><span class="params">(G)</span></span></span><br><span class="line"><span class="function"><span class="comment">//input:Graph G=&lt;V,E&gt;</span></span></span><br><span class="line">    mark each vertex in V with 0 as a mark of being &quot;unvisited&quot;</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> each vertex v in V <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> v is marked with <span class="number">0</span></span><br><span class="line">            bfs(v)</span><br><span class="line">ALGORITHM bfs(v)</span><br><span class="line">     count = count+<span class="number">1</span>; mark v with count <span class="keyword">and</span> initialize <span class="built_in">queue</span> with v</span><br><span class="line">     <span class="keyword">while</span> the <span class="built_in">queue</span> is <span class="keyword">not</span> empty <span class="keyword">do</span></span><br><span class="line">         <span class="keyword">for</span> each vertex w in V adjacent to the front vertex <span class="keyword">do</span></span><br><span class="line">             <span class="keyword">if</span> w is marked with <span class="number">0</span></span><br><span class="line">                 count = count + <span class="number">1</span>; mark w with count</span><br><span class="line">                 add w to the <span class="built_in">queue</span></span><br><span class="line">          remove the front vertex from the <span class="built_in">queue</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法复杂度分析:</strong></p>
+<script type="math/tex; mode=display">
+adjacency\ matrices: \Theta(V^2) \\
+adjacency\ lists: \Theta(|V|+|E|)</script></li>
+</ul>
+</li>
+</ul>
+<h5 id="2-3-1-2-拓扑排序"><a href="#2-3-1-2-拓扑排序" class="headerlink" title="2.3.1.2 拓扑排序"></a>2.3.1.2 拓扑排序</h5><ul>
+<li><strong>DFS-Based Algorithm:</strong> 通过执行DFS遍历，观察顶点弹出的顺序，把顺序进行反转得到拓扑排序顺序</li>
+<li><strong>Source Removal Algorithm:</strong> 反复标记并删除源和所有射入它的边，直到要么没有顶点，要么没有顶点的来源</li>
+</ul>
+<h5 id="2-3-1-3-寻找图的衔接点问题-ArticulationPointAlgorithm"><a href="#2-3-1-3-寻找图的衔接点问题-ArticulationPointAlgorithm" class="headerlink" title="2.3.1.3 寻找图的衔接点问题(ArticulationPointAlgorithm)"></a>2.3.1.3 寻找图的衔接点问题(ArticulationPointAlgorithm)</h5><ul>
+<li><p><strong>算法思路:</strong> 参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/en-heng/p/4002658.html">https://www.cnblogs.com/en-heng/p/4002658.html</a> 当图从这个节点断开的时候就变成非连接图，对这个图的结构进行DFS遍历</p>
+</li>
+<li><p><strong>满足规则:</strong> </p>
+<ul>
+<li>衔接点不是叶子节点</li>
+<li>Root(树的顶点)是衔接点当且仅当有两个或更多的孩子节点</li>
+<li>内部节点u可以是衔接点只有当节点的子树中没有<strong>回边(back edge)</strong>到节点的祖先</li>
+</ul>
+</li>
+<li><p><strong>判断回边(back edge)的方法:</strong> 定义一个Low[u] 为节点u或u的子树通过非父子边追溯到最早的祖先结点，也就是距离root的距离; d[u]为DFS遍历的次序号,有以下关系:</p>
+<script type="math/tex; mode=display">
+Init: Low[u] = d[u] \\
+Back\ edge: Low[u] = min\{Low[u], d[v]\}\\
+Tree\ edge: Low[u] = min\{Low[u], Low[v]\}</script></li>
+<li><p><strong>算法例子:</strong> 执行逻辑就是通过dfs，来定义Low[u]和d[u], 这里需要注意的遍历就是DFS遍历的是图，这样可能会有两次dfs，其定义如上面的关系所示</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/ArticulationPointAlgorithm.png" alt="ArticulationPointAlgorithm"></p>
+</li>
+</ul>
+<h5 id="2-3-1-4-生成排列，子集的算法"><a href="#2-3-1-4-生成排列，子集的算法" class="headerlink" title="2.3.1.4 生成排列，子集的算法"></a>2.3.1.4 生成排列，子集的算法</h5><ul>
+<li><strong>算法思路:</strong> 求一堆数字的排列组合</li>
+</ul>
+<h4 id="2-3-2-按常数倍数减少-usually-by-half"><a href="#2-3-2-按常数倍数减少-usually-by-half" class="headerlink" title="2.3.2 按常数倍数减少(usually by half)"></a>2.3.2 按常数倍数减少(usually by half)</h4><h5 id="2-3-2-1-二分搜索和二等分法-Binary-Search-Trees"><a href="#2-3-2-1-二分搜索和二等分法-Binary-Search-Trees" class="headerlink" title="2.3.2.1 二分搜索和二等分法(Binary Search Trees)"></a>2.3.2.1 二分搜索和二等分法(Binary Search Trees)</h5><ul>
+<li><p><strong>数据结构以及性质:</strong> key为树的值，left指向左孩子，right指向右孩子，p指向父亲节点，二叉树左边的值小于中间的值小于右边的值</p>
+</li>
+<li><p><strong>算法思路:</strong> 参考资料:<a target="_blank" rel="noopener" href="http://alrightchiu.github.io/SecondRound/binary-search-tree-sortpai-xu-deleteshan-chu-zi-liao.html">http://alrightchiu.github.io/SecondRound/binary-search-tree-sortpai-xu-deleteshan-chu-zi-liao.html</a> 对于动态set来说非常重要的数据结构，Successor找到right key中最小的node, Predecessor 找到left key中最大的node</p>
+</li>
+<li><p><strong>Search操作:</strong> 给定一个节点和一个值，找到这个节点后对应的节点值，算法效率最差为n</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归的方法</span></span><br><span class="line">TreeSearch(x, k)</span><br><span class="line">	<span class="keyword">if</span>(x == <span class="literal">NULL</span> <span class="keyword">or</span> k == key[x])</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	<span class="keyword">if</span>(k&lt; key[x])</span><br><span class="line">		<span class="keyword">return</span> TreeSearch(left[x], k);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  	<span class="keyword">return</span> TreeSearch(right[x], k);</span><br><span class="line"><span class="comment">//非递归的方法</span></span><br><span class="line">TreeSearch(x, k)</span><br><span class="line">  <span class="keyword">while</span>(x!=<span class="literal">NULL</span> <span class="keyword">and</span> k !=key[x])</span><br><span class="line">    <span class="keyword">if</span>(k&lt;key[x])</span><br><span class="line">      x = left[x];</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">      x = right[x];</span><br><span class="line">	<span class="keyword">return</span> x;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Insert操作:</strong> 插入一个元素，二叉查找树仍然保持原来的结构</p>
+</li>
+<li><p><strong>Sort操作:</strong> 其具体过程与快速排序类似, 效率为<script type="math/tex">\Omega(nlgn)</script></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BSTSort(A)</span><br><span class="line">	<span class="keyword">for</span> i=<span class="number">1</span> to n</span><br><span class="line">		TreeInsert(A[i]);</span><br><span class="line">	InorderTreeWalk(root);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Delete操作:</strong> 仍需维持本来的特性，需要考虑三种情况</p>
+<ul>
+<li>Case1: 预删除的node没有孩子节点</li>
+<li>Case2: 预删除的node只有一个孩子节点</li>
+<li>Case3: 预删除的node有两个孩子节点</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-3-2-2-通过平方求幂"><a href="#2-3-2-2-通过平方求幂" class="headerlink" title="2.3.2.2 通过平方求幂"></a>2.3.2.2 通过平方求幂</h5><h5 id="2-3-2-3-俄罗斯乘法"><a href="#2-3-2-3-俄罗斯乘法" class="headerlink" title="2.3.2.3 俄罗斯乘法"></a>2.3.2.3 俄罗斯乘法</h5><ul>
+<li><p><strong>算法思路:</strong> 也就是将两个相乘的数字，其中一个除以2,另外一个乘以2，来计算两个数乘积</p>
+</li>
+<li><p><strong>算法公式:</strong></p>
+<script type="math/tex; mode=display">
+For\ even\ values\ of\ n: n*m = n/2*2m \\
+For\ odd\ values\ of\ n: n*m =(n-1)/2 *2m +m\\ 也就是不是2的倍数</script></li>
+</ul>
+<h5 id="2-3-2-4-假币查找算法"><a href="#2-3-2-4-假币查找算法" class="headerlink" title="2.3.2.4 假币查找算法"></a>2.3.2.4 假币查找算法</h5><ul>
+<li><strong>算法思路:</strong> 通过判断两组硬币对比是否重量相差，来查找出假币问题</li>
+</ul>
+<h5 id="2-3-2-5-Josephus-problem"><a href="#2-3-2-5-Josephus-problem" class="headerlink" title="2.3.2.5 Josephus problem"></a>2.3.2.5 Josephus problem</h5><ul>
+<li><p><strong>算法思路:</strong> n个人围成一圈，从第k个人开始报数，数到m的人推出，下一个人又从1开始报数，直到最后剩下的那个人编号是多少</p>
+</li>
+<li><p><strong>算法公式:</strong></p>
+<script type="math/tex; mode=display">
+J(1) =1\\
+J(n) = 2J(n/2) -1,\ n:even\ number\\
+J(n) = 2J((n-1)/2) + 1\ n:odd\ number</script></li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int josephus(int n)</span><br><span class="line">&#123;</span><br><span class="line">	if (n&#x3D;&#x3D;1)</span><br><span class="line">		return 1;</span><br><span class="line">	else if(n%2 &#x3D;&#x3D;0)</span><br><span class="line">		return(2*josephus(n&#x2F;2)-1);</span><br><span class="line">	else</span><br><span class="line">		return (2*josephus((n-1)&#x2F;2)+1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法效率分析:</strong>  O(logn)</p>
+</li>
+</ul>
+<h4 id="2-3-3-按可变大小减少"><a href="#2-3-3-按可变大小减少" class="headerlink" title="2.3.3 按可变大小减少"></a>2.3.3 按可变大小减少</h4><h5 id="2-3-3-1-欧几里得算法"><a href="#2-3-3-1-欧几里得算法" class="headerlink" title="2.3.3.1 欧几里得算法"></a>2.3.3.1 欧几里得算法</h5><h5 id="2-3-3-2-中位数选择问题"><a href="#2-3-3-2-中位数选择问题" class="headerlink" title="2.3.3.2 中位数选择问题"></a>2.3.3.2 中位数选择问题</h5><ul>
+<li><p><strong>算法思路:</strong> 挑选数组中的中位数，以第一个元素作为基准，将数组分成两堆，选择大的那一堆，再用一次基准，把大的那一堆分成两堆，与原来的拼起来最大的那一边继续执行上述操作，直至挑选的那一堆，两边平均</p>
+</li>
+<li><p><strong>算法复杂度分析:</strong></p>
+<script type="math/tex; mode=display">
+Average\ case: C(n) =C(n/2) +(n+1)\in\Theta(n)\\
+Worst\ case: C(n)\in\Theta(n^2)</script></li>
+</ul>
+<h5 id="2-3-3-3-尼姆游戏"><a href="#2-3-3-3-尼姆游戏" class="headerlink" title="2.3.3.3 尼姆游戏"></a>2.3.3.3 尼姆游戏</h5><ul>
+<li><p><strong>算法简介:</strong> 两个玩家从一堆筹码中拿走至少1-m个筹码，最后拿走筹码的那个人赢</p>
+</li>
+<li><p><strong>算法例子:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/One-Nim.png" alt="One-Nim"></p>
+</li>
+<li><p><strong>算法思路:</strong> 分析可以得到，只要我们先取，从10无论哪条路径我们都会输，由此可以总结，当总数为(m+1)的倍数时我们一定会输，也就是n mod （m+1）</p>
+</li>
+</ul>
+<h3 id="2-4-变治算法-Transform-and-Conquer"><a href="#2-4-变治算法-Transform-and-Conquer" class="headerlink" title="2.4 变治算法(Transform and Conquer)"></a>2.4 变治算法(Transform and Conquer)</h3><ul>
+<li><strong>算法思路:</strong> 通过转化来解决问题</li>
+</ul>
+<h4 id="2-4-1-Instance-simplification-简化"><a href="#2-4-1-Instance-simplification-简化" class="headerlink" title="2.4.1 Instance simplification(简化)"></a>2.4.1 Instance simplification(简化)</h4><h5 id="2-4-1-1-Presorting"><a href="#2-4-1-1-Presorting" class="headerlink" title="2.4.1.1 Presorting"></a>2.4.1.1 Presorting</h5><ul>
+<li><strong>算法思路:</strong> 通过预先排序来使得问题得到简化</li>
+<li><strong>算法例子:</strong> 在一组固定的数组中，可以通过预先排序来进行搜索元素nlogn+logn</li>
+</ul>
+<h5 id="2-4-1-2-Gaussian-Elimination"><a href="#2-4-1-2-Gaussian-Elimination" class="headerlink" title="2.4.1.2 Gaussian Elimination"></a>2.4.1.2 Gaussian Elimination</h5><ul>
+<li><p><strong>算法思路:</strong> 解方程可以通过相减来简化算式</p>
+</li>
+<li><p><strong>算法例子:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Gaussian Elimination.png" alt="Gaussian Elimination"></p>
+</li>
+</ul>
+<h5 id="2-4-1-3-AVL树"><a href="#2-4-1-3-AVL树" class="headerlink" title="2.4.1.3 AVL树"></a>2.4.1.3 AVL树</h5><ul>
+<li><p><strong>算法定义:</strong> 首先AVL树是BST，其次其节点的两端左右子树的高度差，即到叶子节点的深度差不超过1，最早的平衡二叉树，windows对进程地址空间的管理用到了AVL树</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/AVLtree_definition.png" alt="AVLtree_definition"></p>
+</li>
+<li><p><strong>保持平衡操作—旋转:</strong> 左旋和右旋分别代表的是逆时针和顺时针旋转，旋转操作就是将子节点与父节点进行交换，比方说右子树不平衡就可以进行右旋转</p>
+</li>
+<li><p><strong>算法例子:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/AVLTreeLeftRotate.png" alt="AVLTreeSingleRotate"></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/AVL_DoubleRotat.png" alt="AVL_DoubleRotate"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> 搜索和插入是O(logn), 删除是O(logn)</p>
+</li>
+</ul>
+<h5 id="2-4-1-4-红黑树"><a href="#2-4-1-4-红黑树" class="headerlink" title="2.4.1.4 红黑树"></a>2.4.1.4 红黑树</h5><ul>
+<li><strong>算法定义:</strong>  参考<a target="_blank" rel="noopener" href="https://juejin.im/post/6844903941809913864#heading-4">https://juejin.im/post/6844903941809913864#heading-4</a> ，也是平衡二叉树，广泛用在C++的STL中，如map和set都是用红黑树实现</li>
+<li><strong>算法关键:</strong> 算法的关键在于构建的这一过程，也就是从一个元素然后一直插入元素的一个过程性质的调整很关键。其过程模拟的是2-3-4树的过程，理解了链接中插入的顺序就理解了红黑树了，实际构造过程<strong>先构造2-3-4树，要求所有叶子节点在同一个深度</strong>，<strong>再根据2-3-4树，来画出红黑树，这个过程需记住原先过程中的原有配置，还原时保持一致</strong></li>
+<li><strong>2-3-4树的构造过程:</strong> 2-3-4树的多值节点处就是红黑树的红色节点的地方，红色节点表示可以与父亲节点进行合并得到多值节点 <ul>
+<li>2节点直接插入得到3节点</li>
+<li>3节点要插入变成4节点的时候，就应该先分解后插入，分解可以将子节点向父亲节点靠拢</li>
+</ul>
+</li>
+<li><strong>算法例子:</strong> 查看链接中的动态图，很形象</li>
+<li><strong>2-3-4树的删除过程:</strong><ul>
+<li>如果是2值或者3值结点，直接删除即可</li>
+<li>否则从兄弟节点获取一个多余的节点填补孔雀</li>
+<li>在不然就从父亲节点获取一个节点填补孔雀，如果父节点没有多余节点，则递归到父节点处理</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-4-1-5-B-树"><a href="#2-4-1-5-B-树" class="headerlink" title="2.4.1.5 B+-树"></a>2.4.1.5 B+-树</h5><ul>
+<li><p><strong>算法思路:</strong> 可用于磁盘检索，快速的获取磁盘的内容</p>
+</li>
+<li><p><strong>算法实例:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/B-TreeExample.jpg" alt="B-TreeExample"></p>
+</li>
+</ul>
+<h4 id="2-4-2-representation-change-另外一种代表方式"><a href="#2-4-2-representation-change-另外一种代表方式" class="headerlink" title="2.4.2 representation change(另外一种代表方式)"></a>2.4.2 representation change(另外一种代表方式)</h4><h5 id="2-4-2-1-Horner’s-Rule"><a href="#2-4-2-1-Horner’s-Rule" class="headerlink" title="2.4.2.1 Horner’s Rule"></a>2.4.2.1 Horner’s Rule</h5><ul>
+<li><p><strong>算法思路:</strong> 将多项式进行分解，使得计算更加简便</p>
+</li>
+<li><p><strong>算法例子:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Horner&#39;s Rule.png" alt="Horner&#39;s Rule"></p>
+</li>
+</ul>
+<h5 id="2-4-2-2-Computing-a-n"><a href="#2-4-2-2-Computing-a-n" class="headerlink" title="2.4.2.2 Computing a^n"></a>2.4.2.2 Computing a^n</h5><ul>
+<li><p><strong>算法思路:</strong> 将n分解为二进制的次数，一步步的逼近这个值</p>
+</li>
+<li><p><strong>算法例子:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Computing a^n.png" alt="Computing a^n"></p>
+</li>
+</ul>
+<h4 id="2-4-2-3-2-3-trees"><a href="#2-4-2-3-2-3-trees" class="headerlink" title="2.4.2.3 2-3 trees"></a>2.4.2.3 2-3 trees</h4><ul>
+<li><p><strong>算法思路:</strong> 有两个或者3个节点，高度平衡的树</p>
+</li>
+<li><p><strong>算法例子:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/2-3TreeConstruction.png" alt="2-3TreeConstruction"></p>
+</li>
+<li><p><strong>算法复杂度分析:</strong> Search，insertion，deletion都是<script type="math/tex">\Theta(logn)</script> </p>
+</li>
+</ul>
+<h4 id="2-4-2-4-Heaps-and-Heapsort"><a href="#2-4-2-4-Heaps-and-Heapsort" class="headerlink" title="2.4.2.4 Heaps and Heapsort"></a>2.4.2.4 Heaps and Heapsort</h4><ul>
+<li><p><strong>Heap:</strong> 父节点的元素大于子节点的元素，堆也是一种二叉树，左孩子基本是满的，右孩子不为空，初始化过程就是用子节点元素与父节点比较，大的作为父节点</p>
+</li>
+<li><p><strong>Heapsort 算法思路:</strong>  </p>
+<ul>
+<li>将根节点(最大值)打印出来，将根节点的值和右边儿子节点相接</li>
+<li>减少堆大小1,如果需要将根节点与更大的孩子进行交换</li>
+</ul>
+</li>
+<li><p><strong>算法例子:</strong> 相当于用BFS遍历完全二叉树</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/HeapAndHeapSort.png" alt="HeapAndHeapSort"></p>
+</li>
+</ul>
+<h4 id="2-4-2-5-Priority-Queue"><a href="#2-4-2-5-Priority-Queue" class="headerlink" title="2.4.2.5 Priority Queue"></a>2.4.2.5 Priority Queue</h4><ul>
+<li><strong>算法思路:</strong> 时刻保持队首是最大的或者最小的，Heap是一种实现这个很有效率的方式</li>
+<li><strong>算法效率分析:</strong> O(logn)</li>
+</ul>
+<h4 id="2-4-3-Problem-reduction"><a href="#2-4-3-Problem-reduction" class="headerlink" title="2.4.3 Problem reduction"></a>2.4.3 Problem reduction</h4><ul>
+<li><strong>算法思路:</strong> 减少转化为另外的问题，使得可以用已有的solution来解决这一问题</li>
+</ul>
+<h3 id="2-5-空间换时间算法-Space-and-Time-Tradeoffs"><a href="#2-5-空间换时间算法-Space-and-Time-Tradeoffs" class="headerlink" title="2.5 空间换时间算法(Space and Time Tradeoffs)"></a>2.5 空间换时间算法(Space and Time Tradeoffs)</h3><h4 id="2-5-1-输入增强-input-enhancement"><a href="#2-5-1-输入增强-input-enhancement" class="headerlink" title="2.5.1 输入增强(input enhancement)"></a>2.5.1 输入增强(input enhancement)</h4><h5 id="2-5-1-1-计数排序-Counting-Sort"><a href="#2-5-1-1-计数排序-Counting-Sort" class="headerlink" title="2.5.1.1 计数排序(Counting Sort)"></a>2.5.1.1 计数排序(Counting Sort)</h5><ul>
+<li><p><strong>算法思路:</strong> 参考<a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/counting-sort.html">https://www.runoob.com/w3cnote/counting-sort.html</a> ，假设待排序的数组为A[1..n], 输出为B[1..n], C中存的是A的值范围，当这个值出现的时候，这个数组的位置就加1,以此类推</p>
+</li>
+<li><p><strong>算法例子:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/CountingSort.png" alt="CountingSort"></p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CountingSort(A, B, k)</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">1</span> to k</span><br><span class="line">        C[i] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> j = <span class="number">1</span> to n</span><br><span class="line">        C[A[j]] += <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span> i=<span class="number">2</span> to k</span><br><span class="line">        C[i] = C[i] +C[i<span class="number">-1</span>];</span><br><span class="line">	<span class="keyword">for</span> j=n downto <span class="number">1</span></span><br><span class="line">        B[C[A[j]]]=A[j];</span><br><span class="line">		C[A[j]] -= <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法效率分析:</strong> <script type="math/tex">\Omega(nlg n)</script></p>
+</li>
+</ul>
+<h4 id="2-5-2-预结构-prestructuring"><a href="#2-5-2-预结构-prestructuring" class="headerlink" title="2.5.2 预结构(prestructuring)"></a>2.5.2 预结构(prestructuring)</h4><h5 id="2-5-2-1-Hashing算法"><a href="#2-5-2-1-Hashing算法" class="headerlink" title="2.5.2.1 Hashing算法"></a>2.5.2.1 Hashing算法</h5><ul>
+<li><strong>算法思路:</strong> 把任意长度的输入通过hash map变成固定长度的输出</li>
+</ul>
+<h5 id="2-5-2-2-Extendable-hashing-算法"><a href="#2-5-2-2-Extendable-hashing-算法" class="headerlink" title="2.5.2.2 Extendable hashing 算法"></a>2.5.2.2 Extendable hashing 算法</h5><ul>
+<li><p><strong>算法思路:</strong> 允许hash函数存储结果可变大变小, 其具体过程通过可扩展散列来实现</p>
+</li>
+<li><p><strong>算法实例:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/ExtendableHash.png" alt="ExtendableHash"></p>
+</li>
+</ul>
+<h4 id="2-5-3-字符串匹配算法"><a href="#2-5-3-字符串匹配算法" class="headerlink" title="2.5.3 字符串匹配算法"></a>2.5.3 字符串匹配算法</h4><h5 id="2-5-3-1-KMP字符串匹配算法"><a href="#2-5-3-1-KMP字符串匹配算法" class="headerlink" title="2.5.3.1 KMP字符串匹配算法"></a>2.5.3.1 KMP字符串匹配算法</h5><ul>
+<li><strong>算法思路</strong>: 在字符串匹配中用得比较少，考研中应该用的比较多，比较经典的算法，参考<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html">http://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html</a> KMP算法的匹配过程分为两个步骤，第一步是通过自身模板计算模板的重复率，即部分匹配表，第二步是通过部分匹配表的值计算下一个匹配模板中的哪一个值</li>
+<li><strong>算法效率分析:</strong> 总体匹配的效率为 <script type="math/tex">\Theta(n)</script> </li>
+</ul>
+<h5 id="2-5-3-2-Boyer-Moore算法"><a href="#2-5-3-2-Boyer-Moore算法" class="headerlink" title="2.5.3.2 Boyer-Moore算法"></a>2.5.3.2 Boyer-Moore算法</h5><ul>
+<li><p><strong>算法思路:</strong> 在字符串匹配中比较常用，参考<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2013/05/boyer-moore_string_search_algorithm.html">https://www.ruanyifeng.com/blog/2013/05/boyer-moore_string_search_algorithm.html</a> ，可以看到字符串的基本原则就是如何更加合理的移动字符串，使得比较次数更少，这一算法采用的是好后缀和坏字符的原则</p>
+</li>
+<li><p><strong>坏字符原则:</strong> 即匹配的字符与原模板的字符串后缀不匹配，则移动的字符数为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">后移位数 = 坏字符的位置 - 匹配字符中上一次出现的位置</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>好后缀原则:</strong> 即有着连续匹配正确的后缀成为“好后缀”</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">后移位数 = 好后缀的位置 - 匹配字符中上一次出现的位置</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="2-5-3-3-Horspool算法"><a href="#2-5-3-3-Horspool算法" class="headerlink" title="2.5.3.3 Horspool算法"></a>2.5.3.3 Horspool算法</h5><ul>
+<li><strong>算法思路:</strong> 参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/khwkhwkhw/article/details/51288502">https://blog.csdn.net/khwkhwkhw/article/details/51288502</a> ，当每次匹配的时候，可以先通过计算移动的table，然后将字符进行移动当完全匹配的时候输出，其移动table是通过pattern最后一个字母与原串相同长度的c对齐，计算规则如下:<script type="math/tex; mode=display">
+t(C) = \begin{cases} len(pattern), & c不在pattern中\\ 与c匹配的字符到c的距离， & 其他情况\end{cases}</script></li>
+</ul>
+<h5 id="2-5-3-4-Sunday算法"><a href="#2-5-3-4-Sunday算法" class="headerlink" title="2.5.3.4 Sunday算法"></a>2.5.3.4 Sunday算法</h5><ul>
+<li><p><strong>算法思路:</strong> 从前往后扫描模式串，对坏字符策略的升华，关注于匹配字符串的下一个字符串</p>
+</li>
+<li><p><strong>移动策略:</strong> 当不匹配时，然后关注的下一个字符没有在模式中出现，则</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">移动位数=子串长度+<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>当关注的字符在模式中出现时</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">移动位数 = 子串长度 - 该字符最右出现的位置</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-6-贪婪算法-Greedy-Techniques"><a href="#2-6-贪婪算法-Greedy-Techniques" class="headerlink" title="2.6 贪婪算法(Greedy Techniques)"></a>2.6 贪婪算法(Greedy Techniques)</h3><ul>
+<li><strong>算法思路:</strong> “不考虑全局，直接考虑局部”，贪婪算法基于一种比较优的策略原则，然后将问题按照这个策略原则进行一步一步解决，最后解决问题</li>
+<li><strong>通俗解释:</strong> 找41分钱的硬币，身上有25分、20分、10分、5分和1分的硬币，先给25变成16，再给10变成6,再给5变成1,最后给1,完成找硬币的任务</li>
+</ul>
+<h4 id="2-6-1-活动选择问题-Activity-Selection-Problem"><a href="#2-6-1-活动选择问题-Activity-Selection-Problem" class="headerlink" title="2.6.1 活动选择问题(Activity Selection Problem)"></a>2.6.1 活动选择问题(Activity Selection Problem)</h4><ul>
+<li><p><strong>算法问题:</strong> 在一间活动室中同一个时间同一个地点，只能做一件事情，这时候就会遇到很多申请了同一间教室但是安排不了的情况，需要最大化使得安排活动尽可能多</p>
+</li>
+<li><p><strong>算法思路:</strong> 初始化选择第一个来进行活动，然后贪婪策略选择下一个活动能够在这一个活动结束后进行的，这样迭代下去就能够把活动室活动按照一定策略安排满</p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GREEDY-ACTIVITY-SELECTOR(s,f)</span><br><span class="line">    n = length[s]</span><br><span class="line">    a = &#123;a_1&#125;</span><br><span class="line">	i = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> m = <span class="number">2</span> to n</span><br><span class="line">        <span class="keyword">do</span> <span class="keyword">if</span> s_m &gt;= f_i</span><br><span class="line">            then A = A U &#123;a_m&#125;</span><br><span class="line">				i = m</span><br><span class="line">    <span class="keyword">return</span> A </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-6-2-最小生成树-Minimum-Spanning-Tree"><a href="#2-6-2-最小生成树-Minimum-Spanning-Tree" class="headerlink" title="2.6.2 最小生成树(Minimum Spanning Tree)"></a>2.6.2 最小生成树(Minimum Spanning Tree)</h4><ul>
+<li><strong>定义:</strong> 将带有权重无向连接图变成一颗树，希望得到的这棵树的每个边权重加起来的总权重最小</li>
+</ul>
+<h5 id="2-6-2-1-Prim’s-algorithm"><a href="#2-6-2-1-Prim’s-algorithm" class="headerlink" title="2.6.2.1 Prim’s algorithm"></a>2.6.2.1 Prim’s algorithm</h5><ul>
+<li><p><strong>算法思路:</strong> 从图的一个点出发作为初始点，然后找到跟点相邻的另外一个点使得代价最小的那个边，下一部继续寻找这样的边，直至完全遍历，是贪婪算法的一种应用</p>
+</li>
+<li><p><strong>算法例子:</strong> 举一个构建的例子如下所示</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Prim&#39;sAlgorithmMST.png" alt="Prim&#39;sAlgorithmMST"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> O(n^2) for weight matrix representation; O(mlogn) for adjacency list representation</p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">Prim</span><span class="params">(G)</span></span></span><br><span class="line"><span class="function">	V_T </span>= &#123;v_0&#125;</span><br><span class="line">	E_T = 空集</span><br><span class="line">	<span class="keyword">for</span> i = <span class="number">1</span> to |V|<span class="number">-1</span> <span class="keyword">do</span></span><br><span class="line">		find a minimum-weight edge e* =(v*,u*) among all the edges(v,u)</span><br><span class="line">		such that v is in V_T <span class="keyword">and</span> u is in V-V_T</span><br><span class="line">		V_T = V_T U &#123;u*&#125;<span class="comment">//并集</span></span><br><span class="line">		E_T = E_T U &#123;e*&#125;</span><br><span class="line">	<span class="keyword">return</span> E_T</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="2-6-2-2-Kruskal’s-algorithm"><a href="#2-6-2-2-Kruskal’s-algorithm" class="headerlink" title="2.6.2.2 Kruskal’s algorithm"></a>2.6.2.2 Kruskal’s algorithm</h5><ul>
+<li><p><strong>算法思路:</strong> 也是基于贪婪算法</p>
+<ul>
+<li>将权重边按顺序进行排序</li>
+<li>按最小到最大的顺序选取每一条边的端点</li>
+<li>如果这两个端点没有连接，就加入树中除非会产生circle</li>
+</ul>
+</li>
+<li><p><strong>算法例子:</strong> 一个连接的例子如下所示</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Kruskal&#39;sAlgorithmMST.png" alt="Kruskal&#39;sAlgorithmMST"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> 对于m edges来说，时间效率为O(mlogn)</p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">Kruskal</span><span class="params">(G)</span></span></span><br><span class="line"><span class="function"><span class="comment">//input: G= &lt;V,E&gt;</span></span></span><br><span class="line"><span class="function">  	sort E in nondecreasing order of the edge weights <span class="title">w</span><span class="params">(e_&#123;i_1&#125;)</span>&lt;</span>=...&lt;=w(e_&#123;i_&#123;|E|&#125;&#125;)</span><br><span class="line">    E_T = 空集; ecounter = <span class="number">0</span></span><br><span class="line">    k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> ecounter &lt; |V| - <span class="number">1</span> <span class="keyword">do</span></span><br><span class="line">        k = k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> E_T U &#123;e_&#123;i_k&#125;&#125; is acyclic <span class="comment">//无环</span></span><br><span class="line">            E_T = E_T U &#123;e_[i_k]&#125;; ecounter = ecounter + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> E_T</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-6-3-最短路径问题"><a href="#2-6-3-最短路径问题" class="headerlink" title="2.6.3 最短路径问题"></a>2.6.3 最短路径问题</h4><ul>
+<li><strong>算法描述:</strong> 给定一个带有权重的图，寻找到从原点到另外其他点的最短路径</li>
+</ul>
+<h5 id="2-6-3-1-Dijkstra’s-algorithm"><a href="#2-6-3-1-Dijkstra’s-algorithm" class="headerlink" title="2.6.3.1 Dijkstra’s algorithm"></a>2.6.3.1 Dijkstra’s algorithm</h5><ul>
+<li><p><strong>算法思路:</strong> 参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/heroacool/article/details/51014824">https://blog.csdn.net/heroacool/article/details/51014824</a>, 类似于Prim的思想，将最短路径分解为每一步的最短路径加上原来的最短路径，即</p>
+<script type="math/tex; mode=display">
+d_v+w(v,u)</script><p>但是在实际过程中可能会发现一个点到另一个点可能存在多条路径，并不一定是最初那条出发最短的点的路径，因此，加入了优先队列，使得每次到达的最短的点进行更新</p>
+</li>
+<li><p><strong>算法例子:</strong></p>
+<p> <img src="/2020/11/02/Software/fundation/Algorithm/Dijkstra&#39;sAlgorithmShortestPath.png" alt="Dijkstra&#39;sAlgorithmShortestPath"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> <script type="math/tex">O(|V|^2)</script> 代表有限队列的权重矩阵，O(|E|log|V|)代表图的连接</p>
+</li>
+<li><p><strong>算法伪代码:</strong> 针对的是从一个点出发到另外多个点的最短路径，只能针对与权重为正的情况</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">Dijkstra</span><span class="params">(G, s)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Input: G=&lt;V,E&gt;</span></span></span><br><span class="line"><span class="function"><span class="comment">//Output: dv from s to v and its penultimate vertec pv for every vertex</span></span></span><br><span class="line"><span class="function">    <span class="keyword">for</span> every vertex v in V <span class="keyword">do</span></span></span><br><span class="line"><span class="function">        d_v </span>= 无穷; p_v = null</span><br><span class="line">        Insert(Q, v, dv)<span class="comment">//Initialize vertex priority in the priority queue</span></span><br><span class="line">   	d_s = <span class="number">0</span>; Decrease(Q, s, d_s) <span class="comment">//update priority of s with d_s</span></span><br><span class="line">    V_T = 空集</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">0</span> to |V| <span class="number">-1</span> <span class="keyword">do</span></span><br><span class="line">        u* = DeleteMin(Q) <span class="comment">//取出优先队列中的最小的权重点</span></span><br><span class="line">        V_T = V_T U &#123;u*&#125;</span><br><span class="line">		<span class="keyword">for</span> every vertex u in V - V_T that is adjacent to u* <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> d_&#123;u*&#125; + w(u*,u) &lt; d_u <span class="comment">//也就是记录了每个点的列表中如果有更短的路径</span></span><br><span class="line">                d_u = d_&#123;u*&#125; + w(u*, u); p_u = u*</span><br><span class="line">                Decrease(Q, u, d_u) <span class="comment">//把已更新了到这个点的最短距离退出</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-6-4-两路合并问题-2-way-merging-algorithm"><a href="#2-6-4-两路合并问题-2-way-merging-algorithm" class="headerlink" title="2.6.4 两路合并问题(2-way merging algorithm)"></a>2.6.4 两路合并问题(2-way merging algorithm)</h4><ul>
+<li><p><strong>算法思路:</strong>  输入:m个有序表，每个表由n_i个元素组; 输出: 最优二路归并树</p>
+<ul>
+<li>对于m个有序表，生成m颗树， 每棵树只有一个权为n_i的节点</li>
+<li>选择具有最小权的树T_1和T_2</li>
+<li>生成一颗新的树T，根的子树为T_1和T_2，权为T_1和T_2权的和,代替T1和T2</li>
+<li>继续合并，直到剩下最后一棵树，则停止</li>
+</ul>
+</li>
+<li><p><strong>算法例子:</strong> 6个排好序的有序表,权重为2,3,5,7,11和13.</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/2-wayMergeProblem.png" alt="2-wayMergeProblem"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> O(nlogn)</p>
+</li>
+</ul>
+<h4 id="2-6-5-编码问题-Huffman’s-algorithm"><a href="#2-6-5-编码问题-Huffman’s-algorithm" class="headerlink" title="2.6.5 编码问题(Huffman’s algorithm)"></a>2.6.5 编码问题(Huffman’s algorithm)</h4><ul>
+<li><p><strong>算法问题:</strong>  对于一些比较特殊的数据，我们希望根据它的使用的频率来进行编码，使得数据量最小</p>
+</li>
+<li><p><strong>算法思路:</strong> </p>
+<ul>
+<li>通过每个字母所使用的频率来构建二叉树</li>
+<li>给每个二叉树的左子树与右子树编上0与1</li>
+<li>读取即可得到每个字母的编码</li>
+</ul>
+</li>
+<li><p><strong>算法例子:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Huffman&#39;sAlgorithmProblem.png" alt="Huffman&#39;sAlgorithmProblem"></p>
+</li>
+<li><p><strong>算法效率分析:</strong> O(nlgn)</p>
+</li>
+<li><p><strong>算法伪代码:</strong> Q用来寻找两个使用频率最小的字母进行合并</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HUFFMAN(C)</span><br><span class="line">	n &#x3D; |C|</span><br><span class="line">	Q &#x3D; C</span><br><span class="line">	for i &#x3D; 1 to n-1</span><br><span class="line">		do allocate a new node z</span><br><span class="line">			left[z] &lt;-- x &lt;-- EXTRACT-MIN(Q)</span><br><span class="line">			right[z] &lt;-- y &lt;-- EXTRACT-MIN(Q)</span><br><span class="line">			f[z] &lt;-- f[x] + f[y]</span><br><span class="line">			INSERT(Q, z)</span><br><span class="line">    return EXTRACT-MIN(Q)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-6-6-最小圈问题-minimal-cycle-basis-problem"><a href="#2-6-6-最小圈问题-minimal-cycle-basis-problem" class="headerlink" title="2.6.6 最小圈问题(minimal cycle basis problem)"></a>2.6.6 最小圈问题(minimal cycle basis problem)</h4><ul>
+<li><p><strong>算法定义:</strong> 找到构成所有圈的最小圈问题</p>
+</li>
+<li><p><strong>算法思路:</strong> 寻找圈的权重最小</p>
+<ul>
+<li>初始化，定义要找到圈的数目k，找到所有的圈的集合，通过权重对所有圈进行排序</li>
+<li>将所有圈进行相互叠加，利用高斯elimination发现圈已经存在原来的集合中，则删除这个圈</li>
+<li>找到k个圈则终止算法</li>
+</ul>
+</li>
+<li><p><strong>Gaussian elimaination:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/GaussianEliminationCircle.png" alt="GaussianEliminationCircle"></p>
+</li>
+</ul>
+<h3 id="2-7-动态规划算法-Dynamic-Programming"><a href="#2-7-动态规划算法-Dynamic-Programming" class="headerlink" title="2.7 动态规划算法(Dynamic Programming)"></a>2.7 动态规划算法(Dynamic Programming)</h3><ul>
+<li><p><strong>算法思路:</strong> 通过将一个问题分解为一系列小的问题，一系列小的问题中彼此有联系，寻找彼此之间的联系，解决一系列小的问题，结合联系解决这个问题</p>
+</li>
+<li><p><strong>设计思路:</strong></p>
+<ul>
+<li>寻找到迭代循环的关系</li>
+<li>将问题分解成一个MultistageGraph的过程</li>
+</ul>
+</li>
+<li><p><strong>算法适用:</strong> Multistage Graph的一种过程完美的描述了这一算法的适用，基于一种假设，解决一个问题，小问题解决之后这个结果必须是最优的，后面才会得到最优解</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/MultistageGraph.png" alt="MultistageGraph"></p>
+</li>
+</ul>
+<h4 id="2-7-1-斐波那契数列-Fibonacci-number"><a href="#2-7-1-斐波那契数列-Fibonacci-number" class="headerlink" title="2.7.1 斐波那契数列(Fibonacci number)"></a>2.7.1 斐波那契数列(Fibonacci number)</h4><ul>
+<li><p><strong>算法思路:</strong> 数列问题,通过将求解一个f(n)转化为求解f(n-1) + f(n-2)的问题，从而进行计算机递归求解</p>
+</li>
+<li><p><strong>Memoization Optimization:</strong> 通过记住对于上一个solution的answer来直接调用，减少计算过程</p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//迭代过程</span></span><br><span class="line"><span class="function">ALGORITHM <span class="title">Fib</span><span class="params">(n)</span></span></span><br><span class="line"><span class="function"><span class="comment">// input: n(positive integer)</span></span></span><br><span class="line"><span class="function">	begin</span></span><br><span class="line">    	&lt;SAVED, FIB&gt; = Get(n) //Memoization reduce complexity from exponential to linear!</span><br><span class="line">    	<span class="keyword">if</span>(saved) then</span><br><span class="line">            result(fib)</span><br><span class="line">        end <span class="keyword">if</span> </span><br><span class="line">    	<span class="keyword">if</span>(n = <span class="number">0</span> <span class="keyword">or</span> n =<span class="number">1</span> ) then</span><br><span class="line">            fib = n</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            fib = Fib(n<span class="number">-1</span>)+Fib(n<span class="number">-2</span>)</span><br><span class="line">        end <span class="keyword">if</span></span><br><span class="line">        Save(n, fib)</span><br><span class="line">        result(fib)</span><br><span class="line">  	end ALGORITHM</span><br><span class="line"><span class="comment">//非迭代过程</span></span><br><span class="line">algorithm Fib(n)</span><br><span class="line">	begin</span><br><span class="line">       table[<span class="number">0.</span>.n] fib <span class="comment">//存储fib得到的值</span></span><br><span class="line">       fib[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">       fib[<span class="number">1</span>] = <span class="number">1</span></span><br><span class="line">       loop i = <span class="number">2.</span>.n</span><br><span class="line">            fib[i] = fib[i<span class="number">-1</span>] + fib[i<span class="number">-2</span>]</span><br><span class="line">       end loop</span><br><span class="line">       result(fib[n])</span><br><span class="line">    end algorithm</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-7-2-优化平衡二叉树-Optimal-Binary-Search-Trees"><a href="#2-7-2-优化平衡二叉树-Optimal-Binary-Search-Trees" class="headerlink" title="2.7.2 优化平衡二叉树(Optimal Binary Search Trees)"></a>2.7.2 优化平衡二叉树(Optimal Binary Search Trees)</h4><ul>
+<li><p><strong>算法问题:</strong> 在实际二叉树的查找过程中，每个节点的查找概率都不是完全一样的，有的查找概率大，有的查找概率小，为了使得查找这些数据的时候，希望使得这些数据所构建的平衡二叉树平均查找代价最小</p>
+</li>
+<li><p><strong>算法思路:</strong> 参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_22873427/article/details/77152223">https://blog.csdn.net/qq_22873427/article/details/77152223</a> ，可以看到，我们每一棵树的查找代价可以分为左子树的查找代价与右子树的查找代价，第二颗左子树的查找代价又可以分为左子树与右子树，于是有以下的递推公式,C(i,j) 代表最小平均查找代价，这样就可以迭代分解为最小一棵树的问题</p>
+<script type="math/tex; mode=display">
+C(i,j) = min_{i\leqslant k \leqslant j}\{p_k * 1 + \sum_{s=i}^{k-1}p_s*(level\ of\ a_s\ in\ T_i^{k-1}+1) \\ +\sum_{s=k+1}^{j}p_s*(level\ of\ a_s\ in\ T_{k+1}^{j}+1)\}\\
+where\ p_k 代表根节点查找效率，a_s代表在第几层即多少次查找\\
+\Longrightarrow  min_{i\leqslant k \leqslant j}\{\sum_{s=i}^{k-1}p_s*(level\ of\ a_s\ in\ T_i^{k-1}+1) \\ +\sum_{s=k+1}^{j}p_s*(level\ of\ a_s\ in\ T_{k+1}^{j}+1)+\sum_{s=i}^{j}p_s\}\\
+\Longrightarrow min_{i\leqslant k \leqslant j}\{C(i,k-1)+C(k+1,j)\}+\sum_{s=i}^{j}p_s</script></li>
+<li><p><strong>算法例子详解:</strong> 我们最终需要的也就是i=1这一行的最后一个值，但是为了计算最后一个值，中间值需要计算</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/OptimalBST.png" alt="OptimalBST"></p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">OptimalBST</span><span class="params">(P[<span class="number">1.</span>.n])</span></span></span><br><span class="line">\\Input:P[1..n]</span><br><span class="line">\\Ouput:Average comparisions; Table R</span><br><span class="line">   	<span class="keyword">for</span> i &lt;-- <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">        C[i, i<span class="number">-1</span>] = <span class="number">0</span></span><br><span class="line">        C[i, i] = P[i]</span><br><span class="line">        R[i, i] = i</span><br><span class="line">    C[n+<span class="number">1</span>, n] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> d = <span class="number">1</span> to n<span class="number">-1</span> <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">for</span> i =<span class="number">1</span> to n-d <span class="keyword">do</span></span><br><span class="line">            j = i + d</span><br><span class="line">            mincal = 无穷</span><br><span class="line">      		<span class="keyword">for</span> k = i to j <span class="keyword">do</span></span><br><span class="line">                <span class="keyword">if</span> C[i, k<span class="number">-1</span>] + C[k+<span class="number">1</span>, j] &lt; minval</span><br><span class="line">                    minval = C[i, k<span class="number">-1</span>]+C[k+<span class="number">1</span>,j];</span><br><span class="line">					kmin = k</span><br><span class="line">            R[i, j] = kmin</span><br><span class="line">            sum = P[i]; </span><br><span class="line">			<span class="keyword">for</span> s = i+<span class="number">1</span> to j <span class="keyword">do</span> sum =sum+P[s]</span><br><span class="line">            C[i, j] = minival + sum</span><br><span class="line">   	<span class="keyword">return</span> C[<span class="number">1</span>, n], R</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法效率分析:</strong>  Time: <script type="math/tex">\Theta(n^2)</script> Space: <script type="math/tex">\Theta(n^2)</script> </p>
+</li>
+</ul>
+<h4 id="2-7-3-背包问题-Knapsack-Problem"><a href="#2-7-3-背包问题-Knapsack-Problem" class="headerlink" title="2.7.3 背包问题(Knapsack Problem)"></a>2.7.3 背包问题(Knapsack Problem)</h4><ul>
+<li><p><strong>算法问题:</strong> 给定n件物品，每一件物品有价值<script type="math/tex">v_i</script>和重量<script type="math/tex">w_i</script>，给定一个容量为j的箱子，要求在不超过箱子容量的前提下，装入价值尽可能多的物品</p>
+</li>
+<li><p><strong>算法思路:</strong> 将背包问题进行分解，有如下的分解思路,V[i, j]代表的事当前的价值,也就是说下一个的价值等于当前价值或者当前价值加上背包容量的最大值</p>
+<script type="math/tex; mode=display">
+V[i, j] = \begin{cases}max\{V[i-1,j], v_i+V[i-1,j-w_i]\} & if\ j-w_i >=0 \\
+V[i-1, j] & if\ j-w_i<0\end{cases} \\
+V[0,j] = 0 \ V[i,0] = 0</script></li>
+<li><p><strong>算法例子:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/KnapsackProblem.png" alt="KnapsackProblem"></p>
+</li>
+<li><p><strong>算法伪代码</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">MFKnapsack</span><span class="params">(i, j)</span></span></span><br><span class="line"><span class="function"><span class="comment">//Input: i代表被考虑的物品, j代表总容量</span></span></span><br><span class="line"><span class="function"><span class="comment">//V[0..n, 0..W]初始化为0,其他为-1</span></span></span><br><span class="line">if V[i, j] &lt; 0</span><br><span class="line">    <span class="keyword">if</span> j &lt; Weights[i]</span><br><span class="line">        value &lt;--MFKnapsack(i<span class="number">-1</span>, j)</span><br><span class="line">   	<span class="keyword">else</span></span><br><span class="line">         value &lt;-- max(MFKnapsack(i<span class="number">-1</span>, j), Values[i] + MFKnapsack(i<span class="number">-1</span>, j-Weights[i])</span><br><span class="line">    V[i, j] &lt;-- value</span><br><span class="line"><span class="keyword">return</span> V[i,j]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-7-4-图最短路径问题"><a href="#2-7-4-图最短路径问题" class="headerlink" title="2.7.4 图最短路径问题"></a>2.7.4 图最短路径问题</h4><h5 id="2-7-4-1-传递路径矩阵问题-Warshall’s-Algorithm"><a href="#2-7-4-1-传递路径矩阵问题-Warshall’s-Algorithm" class="headerlink" title="2.7.4.1 传递路径矩阵问题(Warshall’s Algorithm)"></a>2.7.4.1 传递路径矩阵问题(Warshall’s Algorithm)</h5><ul>
+<li><p><strong>算法问题:</strong> 给定一个图，需要从连接矩阵来计算它的传递矩阵</p>
+</li>
+<li><p><strong>算法思路:</strong> 每一个点能否到达另外一个点存在两种情况，一种直接到达，一种借助中间点</p>
+<script type="math/tex; mode=display">
+R^{(k)}[i,j] = \begin{cases}R^{(k-1)}[i,j] \\
+R^{(k-1)}[i, k]\ and\ R^{(k-1)}[k,j] \end{cases}</script><p>实际来说的话就是说，我们要看能否1到3矩阵中要么1到另外一个点(矩阵元素为1)，另外一个点能到3(矩阵元素为1),要么就是直接能到达，直接填1</p>
+</li>
+<li><p><strong>算法例子:</strong> 以 2 为例 原先只有到 1和4两条路径，计算后，四个点均可到达</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Warshall&#39;sAlgorithm.png" alt="Warshall&#39;sAlgorithm"></p>
+</li>
+<li><p><strong>算法为代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">Warshall</span><span class="params">(A[<span class="number">1.</span>.n, <span class="number">1.</span>.n])</span></span></span><br><span class="line"><span class="function"><span class="comment">//Input: Adjacency matrix A</span></span></span><br><span class="line"><span class="function"><span class="comment">//Output: Transitive closure</span></span></span><br><span class="line">	R(0) &lt;-- A</span><br><span class="line">    <span class="keyword">for</span> k = <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">for</span> i = <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">for</span> j = <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">                R(k)[i,j] &lt;-- R(k<span class="number">-1</span>)[i,j] <span class="keyword">or</span> (R(k<span class="number">-1</span>)[i,k] <span class="keyword">and</span> R(k<span class="number">-1</span>)[k, j])</span><br><span class="line">     <span class="keyword">return</span> R(n)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法复杂度分析:</strong> <script type="math/tex">\Theta(n^3)</script></p>
+</li>
+</ul>
+<h5 id="2-7-4-2-每一对最短路径问题-All-pairs-shortest-paths-Floyd’s-Algorithm"><a href="#2-7-4-2-每一对最短路径问题-All-pairs-shortest-paths-Floyd’s-Algorithm" class="headerlink" title="2.7.4.2 每一对最短路径问题(All pairs shortest paths: Floyd’s Algorithm)"></a>2.7.4.2 每一对最短路径问题(All pairs shortest paths: Floyd’s Algorithm)</h5><ul>
+<li><p><strong>算法问题:</strong> 求连接图中每一个互通的点之间的最短路径</p>
+</li>
+<li><p><strong>算法思路:</strong> 与求传递路径矩阵的算法类似，只不过现在需要找到最短路径，也就是要么直接到达，要么通过中间点达到最短，其表达式如下:</p>
+<script type="math/tex; mode=display">
+D(k)[i,j] = min\{D^{(k-1)}[i,j],D^{(k-1)}[i,k]+D^{(k-1)}[k,j]\}</script></li>
+<li><p><strong>算法例子:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/Floyd&#39;sAlgorithmShortest.png" alt="Floyd&#39;sAlgorithmShortest"></p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALGORITHM <span class="title">Floyd</span><span class="params">(W[<span class="number">1.</span>.n, <span class="number">1.</span>.n])</span></span></span><br><span class="line"><span class="function"><span class="comment">//Input: weight matrix W</span></span></span><br><span class="line"><span class="function"><span class="comment">//Output: distance matrix</span></span></span><br><span class="line">	D &lt;-- W</span><br><span class="line">    <span class="keyword">for</span> k = <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">for</span> i = <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">for</span> j = <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">                D[i,j] &lt;-- min&#123;D[i,j], D[i,k] + D[k, j]&#125;</span><br><span class="line">     <span class="keyword">return</span> D</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法复杂度分析:</strong> <script type="math/tex">\Theta(n^3)</script></p>
+</li>
+</ul>
+<h4 id="2-7-5-最长公共子序列-Longest-Common-Subsequence"><a href="#2-7-5-最长公共子序列-Longest-Common-Subsequence" class="headerlink" title="2.7.5 最长公共子序列(Longest Common Subsequence)"></a>2.7.5 最长公共子序列(Longest Common Subsequence)</h4><ul>
+<li><p><strong>算法问题:</strong> 考虑<script type="math/tex">A=a_1a_2...a_m</script>与<script type="math/tex">B = b_1b_2...b_n</script>的最长共同子序列，子序列举例{<script type="math/tex">a_1a_2</script>} ,{<script type="math/tex">a_1a_3a_5</script>}</p>
+</li>
+<li><p><strong>算法思路:</strong> 考虑到最后一个字符的匹配，存在以下这样的公式</p>
+<script type="math/tex; mode=display">
+len(i,j) = \begin{cases}0 & if\ i =0\ or\ j =0, \\
+len(i-1, j-1)+1 & if\ i,j>0\ and\ a_i = b_j, \\
+max(len(i,j-1),len(i-1,j)) & if\ i,j>0\ and\ a_i \neq b_j\end{cases}</script></li>
+<li><p><strong>算法例子:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/LCS.png" alt="LongestCommonSubsequence"></p>
+</li>
+<li><p><strong>算法伪代码:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">procedure LCS-length(A[<span class="number">0.</span>.m],B[<span class="number">0.</span>.n])</span><br><span class="line">	<span class="keyword">for</span> i = <span class="number">0</span> to m <span class="keyword">do</span> len(i,<span class="number">0</span>) = <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> j = <span class="number">1</span> to n <span class="keyword">do</span> len(<span class="number">0</span>, j) = <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> i = <span class="number">1</span> to m</span><br><span class="line">		<span class="keyword">for</span> j = <span class="number">1</span> to n <span class="keyword">do</span></span><br><span class="line">			<span class="keyword">if</span> ai = bj then</span><br><span class="line">				len(i, j) = len(i<span class="number">-1</span>,j<span class="number">-1</span>)+<span class="number">1</span></span><br><span class="line">				prev(i,j) = <span class="string">&quot;3&quot;</span></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> len(i<span class="number">-1</span>, j)&gt;=len(i, j<span class="number">-1</span>) then</span><br><span class="line">				len(i, j) = len(i<span class="number">-1</span>, j)</span><br><span class="line">				prev(i, j) = <span class="string">&quot;2&quot;</span></span><br><span class="line">			<span class="keyword">else</span> </span><br><span class="line">				len(i,j) = len(i, j<span class="number">-1</span>)</span><br><span class="line">				prev(i, j) = <span class="string">&quot;1&quot;</span></span><br><span class="line">	<span class="keyword">return</span> len <span class="keyword">and</span> prev</span><br><span class="line">procedure Ouput-LCS(A, prev, i, j)</span><br><span class="line">   	<span class="keyword">if</span> i = <span class="number">0</span> <span class="keyword">or</span> j = <span class="number">0</span> then <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> prev(i,j) = <span class="string">&quot;3&quot;</span> then</span><br><span class="line">        Ouput-LCS(A, prev, i<span class="number">-1</span>,j<span class="number">-1</span>)</span><br><span class="line">        print a_i</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> prev(i, j) =<span class="string">&quot;2&quot;</span> then</span><br><span class="line">        Ouput-LCS(A, prev, i<span class="number">-1</span>,j)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        Ouput-LCS(A, prev, i,j<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>算法复杂度分析:</strong> LCS-Length:O(mn) Ouput-LCS:O(m+n)</p>
+</li>
+</ul>
+<h4 id="2-7-6-流水线调度问题-Assembly-Line-Scheduling"><a href="#2-7-6-流水线调度问题-Assembly-Line-Scheduling" class="headerlink" title="2.7.6 流水线调度问题(Assembly Line Scheduling)"></a>2.7.6 流水线调度问题(Assembly Line Scheduling)</h4><ul>
+<li><p><strong>算法问题描述:</strong> 有两条流水线，分别都可以完成货物的5个工序，求货物从输入到最终成型的一个最短时间</p>
+</li>
+<li><p><strong>算法思路:</strong> 两条流水线都可以完成任务，有如下递推式,也就是说下一个状态的完成是本状态达到最佳效果的下一个选择</p>
+<script type="math/tex; mode=display">
+最短时间f* = min(f_1[n]+x_1, f_2[n]+x_2) \\
+f_1[j] = \begin{cases}e_1+a_{1,1}\\
+min(f_1[j-1]+a_{1,j}, f_2[j-1]+t_{2,j-1}+a_{1,j}\end{cases} \\
+f_2[j] = \begin{cases}e_2+a_{2,1}\\
+min(f_2[j-1]+a_{2,j}, f_1[j-1]+t_{1,j-1}+a_{2,j}\end{cases}</script></li>
+<li><p><strong>算法例子:</strong> e为开始所需时间，a为完成每一道工序所需花的时间，t为从流水线1到流水线2的转换时间</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/AssemblyLineScheduling.png" alt="AssemblyLineScheduling"></p>
+</li>
+</ul>
+<h4 id="2-7-7-矩阵链式乘法-Matrix-Chain-Multiplication"><a href="#2-7-7-矩阵链式乘法-Matrix-Chain-Multiplication" class="headerlink" title="2.7.7 矩阵链式乘法(Matrix-Chain Multiplication)"></a>2.7.7 矩阵链式乘法(Matrix-Chain Multiplication)</h4><ul>
+<li><p><strong>算法问题描述:</strong> 多个矩阵相乘，如果可以合理的加上括号，会大大减少相乘的次数</p>
+</li>
+<li><p><strong>算法思路:</strong> 对于最优的计算组合，有如下的计算过程,也就是最佳的矩阵乘法就是寻找一个中间值，使得其达到最右</p>
+<script type="math/tex; mode=display">
+A_{i..j}=A_{i..k}(m[i,k]) A_{k+1..j}(m[k+1,j])\\
+p_{i-1}p_kp_j是(A_{i..k}A_{k+1..j})的乘法次数\\
+m[i, j] = \begin{cases} 0 & if\ i = j\\
+min_{i\leqslant k<j}\{m[i,k]+m[k+1,j]+p_{i-1}p_kp_j\} & if\ i<j\end{cases}</script></li>
+<li><p><strong>算法例子:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/MatrixChainMultiply.png" alt="MatrixChainMultiply"></p>
+</li>
+</ul>
+<h3 id="2-8-Tree-Searching-Strategies-树搜索策略"><a href="#2-8-Tree-Searching-Strategies-树搜索策略" class="headerlink" title="2.8 Tree Searching Strategies(树搜索策略)"></a>2.8 Tree Searching Strategies(树搜索策略)</h3><ul>
+<li><strong>算法描述:</strong> 有两种策略，一种保证正确性，但是不保证线性时间，第二种就是模拟最优解，但是只是局部最优</li>
+</ul>
+<h4 id="2-8-1-暴力求解-exhaustive-search"><a href="#2-8-1-暴力求解-exhaustive-search" class="headerlink" title="2.8.1 暴力求解(exhaustive search)"></a>2.8.1 暴力求解(exhaustive search)</h4><ul>
+<li><strong>BFS:</strong> 采用队列来做为基础结构，可解决8puzzle难题</li>
+<li><strong>DFS:</strong> 采用堆来作为基础结构，来计算树的总和</li>
+</ul>
+<h4 id="2-8-2-启发搜索-Heuristic-search"><a href="#2-8-2-启发搜索-Heuristic-search" class="headerlink" title="2.8.2 启发搜索(Heuristic search)"></a>2.8.2 启发搜索(Heuristic search)</h4><h5 id="2-8-2-1-爬山算法-Hill-climbing"><a href="#2-8-2-1-爬山算法-Hill-climbing" class="headerlink" title="2.8.2.1 爬山算法(Hill climbing)"></a>2.8.2.1 爬山算法(Hill climbing)</h5><ul>
+<li><strong>算法描述:</strong> 一种DFS的变体，这种方法选择局部最优的节点进行扩展</li>
+<li><strong>算法思路:</strong><ul>
+<li>建立一个包含root节点的栈</li>
+<li>测试在栈顶的元素是否目标元素，是就停止，否则第三步</li>
+<li>取出栈顶这个元素，然后扩展，通过评价函数评价其他值，按照评估顺序压入栈</li>
+<li>如果栈为空，则寻找失败，否则重复执行第二步</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-8-2-2-最佳优先搜索策略-Best-first-search-strategy"><a href="#2-8-2-2-最佳优先搜索策略-Best-first-search-strategy" class="headerlink" title="2.8.2.2 最佳优先搜索策略(Best-first search strategy)"></a>2.8.2.2 最佳优先搜索策略(Best-first search strategy)</h5><ul>
+<li><strong>算法描述:</strong> 结合了BFS和DFS，通过对所有节点进行评价，这种方法有更广阔的视角，优先队列(堆)可以用来实现这个结构</li>
+<li><strong>算法思路:</strong><ul>
+<li>将root节点压入优先队列</li>
+<li>得到第一个元素，然后扩展第一个元素，如果第一个元素的扩展元素是目标的话，就停止，否则全部压入优先队列</li>
+<li>通过评价函数对优先队列中的值进行比较</li>
+<li>如果队列为空，则失败，否则重复执行第二步</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-8-2-3-A-Algorithm"><a href="#2-8-2-3-A-Algorithm" class="headerlink" title="2.8.2.3 A* Algorithm"></a>2.8.2.3 A* Algorithm</h5><ul>
+<li><p><strong>算法描述:</strong> 采用最佳优先搜索算法，如果是最佳路径则停止搜索，其判定函数如下</p>
+<script type="math/tex; mode=display">
+Cost\ function\ of\ node\ n: f(n)\\
+f(n) = g(n) +h(n)\\
+f^*(n) = g(n)+h^*(n)\\
+g(n): \text{cost from root to node n}\\
+h(n): \text{estimated cost from node n to a goal node.}\\
+h^*(n): \text{"real" cost from node n to a goal node.}\\</script></li>
+<li><p><strong>算法思路:</strong> 采用的是BFS的思路，只不过评价函数换成了下一条路的代价和下下条路的代价</p>
+</li>
+</ul>
+<h4 id="2-8-3-动态规划-dynamic-Programming"><a href="#2-8-3-动态规划-dynamic-Programming" class="headerlink" title="2.8.3 动态规划(dynamic Programming)"></a>2.8.3 动态规划(dynamic Programming)</h4><h4 id="2-8-4-回溯算法-Backtracking"><a href="#2-8-4-回溯算法-Backtracking" class="headerlink" title="2.8.4 回溯算法(Backtracking)"></a>2.8.4 回溯算法(Backtracking)</h4><ul>
+<li><strong>算法思路:</strong> 构建一种解决方案的树，节点为解决方案，边为解决方案的拓展，探索这个解决方案树可以采用DFS，修剪掉一部分的没有希望解决问题的节点</li>
+</ul>
+<h5 id="2-8-4-1-n皇后问题"><a href="#2-8-4-1-n皇后问题" class="headerlink" title="2.8.4.1 n皇后问题"></a>2.8.4.1 n皇后问题</h5><ul>
+<li><p><strong>算法问题描述:</strong> 在n x n的棋盘格中，任意两个皇后不能位于同一行，同一列，同一斜线</p>
+</li>
+<li><p><strong>算法思路:</strong> DFS遍历，裁剪非解决方案的点</p>
+</li>
+<li><p><strong>算法例子:</strong>  四个皇后的例子如下</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/nQueensBackTracking.png" alt="nQueensBackTracking"></p>
+</li>
+</ul>
+<h5 id="2-8-4-2-哈密顿回路问题-Hamiltonian-Circuit-Problem"><a href="#2-8-4-2-哈密顿回路问题-Hamiltonian-Circuit-Problem" class="headerlink" title="2.8.4.2 哈密顿回路问题(Hamiltonian Circuit Problem)"></a>2.8.4.2 哈密顿回路问题(Hamiltonian Circuit Problem)</h5><ul>
+<li><strong>算法问题描述:</strong> 对于哈密顿路径的说法，对于图上的节点只能访问一次，从一个点访问另外一个点之后，还能回到自己这个节点</li>
+<li><strong>算法思路:</strong> DFS遍历，裁剪非解决方案的点</li>
+</ul>
+<h5 id="2-8-4-3-子序列求和问题-Hamiltonian-Circuit-Problem"><a href="#2-8-4-3-子序列求和问题-Hamiltonian-Circuit-Problem" class="headerlink" title="2.8.4.3 子序列求和问题(Hamiltonian Circuit Problem)"></a>2.8.4.3 子序列求和问题(Hamiltonian Circuit Problem)</h5><ul>
+<li><strong>算法问题描述:</strong> 给定一个序列，求总和为一个数的序列</li>
+<li><strong>算法思路:</strong> DFS设定加法遍历，裁减非解决方案的点</li>
+</ul>
+<h4 id="2-8-5-分支定界-branch-and-bound"><a href="#2-8-5-分支定界-branch-and-bound" class="headerlink" title="2.8.5 分支定界(branch and bound)"></a>2.8.5 分支定界(branch and bound)</h4><ul>
+<li><p><strong>算法思路:</strong> 这是回溯算法的增强版</p>
+<ul>
+<li>对于每一个节点的解决方案，通过目标函数计算每个节点的边界</li>
+<li>如果这个节点不能产生比当前节点的解更好的解，则对树进行修剪</li>
+</ul>
+</li>
+<li><p><strong>算法例子:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/BrachAndBound.png" alt="BrachAndBound"></p>
+</li>
+</ul>
+<h5 id="2-8-5-1-人员分配问题-Personnel-assignment-problem"><a href="#2-8-5-1-人员分配问题-Personnel-assignment-problem" class="headerlink" title="2.8.5.1 人员分配问题(Personnel assignment problem)"></a>2.8.5.1 人员分配问题(Personnel assignment problem)</h5><ul>
+<li><p><strong>算法问题描述:</strong> 有人员P={P1, P2, …, Pn},有工作J={J1,J2,…,Jn}</p>
+<script type="math/tex; mode=display">
+X_{ij} = 1\text{ if P_i is assigned to Jj}\\
+X_{ij} = 0 \text{otherwise}\\
+Minimize \sum_{i,j} C_{i,j} X_{i,j}</script></li>
+<li><p><strong>算法思路:</strong> 其实本质上还是最佳优先搜索算法，只是在最佳有限搜索算法上，增加了一个条件，那就是超过边界的那条边，直接剪掉，就不遍历了，一般做法都是通过构建cost matrix</p>
+</li>
+<li><p><strong>算法例子:</strong>  也就是说如果树的一个分支在执行下一个任务的时候，如果不能够在每个任务的边界上，则修剪掉</p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/PersonalAssignCostMatrix.png" alt="PersonalAssignCostMatrix"></p>
+</li>
+</ul>
+<h5 id="2-8-5-2-0-1背包问题"><a href="#2-8-5-2-0-1背包问题" class="headerlink" title="2.8.5.2 0/1背包问题"></a>2.8.5.2 0/1背包问题</h5><ul>
+<li><strong>算法思路:</strong> 通过制定背包问题的上界和下界来优化背包问题解</li>
+</ul>
+<h5 id="2-8-5-3-旅行商问题-Traveling-Salesman-Problem"><a href="#2-8-5-3-旅行商问题-Traveling-Salesman-Problem" class="headerlink" title="2.8.5.3 旅行商问题(Traveling Salesman Problem)"></a>2.8.5.3 旅行商问题(Traveling Salesman Problem)</h5><ul>
+<li><strong>算法思路1:</strong> 旅行商从一个点开始周游城市<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jacklovelol/p/6080399.html?utm_source=itdadao&amp;utm_medium=referral">https://www.cnblogs.com/jacklovelol/p/6080399.html?utm_source=itdadao&amp;utm_medium=referral</a></li>
+<li><strong>算法思路2:</strong> <a target="_blank" rel="noopener" href="http://episte.math.ntu.edu.tw/articles/mm/mm_11_3_02/page2.html">http://episte.math.ntu.edu.tw/articles/mm/mm_11_3_02/page2.html</a></li>
+<li><strong>Nearest-Neighbor Algorithm</strong></li>
+<li><strong>Multifragment-Heuristic Algorithm</strong></li>
+<li><strong>Twice-Around-the-Tree Algorithm</strong></li>
+<li><strong>Christofides Algorithm</strong></li>
+<li><strong>Euclidean Instances</strong></li>
+<li><strong>Local Search Heuristics:</strong> 2-opt algorithm;3-opt algorithm;</li>
+</ul>
+<h3 id="2-9-迭代改进-Iterative-improvement"><a href="#2-9-迭代改进-Iterative-improvement" class="headerlink" title="2.9  迭代改进(Iterative improvement)"></a>2.9  迭代改进(Iterative improvement)</h3><ul>
+<li><strong>算法描述:</strong> 通过一种迭代的方法，不断的优化逼近正确答案，直到当前的上界已经被达到或者每一次迭代都在常数重复。一种递增的方法，通过使用第k次逼近解决方案来寻找(k+1)次逼近解决方案</li>
+</ul>
+<h4 id="2-9-1-单纯形法-Simplex-method"><a href="#2-9-1-单纯形法-Simplex-method" class="headerlink" title="2.9.1 单纯形法(Simplex method)"></a>2.9.1 单纯形法(Simplex method)</h4><ul>
+<li><p><strong>算法问题描述:</strong> 解决线性规划的问题</p>
+<script type="math/tex; mode=display">
+maximize\ c_1x_1+...+c_nx_n \\
+subject\ to\ a_{i1}x_1+...+a_{in}x_n = b_i,\ i=1,...,m,\\
+x_1>=0,...,x_n>=0 \\</script><p><img src="/2020/11/02/Software/fundation/Algorithm/LinearProgramming.png" alt="LinearProgramming"></p>
+</li>
+<li><p><strong>算法思路:</strong> 参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a0fc8a57f452">https://www.jianshu.com/p/a0fc8a57f452</a>, 通过从一个可行的区域产生一个极值点，然后通过优化目标函数生成一个问题可行区域的邻接点，直到最后没有可以提高的地方</p>
+<ul>
+<li>从原线性规划问题中找到第一个基本解</li>
+<li>根据Bland规则，执行旋转操作</li>
+<li>重复第2步直至算法收敛</li>
+</ul>
+</li>
+<li><p><strong>算法例子:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/SimplexMethod.png" alt="SimplexMethod"></p>
+</li>
+</ul>
+<h4 id="2-9-2-Ford-Fulkerson-algorithm-for-最大流图问题-maximum-flow-problem"><a href="#2-9-2-Ford-Fulkerson-algorithm-for-最大流图问题-maximum-flow-problem" class="headerlink" title="2.9.2 Ford-Fulkerson algorithm for 最大流图问题(maximum flow problem)"></a>2.9.2 Ford-Fulkerson algorithm for 最大流图问题(maximum flow problem)</h4><ul>
+<li><strong>算法问题描述:</strong>  对于一个图来说，我们能从源头运输多少东西到目的地是我们比较关系的问题，我们希望在流入点到流出点这一段流量最大，其满足两个条件，除了起始点和终止点</li>
+<li><strong>算法思路:</strong> 利用BFS找到最短路径，然后球最大流通的流量，然后继续第二次BFS，直到所有的流通容量都填满就结束流通</li>
+</ul>
+<h2 id="3-并行算法"><a href="#3-并行算法" class="headerlink" title="3. 并行算法"></a>3. 并行算法</h2><h3 id="3-1-基本概念"><a href="#3-1-基本概念" class="headerlink" title="3.1 基本概念"></a>3.1 基本概念</h3><ul>
+<li><p><strong>并行算法:</strong> 利用<strong>多个计算单元</strong>联合求解问题的方法和步骤，执行过程为<strong>将给定的问题分解为若干个尽量相互独立的子问题</strong>，由多个计算单元同时求解，最终求得原问题的解</p>
+</li>
+<li><p><strong>并行层次:</strong> 作业级或程序级; 任务级或子程序级; 语句级; 操作级; 微操作级;</p>
+</li>
+<li><p><strong>并行的分类:</strong> </p>
+<ul>
+<li><p><strong>单指令流单数据流机SISD, 单指令流多数据流机SIMD</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/SISD_SIMD_Arch.png" alt="SISD_SIMD_Arch"></p>
+</li>
+<li><p><strong>多指令流单数据流机MISD，多指令流多数据流机MIMD</strong></p>
+<p><img src="/2020/11/02/Software/fundation/Algorithm/MISD_MIMD.png" alt="MISD_MIMD"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-Leetcode"><a href="#4-Leetcode" class="headerlink" title="4. Leetcode"></a>4. Leetcode</h2>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/" title="SoftwareAlgorithm">http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/Algorithm/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Software-fundation/" rel="tag"># Software-fundation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/27/Project/Text_2Dto3D/Text-to-3Dbuilding/" rel="prev" title="Text to 3D building">
+      <i class="fa fa-chevron-left"></i> Text to 3D building
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/02/Software/fundation/cloud-technology/" rel="next" title="cloud_technology">
+      cloud_technology <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1. 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-why%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95"><span class="nav-text">1.1 why学习算法?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%80%8E%E6%A0%B7%E5%AD%A6%E4%B9%A0%EF%BC%9F"><span class="nav-text">1.2 怎样学习？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E7%AE%97%E6%B3%95%E6%A6%82%E5%BF%B5"><span class="nav-text">1.3 算法概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E7%AE%97%E6%B3%95%E4%B8%80%E8%A7%88%E8%A1%A8"><span class="nav-text">1.4 算法一览表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">1.5 算法分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%85%B3%E9%94%AE%E7%AE%97%E6%B3%95"><span class="nav-text">2. 关键算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%9A%B4%E5%8A%9B%E6%B1%82%E8%A7%A3"><span class="nav-text">2.1 暴力求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95-%E5%88%86%E8%80%8C%E6%B2%BB%E4%B9%8B-Divide-and-Conquer"><span class="nav-text">2.2 分治算法: 分而治之(Divide-and-Conquer)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-%E6%8E%92%E5%BA%8F-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E5%92%8C%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-text">2.2.1 排序:归并排序和快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-1-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-text">2.2.1.1 归并排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-2-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-text">2.2.1.2 快速排序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-%E4%B8%A4%E4%B8%AA%E5%A4%A7%E6%95%B0%E7%9B%B8%E4%B9%98"><span class="nav-text">2.2.2 两个大数相乘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E7%9F%A9%E9%98%B5%E7%9B%B8%E4%B9%98-Strassen%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-text">2.2.3 矩阵相乘: Strassen的算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86"><span class="nav-text">2.2.4 二叉树遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-%E6%B1%82%E6%9C%80%E8%BF%91%E7%82%B9-2D-3D"><span class="nav-text">2.2.5 求最近点: 2D, 3D</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-6-%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95-2D-3D"><span class="nav-text">2.2.6 凸包算法: 2D, 3D</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-6-1-%E5%87%B8%E5%8C%85%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95"><span class="nav-text">2.2.6.1 凸包分治算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-6-2-%E5%BF%AB%E5%8C%85%E7%AE%97%E6%B3%95"><span class="nav-text">2.2.6.2 快包算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-7-%E4%BA%8C%E7%BB%B4%E6%9C%80%E5%A4%A7%E5%80%BC%E7%82%B9%E5%AF%BB%E6%89%BE%E9%97%AE%E9%A2%98"><span class="nav-text">2.2.7 二维最大值点寻找问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-8-Voronoi%E5%9B%BE%E6%9E%84%E5%BB%BA"><span class="nav-text">2.2.8 Voronoi图构建</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%87%8F%E6%B2%BB%E7%AE%97%E6%B3%95-Decrease-and-Conquer"><span class="nav-text">2.3 减治算法(Decrease and Conquer)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E6%8C%89%E5%B8%B8%E6%95%B0%E5%87%8F%E5%B0%91-usually-by-1"><span class="nav-text">2.3.1 按常数减少(usually by 1)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-1-%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-text">2.3.1.1 插入排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-1-%E5%9B%BE%E9%81%8D%E5%8E%86%E7%AE%97%E6%B3%95-DFS-and-BFS"><span class="nav-text">2.3.1.1 图遍历算法(DFS and BFS)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-2-%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="nav-text">2.3.1.2 拓扑排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-3-%E5%AF%BB%E6%89%BE%E5%9B%BE%E7%9A%84%E8%A1%94%E6%8E%A5%E7%82%B9%E9%97%AE%E9%A2%98-ArticulationPointAlgorithm"><span class="nav-text">2.3.1.3 寻找图的衔接点问题(ArticulationPointAlgorithm)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-4-%E7%94%9F%E6%88%90%E6%8E%92%E5%88%97%EF%BC%8C%E5%AD%90%E9%9B%86%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-text">2.3.1.4 生成排列，子集的算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-%E6%8C%89%E5%B8%B8%E6%95%B0%E5%80%8D%E6%95%B0%E5%87%8F%E5%B0%91-usually-by-half"><span class="nav-text">2.3.2 按常数倍数减少(usually by half)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-1-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E5%92%8C%E4%BA%8C%E7%AD%89%E5%88%86%E6%B3%95-Binary-Search-Trees"><span class="nav-text">2.3.2.1 二分搜索和二等分法(Binary Search Trees)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-2-%E9%80%9A%E8%BF%87%E5%B9%B3%E6%96%B9%E6%B1%82%E5%B9%82"><span class="nav-text">2.3.2.2 通过平方求幂</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-3-%E4%BF%84%E7%BD%97%E6%96%AF%E4%B9%98%E6%B3%95"><span class="nav-text">2.3.2.3 俄罗斯乘法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-4-%E5%81%87%E5%B8%81%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95"><span class="nav-text">2.3.2.4 假币查找算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-5-Josephus-problem"><span class="nav-text">2.3.2.5 Josephus problem</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-%E6%8C%89%E5%8F%AF%E5%8F%98%E5%A4%A7%E5%B0%8F%E5%87%8F%E5%B0%91"><span class="nav-text">2.3.3 按可变大小减少</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-3-1-%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95"><span class="nav-text">2.3.3.1 欧几里得算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-3-2-%E4%B8%AD%E4%BD%8D%E6%95%B0%E9%80%89%E6%8B%A9%E9%97%AE%E9%A2%98"><span class="nav-text">2.3.3.2 中位数选择问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-3-3-%E5%B0%BC%E5%A7%86%E6%B8%B8%E6%88%8F"><span class="nav-text">2.3.3.3 尼姆游戏</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%8F%98%E6%B2%BB%E7%AE%97%E6%B3%95-Transform-and-Conquer"><span class="nav-text">2.4 变治算法(Transform and Conquer)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-Instance-simplification-%E7%AE%80%E5%8C%96"><span class="nav-text">2.4.1 Instance simplification(简化)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-1-1-Presorting"><span class="nav-text">2.4.1.1 Presorting</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-1-2-Gaussian-Elimination"><span class="nav-text">2.4.1.2 Gaussian Elimination</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-1-3-AVL%E6%A0%91"><span class="nav-text">2.4.1.3 AVL树</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-1-4-%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="nav-text">2.4.1.4 红黑树</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-1-5-B-%E6%A0%91"><span class="nav-text">2.4.1.5 B+-树</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-representation-change-%E5%8F%A6%E5%A4%96%E4%B8%80%E7%A7%8D%E4%BB%A3%E8%A1%A8%E6%96%B9%E5%BC%8F"><span class="nav-text">2.4.2 representation change(另外一种代表方式)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-2-1-Horner%E2%80%99s-Rule"><span class="nav-text">2.4.2.1 Horner’s Rule</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-2-2-Computing-a-n"><span class="nav-text">2.4.2.2 Computing a^n</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-3-2-3-trees"><span class="nav-text">2.4.2.3 2-3 trees</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-4-Heaps-and-Heapsort"><span class="nav-text">2.4.2.4 Heaps and Heapsort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-5-Priority-Queue"><span class="nav-text">2.4.2.5 Priority Queue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-Problem-reduction"><span class="nav-text">2.4.3 Problem reduction</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E7%A9%BA%E9%97%B4%E6%8D%A2%E6%97%B6%E9%97%B4%E7%AE%97%E6%B3%95-Space-and-Time-Tradeoffs"><span class="nav-text">2.5 空间换时间算法(Space and Time Tradeoffs)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-%E8%BE%93%E5%85%A5%E5%A2%9E%E5%BC%BA-input-enhancement"><span class="nav-text">2.5.1 输入增强(input enhancement)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-1-1-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F-Counting-Sort"><span class="nav-text">2.5.1.1 计数排序(Counting Sort)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-%E9%A2%84%E7%BB%93%E6%9E%84-prestructuring"><span class="nav-text">2.5.2 预结构(prestructuring)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-2-1-Hashing%E7%AE%97%E6%B3%95"><span class="nav-text">2.5.2.1 Hashing算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-2-2-Extendable-hashing-%E7%AE%97%E6%B3%95"><span class="nav-text">2.5.2.2 Extendable hashing 算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-3-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95"><span class="nav-text">2.5.3 字符串匹配算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-3-1-KMP%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95"><span class="nav-text">2.5.3.1 KMP字符串匹配算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-3-2-Boyer-Moore%E7%AE%97%E6%B3%95"><span class="nav-text">2.5.3.2 Boyer-Moore算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-3-3-Horspool%E7%AE%97%E6%B3%95"><span class="nav-text">2.5.3.3 Horspool算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-3-4-Sunday%E7%AE%97%E6%B3%95"><span class="nav-text">2.5.3.4 Sunday算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E8%B4%AA%E5%A9%AA%E7%AE%97%E6%B3%95-Greedy-Techniques"><span class="nav-text">2.6 贪婪算法(Greedy Techniques)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-1-%E6%B4%BB%E5%8A%A8%E9%80%89%E6%8B%A9%E9%97%AE%E9%A2%98-Activity-Selection-Problem"><span class="nav-text">2.6.1 活动选择问题(Activity Selection Problem)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91-Minimum-Spanning-Tree"><span class="nav-text">2.6.2 最小生成树(Minimum Spanning Tree)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-2-1-Prim%E2%80%99s-algorithm"><span class="nav-text">2.6.2.1 Prim’s algorithm</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-2-2-Kruskal%E2%80%99s-algorithm"><span class="nav-text">2.6.2.2 Kruskal’s algorithm</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-3-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-text">2.6.3 最短路径问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-3-1-Dijkstra%E2%80%99s-algorithm"><span class="nav-text">2.6.3.1 Dijkstra’s algorithm</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-4-%E4%B8%A4%E8%B7%AF%E5%90%88%E5%B9%B6%E9%97%AE%E9%A2%98-2-way-merging-algorithm"><span class="nav-text">2.6.4 两路合并问题(2-way merging algorithm)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-5-%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98-Huffman%E2%80%99s-algorithm"><span class="nav-text">2.6.5 编码问题(Huffman’s algorithm)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-6-%E6%9C%80%E5%B0%8F%E5%9C%88%E9%97%AE%E9%A2%98-minimal-cycle-basis-problem"><span class="nav-text">2.6.6 最小圈问题(minimal cycle basis problem)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95-Dynamic-Programming"><span class="nav-text">2.7 动态规划算法(Dynamic Programming)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97-Fibonacci-number"><span class="nav-text">2.7.1 斐波那契数列(Fibonacci number)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-2-%E4%BC%98%E5%8C%96%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91-Optimal-Binary-Search-Trees"><span class="nav-text">2.7.2 优化平衡二叉树(Optimal Binary Search Trees)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-3-%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98-Knapsack-Problem"><span class="nav-text">2.7.3 背包问题(Knapsack Problem)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-4-%E5%9B%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-text">2.7.4 图最短路径问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-7-4-1-%E4%BC%A0%E9%80%92%E8%B7%AF%E5%BE%84%E7%9F%A9%E9%98%B5%E9%97%AE%E9%A2%98-Warshall%E2%80%99s-Algorithm"><span class="nav-text">2.7.4.1 传递路径矩阵问题(Warshall’s Algorithm)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-7-4-2-%E6%AF%8F%E4%B8%80%E5%AF%B9%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98-All-pairs-shortest-paths-Floyd%E2%80%99s-Algorithm"><span class="nav-text">2.7.4.2 每一对最短路径问题(All pairs shortest paths: Floyd’s Algorithm)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-5-%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97-Longest-Common-Subsequence"><span class="nav-text">2.7.5 最长公共子序列(Longest Common Subsequence)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-6-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98-Assembly-Line-Scheduling"><span class="nav-text">2.7.6 流水线调度问题(Assembly Line Scheduling)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-7-%E7%9F%A9%E9%98%B5%E9%93%BE%E5%BC%8F%E4%B9%98%E6%B3%95-Matrix-Chain-Multiplication"><span class="nav-text">2.7.7 矩阵链式乘法(Matrix-Chain Multiplication)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-Tree-Searching-Strategies-%E6%A0%91%E6%90%9C%E7%B4%A2%E7%AD%96%E7%95%A5"><span class="nav-text">2.8 Tree Searching Strategies(树搜索策略)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-1-%E6%9A%B4%E5%8A%9B%E6%B1%82%E8%A7%A3-exhaustive-search"><span class="nav-text">2.8.1 暴力求解(exhaustive search)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-2-%E5%90%AF%E5%8F%91%E6%90%9C%E7%B4%A2-Heuristic-search"><span class="nav-text">2.8.2 启发搜索(Heuristic search)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-2-1-%E7%88%AC%E5%B1%B1%E7%AE%97%E6%B3%95-Hill-climbing"><span class="nav-text">2.8.2.1 爬山算法(Hill climbing)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-2-2-%E6%9C%80%E4%BD%B3%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E7%AD%96%E7%95%A5-Best-first-search-strategy"><span class="nav-text">2.8.2.2 最佳优先搜索策略(Best-first search strategy)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-2-3-A-Algorithm"><span class="nav-text">2.8.2.3 A* Algorithm</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-3-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-dynamic-Programming"><span class="nav-text">2.8.3 动态规划(dynamic Programming)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-4-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95-Backtracking"><span class="nav-text">2.8.4 回溯算法(Backtracking)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-4-1-n%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98"><span class="nav-text">2.8.4.1 n皇后问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-4-2-%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%9E%E8%B7%AF%E9%97%AE%E9%A2%98-Hamiltonian-Circuit-Problem"><span class="nav-text">2.8.4.2 哈密顿回路问题(Hamiltonian Circuit Problem)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-4-3-%E5%AD%90%E5%BA%8F%E5%88%97%E6%B1%82%E5%92%8C%E9%97%AE%E9%A2%98-Hamiltonian-Circuit-Problem"><span class="nav-text">2.8.4.3 子序列求和问题(Hamiltonian Circuit Problem)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-5-%E5%88%86%E6%94%AF%E5%AE%9A%E7%95%8C-branch-and-bound"><span class="nav-text">2.8.5 分支定界(branch and bound)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-5-1-%E4%BA%BA%E5%91%98%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98-Personnel-assignment-problem"><span class="nav-text">2.8.5.1 人员分配问题(Personnel assignment problem)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-5-2-0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98"><span class="nav-text">2.8.5.2 0&#x2F;1背包问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-5-3-%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98-Traveling-Salesman-Problem"><span class="nav-text">2.8.5.3 旅行商问题(Traveling Salesman Problem)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-%E8%BF%AD%E4%BB%A3%E6%94%B9%E8%BF%9B-Iterative-improvement"><span class="nav-text">2.9  迭代改进(Iterative improvement)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-9-1-%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95-Simplex-method"><span class="nav-text">2.9.1 单纯形法(Simplex method)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-9-2-Ford-Fulkerson-algorithm-for-%E6%9C%80%E5%A4%A7%E6%B5%81%E5%9B%BE%E9%97%AE%E9%A2%98-maximum-flow-problem"><span class="nav-text">2.9.2 Ford-Fulkerson algorithm for 最大流图问题(maximum flow problem)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B9%B6%E8%A1%8C%E7%AE%97%E6%B3%95"><span class="nav-text">3. 并行算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3.1 基本概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Leetcode"><span class="nav-text">4. Leetcode</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

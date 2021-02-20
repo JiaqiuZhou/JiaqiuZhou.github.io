@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍神经网络的一些基本理论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习基本理论">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍神经网络的一些基本理论">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/MLP.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/sigmoid.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/tanh.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Relu.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Loss/triplet_loss.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Loss/ContrastiveLoss.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/SoftmaxLoss.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/BackPropagation.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/GD.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/SGD.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/SGDwithResLink.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Basictheory/Convolution.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Convolution_kernel.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/maxpooling.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/BN_result.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/AE.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/VAE.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Layers/NormalConvolution.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Layers/groupConvolution.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Layers/DepthwiseConvolution.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/layers/self-attention.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Basictheory/maniforddistance.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Basictheory/Highdimensions.png">
+<meta property="article:published_time" content="2020-08-01T13:25:07.000Z">
+<meta property="article:modified_time" content="2021-01-31T03:37:12.487Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="DeepLearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/MLP.png">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>深度学习基本理论 | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深度学习基本理论
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-01 21:25:07" itemprop="dateCreated datePublished" datetime="2020-08-01T21:25:07+08:00">2020-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-31 11:37:12" itemprop="dateModified" datetime="2021-01-31T11:37:12+08:00">2021-01-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DeepLearning-Theory/" itemprop="url" rel="index"><span itemprop="name">DeepLearning-Theory</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/" class="post-meta-item leancloud_visitors" data-flag-title="深度学习基本理论" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍神经网络的一些基本理论</p>
+<a id="more"></a>
+<h2 id="1-假设前提"><a href="#1-假设前提" class="headerlink" title="1.假设前提"></a>1.假设前提</h2><h3 id="1-1-神经网络分布"><a href="#1-1-神经网络分布" class="headerlink" title="1.1 神经网络分布"></a>1.1 神经网络分布</h3><ul>
+<li><strong>输入输出同分布:</strong> 本质上是训练一个函数的逼近器，因此对于固定分布的x映射到固定分布的y，都是有前提假设的，那就是x与y处在<strong>同一个分布中</strong>。</li>
+<li><strong>数据来自于多个分布:</strong> 没有连在一起，那么神经网络只能假设他们连在一起, 实际上应该是可以先将数据进行分布分类，如果分布交叉在一起，那么应该让两个神经网络模型进行融合合作。</li>
+<li><strong>如何连接？就用图？</strong> 判断模型判断网络用哪个模型来判别，比如说计算机、化学、生物学科交叉，专门问题让专门的学科去做这个事情</li>
+</ul>
+<h2 id="2-基本知识"><a href="#2-基本知识" class="headerlink" title="2. 基本知识"></a>2. 基本知识</h2><h3 id="2-1-数学推导"><a href="#2-1-数学推导" class="headerlink" title="2.1 数学推导"></a>2.1 数学推导</h3><ul>
+<li><p>主要是由输入层,隐藏层,输出层,其大致结构如图:</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/MLP.png" alt="MLP"></p>
+<p>可以将其看看成是多个神经元叠加,最后再加一层logistic regression的输出</p>
+</li>
+<li><p>其内部更新权重表示的公式有如下:</p>
+<script type="math/tex; mode=display">
+a^{[l]} = w^{[l]}x+b^{[l]}\\
+z^{[l]} = g(a^{[l]})\\
+a^{[l+1]}=w^{[l+1]}z^{[l]}+b^{[l+1]}\\
+z^{[l+1]} = g(a^{[l+1]}) \\
+上标[]表示第几层,()表示第几个训练样本, \\ 
+下标表示某一层中的第几个神经元\\
+如w^{[1](1)}_{1}表示第一层网络层中的第一个神经元的第一个训练样本.</script><p> 其中g表示激活函数,w表示更新的权重,b表示bias</p>
+</li>
+</ul>
+<h3 id="2-2-Param参数和FLOPs计算量"><a href="#2-2-Param参数和FLOPs计算量" class="headerlink" title="2.2 Param参数和FLOPs计算量"></a>2.2 Param参数和FLOPs计算量</h3><ul>
+<li><strong>FLOPs:</strong> Floating point operations浮点运算数量，论文中较常采用的是1GFLOPs= 10^9 FLOPs 10亿次浮点运算；</li>
+<li><strong>FLOPs例子:</strong> 举个例子，一个3x3的卷积核一次卷积需要经过9次乘法+（3x3-1)次加法，所以一张5x5大小的图片就要经过17x9次的运算</li>
+<li><strong>Param参数:</strong> 指的是需要学习的参数为多少个，比如hxwxcxn的卷积层，所需的参数量为nx(hxwxc+1)</li>
+</ul>
+<h2 id="3-常见的激活函数"><a href="#3-常见的激活函数" class="headerlink" title="3. 常见的激活函数"></a>3. 常见的激活函数</h2><h3 id="3-1-sigmoid函数"><a href="#3-1-sigmoid函数" class="headerlink" title="3.1 sigmoid函数"></a>3.1 sigmoid函数</h3><script type="math/tex; mode=display">
+f(x) = \frac{1}{1+e^{-x}}</script><p>​    <img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/sigmoid.jpg" alt="sigmoid"></p>
+<ul>
+<li><strong>梯度消失问题:</strong> 这种激活函数具有良好的非线性映射,但是其致命的问题在于其梯度取值永远小于0.25,会出现梯度为零的现象,导致梯度消失,大大影响训练速度.</li>
+</ul>
+<h3 id="3-2-tanh函数"><a href="#3-2-tanh函数" class="headerlink" title="3.2 tanh函数"></a>3.2 tanh函数</h3><script type="math/tex; mode=display">
+f(x) =\frac{1-e^{-2x}}{1+e^{-2x}}</script><p>​    <img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/tanh.png" alt="tanh"></p>
+<ul>
+<li>其函数取值比sigmoid函数广,但是仍然存在sigmoid函数的问题</li>
+</ul>
+<h3 id="3-3-ReLU函数"><a href="#3-3-ReLU函数" class="headerlink" title="3.3 ReLU函数"></a>3.3 ReLU函数</h3><script type="math/tex; mode=display">
+f(x) = max(0, x)</script><p>​    <img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Relu.png" alt="Relu"></p>
+<ul>
+<li>其函数值可以看到在无穷大的时候梯度还是为常数,是应用最广的激活函数</li>
+<li><strong>关键性作用:</strong> <strong>单向抑制</strong>，使得部分神经元处于激活状态，部分处于抑制状态,符合人脑的激活机制; <strong>不存在梯度消失的问题</strong>，当激活值大于1时，梯度为1，使得模型的收敛速度稳定;<strong>计算量小</strong>，由于梯度为1，没有带小数点，所以很好计算</li>
+</ul>
+<h2 id="4-常见的损失函数"><a href="#4-常见的损失函数" class="headerlink" title="4. 常见的损失函数"></a>4. 常见的损失函数</h2><h3 id="4-1-Regression回归"><a href="#4-1-Regression回归" class="headerlink" title="4.1 Regression回归"></a>4.1 Regression回归</h3><h4 id="4-1-1-MSE-loss平方和误差"><a href="#4-1-1-MSE-loss平方和误差" class="headerlink" title="4.1.1 MSE loss平方和误差"></a>4.1.1 MSE loss平方和误差</h4><ul>
+<li>指的是模型预测值与样本真实值之间距离平方的平均值<script type="math/tex; mode=display">
+MSE=\frac{1}{m} \sum^{m}_{i=1}(y_i -f(x_i))^{2}</script></li>
+</ul>
+<h4 id="4-1-2-MAE-Loss绝对值误差"><a href="#4-1-2-MAE-Loss绝对值误差" class="headerlink" title="4.1.2 MAE Loss绝对值误差"></a>4.1.2 MAE Loss绝对值误差</h4><ul>
+<li>指的是模型预测值与样本真实值之间距离的平均值<script type="math/tex; mode=display">
+MAE = \frac{1}{m}\sum^{m}_{i=1}|y_i -f(x_i)|</script></li>
+</ul>
+<h3 id="4-2-Classification分类"><a href="#4-2-Classification分类" class="headerlink" title="4.2 Classification分类"></a>4.2 Classification分类</h3><h4 id="4-2-1-HingeLoss"><a href="#4-2-1-HingeLoss" class="headerlink" title="4.2.1 HingeLoss"></a>4.2.1 HingeLoss</h4><ul>
+<li><p><strong>应用:</strong> <strong>SVM超平面分类,</strong> 将样本分为正类与负类</p>
+</li>
+<li><p><strong>定义:</strong> 希望分类之间存在一定间距，即软间隔，容许超分类平面分类的距离缩小</p>
+<script type="math/tex; mode=display">
+HingleLoss = max(0, 1-y_i(w^Tx+b))</script></li>
+</ul>
+<h4 id="4-2-2-TripletLoss"><a href="#4-2-2-TripletLoss" class="headerlink" title="4.2.2 TripletLoss"></a>4.2.2 TripletLoss</h4><ul>
+<li><p><strong>参考来源:</strong> <a target="_blank" rel="noopener" href="http://www.lawlite.me/2018/10/16/Triplet-Loss原理及其实现/">http://www.lawlite.me/2018/10/16/Triplet-Loss原理及其实现/</a></p>
+</li>
+<li><p><strong>应用:</strong> <strong>人脸识别分类，</strong>人脸识别优化损失函数，使得类内可以容许一定的差距，类间保持较大的间距，是来自于Hinge Loss的延伸</p>
+</li>
+<li><p><strong>定义:</strong> 拉近a,p的距离也就是相同的类的距离，拉远a,n的距离，也就是类间的距离</p>
+<script type="math/tex; mode=display">
+L=max(d(a,p)-d(a,n)+margin, 0)</script><p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Loss/triplet_loss.png" alt="triplet_loss"></p>
+</li>
+</ul>
+<h4 id="4-2-3-Hausdorff-distance"><a href="#4-2-3-Hausdorff-distance" class="headerlink" title="4.2.3 Hausdorff distance"></a>4.2.3 Hausdorff distance</h4><ul>
+<li><p><strong>应用:</strong> <strong>三维点云相似度衡量</strong></p>
+</li>
+<li><p><strong>定义:</strong>描述两组点集之间的相似程度的一种量度,是两个点集之间距离的一种形式</p>
+<script type="math/tex; mode=display">
+H(A,B) = max[h(A,B), h(B,A)]\\
+h(A,B) = max_{a\in A} min_{b\in B} \parallel a-b \parallel\\
+h(A,B) = max_{b\in B} min_{a\in A} \parallel b-a \parallel</script></li>
+</ul>
+<h4 id="4-2-4-LogisticLoss"><a href="#4-2-4-LogisticLoss" class="headerlink" title="4.2.4 LogisticLoss"></a>4.2.4 LogisticLoss</h4><ul>
+<li><p><strong>应用:</strong> <strong>二分类问题</strong></p>
+</li>
+<li><p><strong>定义:</strong> 通过事件概率来计算loss,x为输入，h为事件输入的概率输出</p>
+<script type="math/tex; mode=display">
+CE loss = - \frac{1}{n}\sum^{n}_{i=1}\left[y_{i}logh_{w}(x_{i})+(1-y_i)log(1-h_w(x_i)) \right] \\
+等价于CE(p,y) = \begin{cases}-log(p)& if\ y =1\\ -log(1-p)& otherwise\end{cases}</script></li>
+</ul>
+<h4 id="4-2-5-CrossEntropyLoss"><a href="#4-2-5-CrossEntropyLoss" class="headerlink" title="4.2.5 CrossEntropyLoss"></a>4.2.5 CrossEntropyLoss</h4><ul>
+<li><p><strong>应用:</strong> 多分类问题</p>
+</li>
+<li><p><strong>定义:</strong> 通过能量函数来对每个输入进行概率化，最后计算每个类的输出概率</p>
+<script type="math/tex; mode=display">
+Cross\ entropy\ loss= - \frac{1}{n}\sum^{n}_{i=1}\sum_{j=0}^{K-1}\left[log\frac{e^{\bf w_{\mit j}^T x}}{\sum_{l=0}^{K-1}e^{\bf w_{\mit l}^T x}
+}\cdot {\rm{II}}\{y_i=j\} \right]</script></li>
+</ul>
+<h4 id="4-2-6-Focal-Loss"><a href="#4-2-6-Focal-Loss" class="headerlink" title="4.2.6 Focal Loss"></a>4.2.6 Focal Loss</h4><ul>
+<li><p><strong>应用:</strong> 二分类以及多分类问题样本平衡优化</p>
+</li>
+<li><p><strong>定义:</strong> 针对于样本不平衡的问题，如果正负样本不平衡，可以选择<script type="math/tex">\alpha</script> 作为正负样本的系数，为了针对于难分类样本与易分类样本的权重，设计<script type="math/tex">\gamma</script> 作为系数</p>
+<script type="math/tex; mode=display">
+多分类问题:FL(p_t) = -(1-p_t)^\gamma log(p_t) \\
+二分类问题:FL(pt)=-\alpha(1-p_t)^\gamma log(p_t)</script></li>
+<li><p>实践中，<script type="math/tex">\gamma</script> 多取2</p>
+</li>
+</ul>
+<h4 id="4-2-7-Contrastive-Loss"><a href="#4-2-7-Contrastive-Loss" class="headerlink" title="4.2.7 Contrastive Loss"></a>4.2.7 Contrastive Loss</h4><ul>
+<li><p><strong>应用:</strong> 常用于<strong>自监督</strong>问题中作为把自己的类别与其他类别区分开</p>
+</li>
+<li><p><strong>定义:</strong> 将与自己相近的类别归于正类，与自己不相近的类别归于负类</p>
+<script type="math/tex; mode=display">
+Contrastive\ Loss = -log\frac{exp(f^Tf^+)}{exp(f^Tf^+)+\sum_{i=1}^{L-1}exp(f^{T}f_i)}</script><p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Loss/ContrastiveLoss.png" alt="ContrastiveLoss"></p>
+</li>
+</ul>
+<h4 id="4-2-8-Softmax-loss"><a href="#4-2-8-Softmax-loss" class="headerlink" title="4.2.8 Softmax loss"></a>4.2.8 Softmax loss</h4><ul>
+<li><p><strong>应用:</strong> 多分类问题使用得比较多</p>
+</li>
+<li><p><strong>定义:</strong> 通过定义每个特征的能量来进行分类</p>
+<script type="math/tex; mode=display">
+\sigma: \Bbb R^K \rightarrow[0,1]^K\\
+\sigma(z)_j = \frac {e^{z_j}} {\sum^K_{k=1}e^{z_k}},for\ j = 1, ...,k</script><p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/SoftmaxLoss.png" alt="SoftmaxLoss"></p>
+<p>从网络的角度来对softmax loss进行定义有</p>
+<script type="math/tex; mode=display">
+\cal L_S = - \frac 1 n \sum_{i=1}^{n}log\frac {e^{W_{y_i}^Tf_i}} {\sum_{j=1}^ce^{W_j^Tf_i}} \\
+=- \frac 1 n \sum_{i=1}^{n}log\frac {e^{||W_{y_i}||||f_i||cos(\theta y_i)}} {\sum_{j=1}^ce^{||W_{j}||||f_i||cos(\theta j)}}</script></li>
+</ul>
+<h2 id="5-BackPropagation"><a href="#5-BackPropagation" class="headerlink" title="5. BackPropagation"></a>5. BackPropagation</h2><h3 id="5-1-Chain-Rule"><a href="#5-1-Chain-Rule" class="headerlink" title="5.1 Chain Rule"></a>5.1 Chain Rule</h3><ul>
+<li>Compute the  gradient:<script type="math/tex; mode=display">
+z = x \circ s \Longrightarrow \frac{\partial z}{\partial s} = \frac{\partial z}{\partial x} \frac{\partial x}{\partial s}</script></li>
+</ul>
+<h3 id="5-2-Gradient-Computation-of-Neural-Network-f"><a href="#5-2-Gradient-Computation-of-Neural-Network-f" class="headerlink" title="5.2 Gradient Computation of Neural Network f"></a>5.2 Gradient Computation of Neural Network <script type="math/tex">f</script></h3><ul>
+<li><p>Neural Network represetation <script type="math/tex">f</script>:</p>
+<script type="math/tex; mode=display">
+{\cal L}({\rm y,\hat{y}}) = {\cal L} \circ f_L \circ f_{L-1} \circ \cdots\circ f_l \circ \cdots \circ f_2\circ f_1({\rm \bf W_1})</script></li>
+<li><p>Use chain rule, we have:</p>
+<script type="math/tex; mode=display">
+\frac{\partial {\cal L}({\rm y,\hat{y}})}{\partial {\rm \bf W}_l} = \frac{\partial {\cal L}}{\partial f_L} \frac{\partial f_L}{\partial f_{L-1}}\cdots \frac{\partial f_{l+1}}{\partial f_l}\frac{\partial f_l}{\partial {\rm \bf W}_l}</script></li>
+<li><p>Then, for any layer <script type="math/tex">l</script> :</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/BackPropagation.png" alt="BackPropagation"></p>
+</li>
+</ul>
+<h2 id="6-函数优化算法"><a href="#6-函数优化算法" class="headerlink" title="6. 函数优化算法"></a>6. 函数优化算法</h2><h3 id="6-1-GD-Gradient-Descent"><a href="#6-1-GD-Gradient-Descent" class="headerlink" title="6.1 GD(Gradient Descent)"></a>6.1 GD(Gradient Descent)</h3><ul>
+<li><p><strong>算法简介:</strong> 其原理就是优化函数求导的原理，其过程就如同下山，一步步地挑最陡的路下山到山脚，其示意图如下:</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/GD.png" alt="GD"></p>
+</li>
+<li><p><strong>数学定义:</strong>  通过计算f(x)的导数来优化x的参数</p>
+<script type="math/tex; mode=display">
+x_{t+1} = x_{t} - \eta_{t}\nabla f(x_t)</script></li>
+<li><p><strong>弊端:</strong> 由于使用全部的数据，那么每一步的梯度方向都会是一样的，这样不仅速度慢，而且会很容易陷入局部最优点(local minimum)跑不出来</p>
+</li>
+</ul>
+<h3 id="6-2-SGD-Stochastic-Gradient"><a href="#6-2-SGD-Stochastic-Gradient" class="headerlink" title="6.2 SGD(Stochastic Gradient)"></a>6.2 SGD(Stochastic Gradient)</h3><ul>
+<li><p><strong>算法简介:</strong> SGD其实相对于GD来说会有更多的随机性，但正是这样的随机性，每次从整个数据取128个或256个来进行训练使得整体的训练优化梯度的方向不会陷入局部鞍点，而且快速；大量实验证明，SGD会找到很多的局部最优解，这些局部最优解都是比较好的。</p>
+</li>
+<li><p><strong>数学定义:</strong> 整体取一部分局部计算梯度</p>
+<script type="math/tex; mode=display">
+x_{t+1} = x_t - \eta_t g_t;\\
+E[g_t] = \nabla f(x_t)</script><p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/SGD.png" alt="SGD"></p>
+</li>
+<li><p><strong>可视化Res跳跃连接:</strong> 在两层网络中加入跳跃连接，即使以下成立</p>
+<script type="math/tex; mode=display">
+F(x) = F(x)+x</script><p>利用损失函数的值可视化来对神经网络进行认识，有如图所示:</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/SGDwithResLink.jpg" alt="SGDwithResLink"></p>
+</li>
+<li><p><strong>MSGD:</strong> Mini-Batch Stochastic Gradient, mini-batch相当于一种<strong>平滑loss</strong>的操作，使得网络训练震荡不那么剧烈，<strong>提供随机性</strong>，使得不容易落入鞍点,<strong>并行计算</strong>, 提高训练速度</p>
+</li>
+</ul>
+<h2 id="7-常见的网络层"><a href="#7-常见的网络层" class="headerlink" title="7. 常见的网络层"></a>7. 常见的网络层</h2><h3 id="7-1-Linear-Layers"><a href="#7-1-Linear-Layers" class="headerlink" title="7.1 Linear Layers"></a>7.1 Linear Layers</h3><h4 id="7-1-1-Definition"><a href="#7-1-1-Definition" class="headerlink" title="7.1.1 Definition"></a>7.1.1 Definition</h4><ul>
+<li><strong>线性回归层:</strong> 目前接触的神经网络预测层中，应该说都少不了对线性层的引入，常用来做的是<strong>回归和分类任务</strong></li>
+</ul>
+<h4 id="7-1-2-Params-and-operation"><a href="#7-1-2-Params-and-operation" class="headerlink" title="7.1.2 Params and operation"></a>7.1.2 Params and operation</h4><ul>
+<li><strong>常用参数:</strong> 一般采用的是<strong>64,128,512,1024</strong>;对于小回归任务来说，两层线性层就可以大体满足任务，人脸的识别上用的最后一层也可以是线性层然后softmax进行分类</li>
+<li><strong>常用操作:</strong> cat将两个特征向量concat在一起，add将两个向量直接相加都是比较常见的</li>
+</ul>
+<h3 id="7-2-Convolution-Layers"><a href="#7-2-Convolution-Layers" class="headerlink" title="7.2 Convolution Layers"></a>7.2 Convolution Layers</h3><ul>
+<li>详细了解可以看:<a target="_blank" rel="noopener" href="https://www.hankcs.com/ml/understanding-the-convolution-in-deep-learning.html#respond">https://www.hankcs.com/ml/understanding-the-convolution-in-deep-learning.html#respond</a></li>
+</ul>
+<h4 id="7-2-1-Definition"><a href="#7-2-1-Definition" class="headerlink" title="7.2.1 Definition"></a>7.2.1 Definition</h4><ul>
+<li><p><strong>卷积的理解:</strong> 从数学上对离散卷积的定义就是如下定义,</p>
+<script type="math/tex; mode=display">
+(f*g)(n) = \sum_{\tau=- \infin}^{ \infin} f(\tau)g(n-\tau)</script></li>
+<li><p><strong>离散卷积例子—掷骰子:</strong> 对于两枚骰子，我们可以计算得到两枚骰子点数加起来为4的概率为, </p>
+<script type="math/tex; mode=display">
+f(1)g(3)+f(2)g(2)+f(3)g(1)
+(f*g)(4) = \sum_{m=1}^{3}f(4-m)g(m) \\
+(f*g)(4) = \sum_{m=1}^3f(4-m)g(m)</script></li>
+<li><p><strong>图像的卷积:</strong> 上面所述是傅里叶在一维的形式，二维形式可以抽象成下图的状态，对于每一个kernel学习提取图像的特征</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Basictheory/Convolution.png" alt="Convolution"></p>
+</li>
+</ul>
+<h4 id="7-2-2-Effect"><a href="#7-2-2-Effect" class="headerlink" title="7.2.2 Effect"></a>7.2.2 Effect</h4><ul>
+<li><p><strong>Scale, shift, distortion invariance?:</strong> 其实有论文指出当前的卷积网络可能只在平移为stride的时候或者在较小的范围内具有这样的特性</p>
+</li>
+<li><p><strong>共享权重，提取特征:</strong> 正如传统的特征工程一般，利用kernel来提取这样的特征，卷积也可以被诠释成这样，但实验发现，只有在浅层是这样，深层就不得而知了</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Convolution_kernel.png" alt="Convolution_kernel"></p>
+</li>
+</ul>
+<h3 id="7-3-Pooling-Layers"><a href="#7-3-Pooling-Layers" class="headerlink" title="7.3 Pooling Layers"></a>7.3 Pooling Layers</h3><h4 id="7-3-1-Definition"><a href="#7-3-1-Definition" class="headerlink" title="7.3.1 Definition"></a>7.3.1 Definition</h4><ul>
+<li><p>推荐形象的描述下采样视频:<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/36686900">https://www.zhihu.com/question/36686900</a></p>
+</li>
+<li><p>通过选定一个kernel size大小为k,移动步长stride为s的核,然后对图像的每个区域进行同样的操作,以此来缩小尺寸,提高运算速度. 假设原先大小为nxn的一个图像,且没有进行padding操作,变换后的大小为mxm, 则有:</p>
+<script type="math/tex; mode=display">
+m = \frac{n-k}{s}+1</script></li>
+<li><p>假定采用的是maxpooling的操作,那么可以用如下图片进行形象演示:</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/maxpooling.png" alt="max pooling"></p>
+</li>
+</ul>
+<h4 id="7-3-2-Pooling-style"><a href="#7-3-2-Pooling-style" class="headerlink" title="7.3.2 Pooling style"></a>7.3.2 Pooling style</h4><ul>
+<li><p><strong>Maxpooling:</strong> 在kernel中取图像每个区域大小的最大值作为当前所采样得到的值，由于这种特点的存在,其可以保留最具有特征性的数据,即对<strong>纹理的保留</strong>会更加完整</p>
+</li>
+<li><p><strong>AveragePooling:</strong> 在kernel中对图像每个区域的值取个平均值作为当前采样得到的值，这种方法可以使得领域大小所带来的方差减小,即更多的保留<strong>背景信息</strong></p>
+</li>
+</ul>
+<h4 id="7-3-3-Effect"><a href="#7-3-3-Effect" class="headerlink" title="7.3.3 Effect"></a>7.3.3 Effect</h4><ul>
+<li><strong>invariance</strong>:包括平移,旋转,尺度.多层pooling使得最后提取出来的特征保持一致性</li>
+<li>保留主要特征的同时,减小模型参数,减少模型中的冗余参数</li>
+</ul>
+<h3 id="7-4-BN-layers"><a href="#7-4-BN-layers" class="headerlink" title="7.4 BN layers"></a>7.4 BN layers</h3><h4 id="7-4-1-Definition"><a href="#7-4-1-Definition" class="headerlink" title="7.4.1 Definition"></a>7.4.1 Definition</h4><ul>
+<li><strong>BatchNormalization:</strong> 对BN层的直观理解就是将网络层的输入值根据均值和方差来对输入值的数据进行归一化，其数学定义如下所示:<script type="math/tex; mode=display">
+\mu_B\leftarrow\frac{1}{m}\sum_{i=1}^{m}x_i \ //mini-batch\ mean\\
+\sigma_B^2\leftarrow\frac{1}{m}\sum_{i=1}^m(x_i-\mu_B)^2 // mini-batch variance \\
+\hat x_i \leftarrow \frac{x_i - \mu_B}{\sqrt{\sigma_B^2+\epsilon}} \ //normalize \\
+y_i \leftarrow \gamma\hat x_i +\beta \ //scale and shift</script></li>
+</ul>
+<h4 id="7-4-2-Effect"><a href="#7-4-2-Effect" class="headerlink" title="7.4.2 Effect"></a>7.4.2 Effect</h4><p>​    <img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/BN_result.jpg" alt="BN_result"></p>
+<ul>
+<li><strong>加速训练:</strong> 对于sigmod激活函数function来说，它可以使得梯度不会消失，因为激活值在0附近,对于sigmod来说梯度一直存在</li>
+<li><strong>增加准确率:</strong> 最新的论文通过实验验证提出，BN可以使得loss更加平滑，不会出现很多局部的鞍点。</li>
+</ul>
+<h4 id="7-4-3-Usage"><a href="#7-4-3-Usage" class="headerlink" title="7.4.3 Usage"></a>7.4.3 Usage</h4><ul>
+<li><p><strong>用法:</strong> 在训练过程中通过batch数据来对mean和std进行计算，然后推理的时候不进行BN层</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">model.train()</span><br><span class="line"><span class="comment"># 启用 BatchNormalization 和 Dropout</span></span><br><span class="line">model.<span class="built_in">eval</span>()</span><br><span class="line"><span class="comment"># 不启用 BatchNormalization 和 Dropout</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>原理:</strong> 训练的数据比较多，mean和std比较均匀，而推理的时候数据比较少很容易改变mean和std的值,因此在推理的时候将数据进行固定</p>
+</li>
+</ul>
+<h3 id="7-5-VAE-Layers"><a href="#7-5-VAE-Layers" class="headerlink" title="7.5 VAE Layers"></a>7.5 VAE Layers</h3><h4 id="7-5-1-Definition"><a href="#7-5-1-Definition" class="headerlink" title="7.5.1 Definition"></a>7.5.1 Definition</h4><ul>
+<li><p><strong>从AutoEncoder到VAE:</strong>  第一部分是<strong>编码器</strong>，输入数据降维到一个编码中，然后用第二部分<strong>解码器</strong>去解码得到和输入数据一样分布的图片，自动编码器一般结构如图所示，但是这个会带来一个问题：我们没有一张图片，而是<strong>随机变量</strong>作为编码会怎么样呢？<strong>VAE</strong>尝试解决这个问题</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/AE.jpg" alt="AE"></p>
+</li>
+<li><p><strong>VAE:</strong> 基于初衷:希望从正态分布中采样可以生成图片, 那么就需要训练一个生成器可以从正态分布中生成图片。于是设计如图所示的结构</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/VAE.jpg" alt="VAE"></p>
+<ul>
+<li><strong>实现原理:</strong> 通过神经网络对图片进行编码学习两个标准的向量，一个均值向量，一个方差向量，然后通过与正态分布相乘来得到sampled latent vector，这个隐藏vector是符合正态分布的</li>
+<li><strong>拟合函数:</strong> <ul>
+<li><strong>拟合分布:</strong> 通过KL函数来衡量这个隐含变量分布与正态分布之间的相似程度</li>
+<li><strong>拟合重构概率分布:</strong> 为了使得随机正态分布的概率分布能够生成图片，于是使用了拟合重构的误差来衡量，使得生成器可以从正态分布中拟合到图片的分布中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-5-2-Effect"><a href="#7-5-2-Effect" class="headerlink" title="7.5.2 Effect"></a>7.5.2 Effect</h4><ul>
+<li><strong>生成能力:</strong> 相比于GAN来说，这个的生成更加为生成的方向指明了道路，但是应该这种图片的生成比不上GAN的随机性吧</li>
+<li><strong>数学理论基础:</strong> 在tutorial中会有充分的证明，Tutorial on Variational Autoencoders</li>
+</ul>
+<h3 id="7-6-分组卷积"><a href="#7-6-分组卷积" class="headerlink" title="7.6 分组卷积"></a>7.6 分组卷积</h3><h4 id="7-6-1-Definition"><a href="#7-6-1-Definition" class="headerlink" title="7.6.1 Definition"></a>7.6.1 Definition</h4><ul>
+<li><p><strong>从不分组的卷积到分组的卷积:</strong> 不分组卷积参数量为: <script type="math/tex">(h_1\times w_1 \times c_1)\times c_2</script></p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Layers/NormalConvolution.png" alt="NormalConvolution"></p>
+<p>对上述的卷积图片进行分组，分成g组，以及卷积核的数目进行分组，则有参数量为<script type="math/tex">h_1 \times w_1 \times \frac{c_1}{g} \times \frac{c_2} {g} \times g</script></p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Layers/groupConvolution.png" alt="GroupConvolution"></p>
+</li>
+<li><p><strong>直观理解:</strong> 对图片的通道数进行分解成g组，但是实际上削减参数量的是在卷积核数目上，将它从<script type="math/tex">c_2</script> 个削减到了<script type="math/tex">\frac{c_2}{g}</script> 个</p>
+</li>
+</ul>
+<h4 id="7-6-2-Effect"><a href="#7-6-2-Effect" class="headerlink" title="7.6.2 Effect"></a>7.6.2 Effect</h4><ul>
+<li>分组卷积的作用在最新的效果上可以做到与1x1卷积的效果类似</li>
+</ul>
+<h3 id="7-7-深度可分离卷积"><a href="#7-7-深度可分离卷积" class="headerlink" title="7.7 深度可分离卷积"></a>7.7 深度可分离卷积</h3><h4 id="7-7-1-Definition"><a href="#7-7-1-Definition" class="headerlink" title="7.7.1 Definition"></a>7.7.1 Definition</h4><ul>
+<li><p><strong>结合分组卷积采用1x1卷积进行:</strong> 首先对图片<script type="math/tex">D_F\times D_F \times M</script>进行<script type="math/tex">D_k \times D_k \times 1</script>卷积核大小的卷积对每个通道进行分别卷积的特征图<script type="math/tex">D_F \times D_F \times M</script>结果，再基于这样卷积后的特征图对其进行卷积核为<script type="math/tex">1\times 1 \times M</script> 的卷积，得到<script type="math/tex">D_F \times D_F \times N</script> 的特征图，总共参数量为<script type="math/tex">D_k \times D_k \times 1 + 1\times 1 \times M \times N</script> </p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Layers/DepthwiseConvolution.png" alt="DepthwiseConvolution"></p>
+</li>
+<li><p><strong>直观理解:</strong> 原本的卷积是有N种卷积核，而且不同通道的参数是一样的。对于深度可分离卷积而言，对不同的通道执行不同的卷积核，而且只执行一次，就相当于每个通道只有1种卷积核，之前是N种，然后之后为了补充这种缺陷，再进行1x1卷积有N种，来补充多样性。相当于把过程分解，使得参数量进一步减少。</p>
+</li>
+</ul>
+<h3 id="7-8-attention机制"><a href="#7-8-attention机制" class="headerlink" title="7.8 attention机制"></a>7.8 attention机制</h3><h4 id="7-8-1-Definition"><a href="#7-8-1-Definition" class="headerlink" title="7.8.1 Definition"></a>7.8.1 Definition</h4><ul>
+<li><strong>起源:</strong> 从self-attention角度，句子翻译中每个word需要关注到自己这个句子中每个词所需要提供的权重，然后根据这些权重来更新自己的特征</li>
+<li><strong>Query，Key， Value:</strong> 从翻译句子的角度，Query 表示的是所需查询单词的语义，key表示每个句子中单词的特征，Value表示的也是每个句子中单词的特征，三者分别都是通过mlp得到</li>
+</ul>
+<h4 id="7-8-2-Effect"><a href="#7-8-2-Effect" class="headerlink" title="7.8.2 Effect"></a>7.8.2 Effect</h4><ul>
+<li><strong>Attention is all your need:</strong> Transformer大火，其效果可见一斑</li>
+</ul>
+<h4 id="7-8-3-Usage"><a href="#7-8-3-Usage" class="headerlink" title="7.8.3 Usage"></a>7.8.3 Usage</h4><ul>
+<li><strong>主流用法(省略具体细节):</strong> Q，K，V都是通过MLP来获得的，<strong>Q和K通过矩阵相乘来计算相似度</strong>，再经过softmax层就可以得到<strong>句子中每个单词的权重</strong>，再乘以这个句子每个单词的特征来<strong>获得这个query对应特征</strong></li>
+</ul>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/layers/self-attention.jpg" alt="preview"></p>
+<h2 id="8-神经网络训练"><a href="#8-神经网络训练" class="headerlink" title="8. 神经网络训练"></a>8. 神经网络训练</h2><p>经验参考:  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/158739701">https://zhuanlan.zhihu.com/p/158739701</a> </p>
+<h3 id="8-1-High-bias-and-high-variance"><a href="#8-1-High-bias-and-high-variance" class="headerlink" title="8.1 High bias and high variance"></a>8.1 High bias and high variance</h3><ul>
+<li><p><strong>前提条件:</strong> 训练集与验证集同分布;</p>
+</li>
+<li><p><strong>train/dev/test:</strong> 训练集是用来训练模型的数据集,验证集是用来验证模型算法的准确性, 测试集是用来测试模型的效果.</p>
+</li>
+<li><p><strong>High variance:</strong> 训练误差比较小,但是验证误差比较大,即过拟合</p>
+<p>—&gt;<strong>处理办法:</strong> 用更多的数据去训练或者采用正则化</p>
+</li>
+<li><p><strong>High bias:</strong> 训练误差与验证误差都很大,即欠拟合</p>
+<p>—&gt;<strong>处理办法:</strong> 修改模型,采用更大更深的网络来训练</p>
+</li>
+</ul>
+<h3 id="8-2-正则化的方法"><a href="#8-2-正则化的方法" class="headerlink" title="8.2 正则化的方法:"></a>8.2 正则化的方法:</h3><ul>
+<li><p><strong>L1 正则化:</strong>  <script type="math/tex">\frac{\lambda}{2m} | w |</script>;  <strong>L2 正则化</strong> : <script type="math/tex">\frac{\lambda}{2m} \parallel w \parallel^{2}</script>  <script type="math/tex">\lambda</script>越大,<script type="math/tex">w</script> 越小,这样梯度会更加小,使其接近线性,使网络拟合能力变弱, 所以这里面就存在一个<script type="math/tex">\lambda</script> 应该怎么取的问题,需要不断的反复尝试</p>
+</li>
+<li><p><strong>Dropout regularization:</strong>  即随机失活,对于拟合能力比较好的可以采取失活概率大一点;对于拟合能力差一点的可以采取失活概率小一点,这样同样是起到压缩参数,正则化的作用.</p>
+</li>
+<li><p><strong>Data augmentation:</strong> 各种数据翻转,旋转,裁剪等制造伪数据也很重要.</p>
+</li>
+<li><p><strong>Early stopping:</strong> 在准确率即将下降的情况下,提前结束训练,但是这样的话会带来loss下降提前终止,而不是最好的loss</p>
+</li>
+<li><p><strong>Normalizing:</strong>  一般来说执行batch normalization都会对效果进行进一步的提升</p>
+<script type="math/tex; mode=display">
+\mu = \frac 1 m \sum_{i=1}^{m}x^{(i)} \\
+X=x-\mu \\
+\sigma^{2}=\frac 1 m \sum_{i=1}^{m} X^{(i)2} \\
+X = X/\sigma^2</script><p>归一化后后的数据会在坐标轴附近均匀分布,这样使得在做梯度下降的时候学习率不用太小也可以得到比较好的结果.提高了训练速度</p>
+</li>
+<li><p><strong>Initializing:</strong>  按照高斯随机分布来定义的话,<script type="math/tex">var(w_i) = \frac 2 n</script></p>
+<script type="math/tex; mode=display">
+Relu: w= w*\sqrt{\frac{2}{n^{[l-1]}}}\\
+tanh: w = w * \sqrt{\frac{1}{n^{[l-1]}}}</script><p><strong>公式仅供参考</strong>,具体还需具体分析,但是提供一种思想:按照分布来初始化.</p>
+</li>
+</ul>
+<h3 id="8-3-Learning-rate设置对网络的影响"><a href="#8-3-Learning-rate设置对网络的影响" class="headerlink" title="8.3 Learning rate设置对网络的影响"></a>8.3 Learning rate设置对网络的影响</h3><p>​    <strong>”The learning rate is perhaps the most important hyperparameter. If you have time to tune only one hyperparameter, tune the learning rate.”</strong></p>
+<ul>
+<li><strong>大学习率:</strong> 学习更快，<strong>学习率过大</strong>可能会导致模型参数发散，导致梯度爆炸或者消失</li>
+<li><strong>小学习率:</strong> 允许模型学习得到一个更加optimal的结果，<strong>学习率过小</strong>可能会导致没法收敛并且卡在suboptimal解决方案上</li>
+<li><strong>好的学习率:</strong> 需要通过反复试验和误差试验来发现比较<strong>好的学习率</strong>，一般来说可以设置为0.01,但是还是需要反复验证</li>
+<li><strong>学习率范围:</strong> 最好是在10^-6到1之间，一般在{0.1, 0.01, 10-3, 10-4, 10-5}之间进行选择</li>
+<li><strong>学习率下降:</strong> 调整一个初始学习率，然后让学习率进行下降相比于使用一个固定的学习率来说更好一点</li>
+</ul>
+<h3 id="8-4-Momentum设置对网络的影响"><a href="#8-4-Momentum设置对网络的影响" class="headerlink" title="8.4 Momentum设置对网络的影响"></a>8.4 Momentum设置对网络的影响</h3><ul>
+<li><strong>Momentum作用:</strong> 加速训练</li>
+<li><strong>Momentum设置范围:</strong> {0.5, 0.9, 0.99}</li>
+</ul>
+<h3 id="8-5-数据对网络的影响"><a href="#8-5-数据对网络的影响" class="headerlink" title="8.5 数据对网络的影响"></a>8.5 数据对网络的影响</h3><ul>
+<li><strong>数据越多越好hhh:</strong> 在HPGM++的实验中增加了数据，效果得到提升</li>
+<li><strong>正负样本均衡:</strong></li>
+</ul>
+<h2 id="9-Maniford-Learning"><a href="#9-Maniford-Learning" class="headerlink" title="9. Maniford Learning"></a>9. Maniford Learning</h2><ul>
+<li><p><strong>深度学习与流形学习之间的关系:</strong> 我们所认识的事物，客观存在的事物基本上都是三维或者欧氏空间。</p>
+<ul>
+<li><strong>深度学习: </strong> 试图解决的问题也是从<strong>一个欧氏空间映射到另一个欧氏空间</strong>的<strong>映射函数</strong></li>
+</ul>
+</li>
+<li><p><strong>流形学习:</strong>解决的是对<strong>高维空间</strong>的学习，解决高维空间距离的度量方式等，算是一种新的定义方式，比如说将高维的数据流行空间映射得到低维的聚类分类问题</p>
+</li>
+<li><p><strong>高维空间的冗余性:</strong> 对于高维空间的描述一般来说都是比较冗余的，直观的理解就是人类可以通过鼻子嘴巴眼睛等等分辨出一个人，那么存储的其他信息就可以被很好的压缩</p>
+<ul>
+<li><strong>圆例子:</strong> 好比一个圆如果用(x,y)来表示的话，那么则需要很多点才能表示一个圆，而如果用极坐标的表示方法的话，则只需要半径就可以唯一表示圆</li>
+<li><strong>球面例子:</strong> 用欧式空间表示球面的时候，球面以外的空间是完全冗余的，也就是说这个空间不是完全唯一的表示球面上的点；而采用经度纬度则可以唯一的表示球面上的一个点，并且在经度纬度的欧氏空间中可以唯一表示一个点</li>
+</ul>
+</li>
+<li><p><strong>数据特征表示:</strong> 深度学习一直以来被解释为一种特征的学习，其实实际上就是一种流形的降维表示过程，我们可以把<strong>深度学习的数据看成是从低维映射到高维再投影回到低维</strong>的过程。</p>
+<ul>
+<li><strong>GAN:</strong> 从低维的噪声，通过学习映射得到高维的空间特征向量，投影回到低维的图像</li>
+<li><strong>自编码器:</strong> 原理与GAN差不多，都可以用流形学习的概念来解释这样一个内容</li>
+</ul>
+</li>
+<li><p><strong>流形学习对深度学习作用:</strong></p>
+<ul>
+<li><p><strong>高维空间度量方式:</strong> 高维空间度量方式如果直接用欧几里德距离，即欧式空间的度量方式的话，会发现低维空间的度量方式满足不了高维空间，如下图所示，流形上的距离与欧式距离完全不同，<strong>要测量距离的话也应该降维到欧式空间再进行测量距离</strong></p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Basictheory/maniforddistance.png" alt="maniforddistance"></p>
+</li>
+<li><p><strong>深度学习可解释性:</strong> 深度学习的一般做法都是将数据映射到高维再回归到低维，比如说图像识别任务，映射到多维在进行分类，从流形学习ISOMAP的方法解释中可以发现，其实在高维的时候就是可以搞成一个点。比如说<strong>图像mxn可以表示成mn维欧氏空间的一个点</strong>这样的话来做分类和聚类就非常简单了，如下图所示，这些图就可以做一个聚类做分类。</p>
+<p><img src="/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/Basictheory/Highdimensions.png" alt="Highdimensions"></p>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/" title="深度学习基本理论">http://jiaqiuzhou.github.io/2020/08/01/Knowledge/DeepLearning/Theory/DeepLearning/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DeepLearning/" rel="tag"># DeepLearning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/25/Knowledge/AcademicPapers/ResearchNewThought/" rel="prev" title="ResearchThought">
+      <i class="fa fa-chevron-left"></i> ResearchThought
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/05/Software/system/Linux/" rel="next" title="Linux操作指令">
+      Linux操作指令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%81%87%E8%AE%BE%E5%89%8D%E6%8F%90"><span class="nav-text">1.假设前提</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%86%E5%B8%83"><span class="nav-text">1.1 神经网络分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="nav-text">2. 基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC"><span class="nav-text">2.1 数学推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Param%E5%8F%82%E6%95%B0%E5%92%8CFLOPs%E8%AE%A1%E7%AE%97%E9%87%8F"><span class="nav-text">2.2 Param参数和FLOPs计算量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B8%B8%E8%A7%81%E7%9A%84%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-text">3. 常见的激活函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-sigmoid%E5%87%BD%E6%95%B0"><span class="nav-text">3.1 sigmoid函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-tanh%E5%87%BD%E6%95%B0"><span class="nav-text">3.2 tanh函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-ReLU%E5%87%BD%E6%95%B0"><span class="nav-text">3.3 ReLU函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">4. 常见的损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Regression%E5%9B%9E%E5%BD%92"><span class="nav-text">4.1 Regression回归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-1-MSE-loss%E5%B9%B3%E6%96%B9%E5%92%8C%E8%AF%AF%E5%B7%AE"><span class="nav-text">4.1.1 MSE loss平方和误差</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-2-MAE-Loss%E7%BB%9D%E5%AF%B9%E5%80%BC%E8%AF%AF%E5%B7%AE"><span class="nav-text">4.1.2 MAE Loss绝对值误差</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Classification%E5%88%86%E7%B1%BB"><span class="nav-text">4.2 Classification分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-HingeLoss"><span class="nav-text">4.2.1 HingeLoss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-TripletLoss"><span class="nav-text">4.2.2 TripletLoss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-3-Hausdorff-distance"><span class="nav-text">4.2.3 Hausdorff distance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-4-LogisticLoss"><span class="nav-text">4.2.4 LogisticLoss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-5-CrossEntropyLoss"><span class="nav-text">4.2.5 CrossEntropyLoss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-6-Focal-Loss"><span class="nav-text">4.2.6 Focal Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-7-Contrastive-Loss"><span class="nav-text">4.2.7 Contrastive Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-8-Softmax-loss"><span class="nav-text">4.2.8 Softmax loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-BackPropagation"><span class="nav-text">5. BackPropagation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Chain-Rule"><span class="nav-text">5.1 Chain Rule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Gradient-Computation-of-Neural-Network-f"><span class="nav-text">5.2 Gradient Computation of Neural Network f</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%87%BD%E6%95%B0%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95"><span class="nav-text">6. 函数优化算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-GD-Gradient-Descent"><span class="nav-text">6.1 GD(Gradient Descent)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-SGD-Stochastic-Gradient"><span class="nav-text">6.2 SGD(Stochastic Gradient)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-text">7. 常见的网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-Linear-Layers"><span class="nav-text">7.1 Linear Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-1-Definition"><span class="nav-text">7.1.1 Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-2-Params-and-operation"><span class="nav-text">7.1.2 Params and operation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-Convolution-Layers"><span class="nav-text">7.2 Convolution Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-1-Definition"><span class="nav-text">7.2.1 Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-2-Effect"><span class="nav-text">7.2.2 Effect</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-Pooling-Layers"><span class="nav-text">7.3 Pooling Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-1-Definition"><span class="nav-text">7.3.1 Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-2-Pooling-style"><span class="nav-text">7.3.2 Pooling style</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-3-Effect"><span class="nav-text">7.3.3 Effect</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-BN-layers"><span class="nav-text">7.4 BN layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-4-1-Definition"><span class="nav-text">7.4.1 Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-4-2-Effect"><span class="nav-text">7.4.2 Effect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-4-3-Usage"><span class="nav-text">7.4.3 Usage</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-5-VAE-Layers"><span class="nav-text">7.5 VAE Layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-5-1-Definition"><span class="nav-text">7.5.1 Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-5-2-Effect"><span class="nav-text">7.5.2 Effect</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-6-%E5%88%86%E7%BB%84%E5%8D%B7%E7%A7%AF"><span class="nav-text">7.6 分组卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-6-1-Definition"><span class="nav-text">7.6.1 Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-6-2-Effect"><span class="nav-text">7.6.2 Effect</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-7-%E6%B7%B1%E5%BA%A6%E5%8F%AF%E5%88%86%E7%A6%BB%E5%8D%B7%E7%A7%AF"><span class="nav-text">7.7 深度可分离卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-7-1-Definition"><span class="nav-text">7.7.1 Definition</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-8-attention%E6%9C%BA%E5%88%B6"><span class="nav-text">7.8 attention机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-8-1-Definition"><span class="nav-text">7.8.1 Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-8-2-Effect"><span class="nav-text">7.8.2 Effect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-8-3-Usage"><span class="nav-text">7.8.3 Usage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AE%AD%E7%BB%83"><span class="nav-text">8. 神经网络训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-High-bias-and-high-variance"><span class="nav-text">8.1 High bias and high variance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-%E6%AD%A3%E5%88%99%E5%8C%96%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">8.2 正则化的方法:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-Learning-rate%E8%AE%BE%E7%BD%AE%E5%AF%B9%E7%BD%91%E7%BB%9C%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-text">8.3 Learning rate设置对网络的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-Momentum%E8%AE%BE%E7%BD%AE%E5%AF%B9%E7%BD%91%E7%BB%9C%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-text">8.4 Momentum设置对网络的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-5-%E6%95%B0%E6%8D%AE%E5%AF%B9%E7%BD%91%E7%BB%9C%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-text">8.5 数据对网络的影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-Maniford-Learning"><span class="nav-text">9. Maniford Learning</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

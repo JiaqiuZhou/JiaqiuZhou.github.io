@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍python入门以及项目过程中的学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍python入门以及项目过程中的学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/interface.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/cross_physical.png">
+<meta property="article:published_time" content="2020-10-15T13:10:35.000Z">
+<meta property="article:modified_time" content="2021-01-31T03:37:12.488Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="ProgramLanguage">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/interface.png">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-15 21:10:35" itemprop="dateCreated datePublished" datetime="2020-10-15T21:10:35+08:00">2020-10-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-31 11:37:12" itemprop="dateModified" datetime="2021-01-31T11:37:12+08:00">2021-01-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/15/Software/ProgramLanguages/Python/" class="post-meta-item leancloud_visitors" data-flag-title="Python" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/15/Software/ProgramLanguages/Python/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/15/Software/ProgramLanguages/Python/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍python入门以及项目过程中的学习</p>
+<a id="more"></a>
+<h2 id="1-写在前面"><a href="#1-写在前面" class="headerlink" title="1. 写在前面"></a>1. 写在前面</h2><ul>
+<li><p><strong>从应用出发:</strong> 不需要先把全部内容学完再开始做实际应用，可以通过应用来学习自己需要的知识，以下这一个网站提供了基本操作的万能指南，需要的时候可以在这里面找解决方案</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//www.runoob.com/python/python-tutorial.html</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>编译环境:</strong> python编辑器用的比较多的是<strong>PYCHARM</strong>，以下默认使用这一软件来进行编程。Anaconda是一种包管理器和环境管理器，采用这个来作为python的编译环境的话可以很方便的使用一些别人已经写好的包，以下是下载链接:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Pycharm: https:<span class="comment">//www.jetbrains.com/pycharm/</span></span><br><span class="line">Anaconda: https:<span class="comment">//www.anaconda.com/products/individual</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>命名规范:</strong> PYCHARM 会有对规范的提醒，写代码的时候最好每个变量所包含的含义都表达清楚，到代码越来越多的时候，<strong>规范化</strong>的重要性就体现了出来</p>
+</li>
+<li><p><strong>程序调试与可视化:</strong> <strong>单点调试</strong>个人感觉是比较重要的找代码bug的东西，特别是存在代码并行的时候更要看清楚，有时候很多东西陷入了代码的无限复读的话，就需要<strong>对代码的一些中间结果进行打印或者可视化</strong>，这很重要</p>
+</li>
+<li><p><strong>谋定而后动:</strong> 一般来说，先构建好程序的流程图，再进行实现，<strong>确认逻辑的正确性</strong>才进行编程可以省下大部分时间(血与泪的3Dlayout教训得出的);匆忙开始，看似做了很多工作，但做到一半推到重来其实进度为0</p>
+</li>
+</ul>
+<h2 id="2-创建第一个程序"><a href="#2-创建第一个程序" class="headerlink" title="2. 创建第一个程序"></a>2. 创建第一个程序</h2><ul>
+<li><p><strong>选择存放文件的位置:</strong> 在如下图位置选择一个自己想要存放程序的位置，然后创建，会自动初始化一个空的project</p>
+<p><img src="/2020/10/15/Software/ProgramLanguages/Python/interface.png" alt="3202F50F-05A7-42D5-BCC1-C00C10179144"></p>
+</li>
+<li><p><strong>环境配置:</strong> 以windows配置编译环境为例，以下链接讲的很清楚:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//blog.csdn.net/m0_37518259/article/details/80650765</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Hello,world!:</strong> 参照以下链接可以进行第一个程序的创建</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//blog.csdn.net/qq_36098284/article/details/88311850</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Deployment option:</strong> 在pycharm中可以选择tools然后选择想要忽略与服务器同步的文件，加快工作效率</p>
+</li>
+</ul>
+<h2 id="3-数据操作"><a href="#3-数据操作" class="headerlink" title="3. 数据操作"></a>3. 数据操作</h2><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><ul>
+<li><strong>编码字符不一致:</strong> python2 与python3的版本不一样，这样如果python3保存的数据用python2打开就需要对字符进行调整，因此尽量保持相同版本</li>
+</ul>
+<h3 id="3-1-变量概述"><a href="#3-1-变量概述" class="headerlink" title="3.1 变量概述"></a>3.1 变量概述</h3><ul>
+<li><p><strong>变量类型:</strong> 数字，字符串，列表，元组，字典</p>
+</li>
+<li><p><strong>申明变量:</strong> python 对变量申明进行了封装，也就是只要给了变量名字，这个变量可以是任何类型，比如说</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">3</span> <span class="comment"># 变量是数字</span></span><br><span class="line">a = <span class="string">&quot;hello! world!&quot;</span> <span class="comment"># 变量是字符串</span></span><br><span class="line">a = []; <span class="comment"># 变量是list</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-2-变量赋值"><a href="#3-2-变量赋值" class="headerlink" title="3.2 变量赋值"></a>3.2 变量赋值</h3><ul>
+<li><p><strong>变量复制:</strong> 对于变量的复制，需要特别注意以下情况</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = a <span class="comment"># 这种情况下x修改 a也会被修改</span></span><br><span class="line">x = a.copy() <span class="comment"># 这种情况下，x被修改，a不会被修改</span></span><br><span class="line">x = copy.deepcopy(<span class="built_in">dict</span>[<span class="string">&#x27;a&#x27;</span>])</span><br><span class="line">address_x = <span class="built_in">id</span>(x)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>函数变量的传值:</strong> 赋值的时候是会把原来的地址传入，比如下面这个例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">10</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span>(<span class="params">a</span>):</span></span><br><span class="line">  c = a</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">id</span>(c)</span><br><span class="line"><span class="comment"># id(c)与id(a)的结果是一样的,也就是说在这个函数中修改变量，原本变量也会改变</span></span><br><span class="line"><span class="comment"># 因此函数名内最好重新新建一个变量返回</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>类变量的传值:</strong> 对于简单的数据操作，基本用不到，可忽略</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span>():</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, weight</span>):</span></span><br><span class="line">    self.weight = weight</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">sum</span>(<span class="params">self, a, b</span>):</span></span><br><span class="line">    weight = self.weight</span><br><span class="line">    print(<span class="built_in">id</span>(weight), <span class="built_in">id</span>(self.weight))</span><br><span class="line">    c = a + self.weight*b</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"><span class="comment"># id(weight)与id(self.weight)的结果是一样的</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-3-list操作—python精华"><a href="#3-3-list操作—python精华" class="headerlink" title="3.3 list操作—python精华"></a>3.3 list操作—python精华</h3><h4 id="3-3-1-why-list？"><a href="#3-3-1-why-list？" class="headerlink" title="3.3.1 why list？"></a>3.3.1 why list？</h4><ul>
+<li><p><strong>Attention!:</strong> list最关键的感觉就是首尾，首尾容易出现bug</p>
+</li>
+<li><p><strong>存储各式各样数据:</strong> 在变量过程中，数据处理用得比较多的就是list</p>
+</li>
+<li><p><strong>list是什么:</strong> 相当于C语言中的数组，其示例如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="comment"># list赋值</span></span><br><span class="line">example = [<span class="number">1</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="number">3</span>] <span class="comment"># 这里的话，example[0] = 1--&gt;example[1] = [1, 2, 3] --&gt; example[2] = 3 </span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-2-list复制操作"><a href="#3-3-2-list复制操作" class="headerlink" title="3.3.2 list复制操作"></a>3.3.2 list复制操作</h4><p>​    参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ifantastic/p/3811145.html">https://www.cnblogs.com/ifantastic/p/3811145.html</a></p>
+<ul>
+<li><p><strong>浅拷贝:</strong> 嵌套数组无法改变内存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]]</span><br><span class="line">a = b.copy()</span><br><span class="line">a[<span class="number">0</span>] = <span class="number">0</span> <span class="comment"># 这种做法对b没有影响</span></span><br><span class="line">a[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">2</span> <span class="comment">#这种做法同样会修改b</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>深拷贝:</strong> 拷贝所有元素，嵌套元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = copy.deepcopy(a)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-3-list基本操作"><a href="#3-3-3-list基本操作" class="headerlink" title="3.3.3 list基本操作"></a>3.3.3 list基本操作</h4><ul>
+<li><p><strong>list的长度:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">length = <span class="built_in">len</span>(data) <span class="comment"># length得到的值是3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>list 扩展操作:</strong> append 与 extend的区别: append是在末尾追加对象，而extend是直接对列表进行扩展</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">example = []</span><br><span class="line">data = <span class="number">1</span></span><br><span class="line">example.append(data) <span class="comment"># append可以是任意类型的数据</span></span><br><span class="line">x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">x.extend([4,5]) --&gt;[1,2,3,4,5]</span><br><span class="line">x.append([4,5]) --&gt; [1,2,3,[4,5]]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>list快捷赋值操作:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">triangle_index = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(point_3d_hull.shape[<span class="number">0</span>])]</span><br><span class="line">surface_index = [triangle_index[i:i+<span class="number">4</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(triangle_index), <span class="number">2</span>)]</span><br><span class="line"><span class="comment"># 主要是 data = [i for i in num] 这种形式</span></span><br><span class="line"><span class="comment">#[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] --&gt;</span></span><br><span class="line"><span class="comment"># [[0, 1, 2, 3], [2, 3, 4, 5], [4, 5, 6, 7], [6, 7, 8, 9], [8, 9, 10, 11], [10, 11]]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>list补零操作:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n.zfill(位数)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-4-随机采样操作"><a href="#3-3-4-随机采样操作" class="headerlink" title="3.3.4 随机采样操作"></a>3.3.4 随机采样操作</h4><ul>
+<li><p>对list 中的元素进行<strong>随机采样</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">test = random.sample(file_list, test_sample) <span class="comment"># test_sample 为采样数量</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-5-数据下标"><a href="#3-3-5-数据下标" class="headerlink" title="3.3.5 数据下标"></a>3.3.5 数据下标</h4><ul>
+<li><p>为list中的元素<strong>添加下标</strong>:enumerate(seasons)，使用实例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> step, data <span class="keyword">in</span> <span class="built_in">enumerate</span>(dataloader):</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-6-统计操作"><a href="#3-3-6-统计操作" class="headerlink" title="3.3.6 统计操作"></a>3.3.6 统计操作</h4><ul>
+<li><p>统计list中具有item这个元素的数目</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>.count(item)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-7-排序操作"><a href="#3-3-7-排序操作" class="headerlink" title="3.3.7 排序操作"></a>3.3.7 排序操作</h4><ul>
+<li><p><strong>自定义排序操作的参考</strong></p>
+<ul>
+<li>sorted()自定义比较函数: <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhidong_lv/article/details/89238228?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase">https://blog.csdn.net/zhidong_lv/article/details/89238228?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase</a></li>
+<li>自定义key函数排序: <a target="_blank" rel="noopener" href="https://blog.csdn.net/jason_cuijiahui/article/details/72771596">https://blog.csdn.net/jason_cuijiahui/article/details/72771596</a></li>
+</ul>
+</li>
+<li><p><strong>sorted:</strong> 基本的list排序操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"><span class="built_in">sorted</span>(point_hull,key=functools.cmp_to_key(sort_function))<span class="comment"># 普通的排序不需要这么复杂，直接sorted就行，这里是需要自定义排序所采用的操作</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>下标排序:</strong> 对list的下标排序操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">3</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">7</span>,<span class="number">2</span>]</span><br><span class="line">b=<span class="built_in">sorted</span>(<span class="built_in">enumerate</span>(a), key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>])</span><br><span class="line">a, b = <span class="built_in">zip</span>(*b)<span class="comment"># a:[2,4,0,1,3](下标) b:[1,2,3,4,7]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-8-插入操作"><a href="#3-3-8-插入操作" class="headerlink" title="3.3.8 插入操作"></a>3.3.8 插入操作</h4><ul>
+<li><p><strong>insert:</strong> 在list中插入需要的对象，需要考虑插入的前后顺序问题</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>.insert(index, obj) <span class="comment"># 在index位置插入obj</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-9-list整体操作-map-filter-reduce-zip"><a href="#3-3-9-list整体操作-map-filter-reduce-zip" class="headerlink" title="3.3.9 list整体操作:map(), filter(), reduce(), zip()"></a>3.3.9 list整体操作:map(), filter(), reduce(), zip()</h4><ul>
+<li><p><strong>map操作:</strong> 对每一个元素执行同样的操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>]</span><br><span class="line">l = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, l)) <span class="comment">#将list中元素转化为int型:[1,2,3,4]</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span> <span class="keyword">return</span> x**<span class="number">2</span></span><br><span class="line"><span class="built_in">list</span>(<span class="built_in">map</span>(f, l)) <span class="comment">#list中每个元素转化为平方:[1,4,9,16]</span></span><br><span class="line"><span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: x**<span class="number">2</span>, l))) <span class="comment"># 等价于上一个操作:[1,4,9,16]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>filter操作:</strong> 对每个元素进行数据筛选</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="built_in">filter</span>(<span class="keyword">lambda</span> x:x&gt;<span class="number">2</span>, l) <span class="comment">#筛选出大于2的一些元素:[3,4]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>reduce操作:</strong> 求积累运算</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">reduce(<span class="keyword">lambda</span> x,y: x+y, l) <span class="comment">#将数据中每个元素第一个于第二个相加:10</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>zip操作:</strong> 打包与构造字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">l1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">l2 = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>]</span><br><span class="line">zip_l1_l2 =<span class="built_in">zip</span>(l1, l2) <span class="comment">#[(1,&#x27;a&#x27;),(2,&#x27;b&#x27;),(3,&#x27;c&#x27;),(4,&#x27;d&#x27;)]</span></span><br><span class="line"><span class="built_in">dict</span>(zip_l1_l2) <span class="comment">#&#123;1:&#x27;a&#x27;, 2:&#x27;b&#x27;, 3:&#x27;c&#x27;, 4:&#x27;d&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-3-10-list去掉重复元素"><a href="#3-3-10-list去掉重复元素" class="headerlink" title="3.3.10 list去掉重复元素"></a>3.3.10 list去掉重复元素</h4><ul>
+<li><p><strong>set操作:</strong> 集合操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="built_in">set</span>(<span class="string">&#x27;abracadabra&#x27;</span>) <span class="comment"># a:&#123;&#x27;a&#x27;,&#x27;b&#x27;,&#x27;r&#x27;,&#x27;c&#x27;,&#x27;d&#x27;&#125;</span></span><br><span class="line">b = <span class="built_in">set</span>(<span class="string">&#x27;alacazam&#x27;</span>) <span class="comment"># b:&#123;&#x27;a&#x27;, &#x27;l&#x27;, &#x27;c&#x27;, &#x27;z&#x27;, &#x27;m&#x27;&#125;</span></span><br><span class="line">a - b <span class="comment"># 集中a中包含而集合b中不包含的元素 &#123;&#x27;r&#x27;, &#x27;d&#x27;, &#x27;b&#x27;&#125;</span></span><br><span class="line">a|b <span class="comment"># 合并 &#123;&#x27;a&#x27;, &#x27;c&#x27;, &#x27;r&#x27;, &#x27;d&#x27;, &#x27;b&#x27;, &#x27;m&#x27;, &#x27;z&#x27;, &#x27;l&#x27;&#125;</span></span><br><span class="line">a &amp; b <span class="comment"># 交集 &#123;&#x27;a&#x27;, &#x27;c&#x27;&#125;</span></span><br><span class="line">a ^ b <span class="comment"># 交集以外所有元素 &#123;&#x27;r&#x27;, &#x27;d&#x27;, &#x27;b&#x27;, &#x27;m&#x27;, &#x27;z&#x27;, &#x27;l&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>set的update操作:</strong>  合并两个集合</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = &#123;<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;cherry&quot;</span>&#125;</span><br><span class="line">y = &#123;<span class="string">&quot;google&quot;</span>, <span class="string">&quot;runoob&quot;</span>, <span class="string">&quot;apple&quot;</span>&#125;</span><br><span class="line">x.update(y) <span class="comment"># &#123;&#x27;banana&#x27;, &#x27;apple&#x27;, &#x27;google&#x27;, &#x27;runoob&#x27;, &#x27;cherry&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-4-正则表达式"><a href="#3-4-正则表达式" class="headerlink" title="3.4 正则表达式"></a>3.4 正则表达式</h3><ul>
+<li><p><strong>正则表达式:</strong> 利用re模块来对字符串进行操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(pattern, string, flags=<span class="number">0</span>) <span class="comment"># pattern:需要进行匹配的正则表达式；string:要匹配的字符; flags:匹配的方式</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="4-文件操作"><a href="#4-文件操作" class="headerlink" title="4.文件操作"></a>4.文件操作</h2><h3 id="4-1-读取-存储文件"><a href="#4-1-读取-存储文件" class="headerlink" title="4.1 读取/存储文件"></a>4.1 读取/存储文件</h3><ul>
+<li><p><strong>打开文件的上下文管理器:</strong> enter() 与exit()负责with语句块中上下文的进入和退出操作,保证在发生异常的时候也能正常释放所操作的资源</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> nested(<span class="built_in">open</span>(<span class="string">&quot;somefile&quot;</span>,rb),A()) <span class="keyword">as</span> (somefile,A):</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>读取txt文件:</strong> 一行一行的读取文件的内容, 可以<strong>通过str(dict)保存字典，通过eval(data)读取字典值</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;data.txt&quot;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    lines = file.readlines()</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">    line.strip(<span class="string">&#x27;\n&#x27;</span>) <span class="comment"># 去掉换行标识符</span></span><br><span class="line">    print(line)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>读取pickle:</strong> 读取 pickle 文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:    </span><br><span class="line">	data = pickle.load(f)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>读取与存储json:</strong> 读json文件，json可以用来保存字符串型字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json <span class="keyword">as</span> js</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(with_MLF_path, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        with_id = js.loads(file.read())<span class="comment"># 加载json文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(path, <span class="string">&#x27;a&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">  	js.dump(data, file) <span class="comment"># 保存json文件</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>实现对任意路径中的所有文件和文件夹读取:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">load_path = os.path.join(path, data_path)</span><br><span class="line">g = os.walk(path)</span><br><span class="line"><span class="comment"># 读取该路径下文件夹的list</span></span><br><span class="line"><span class="keyword">for</span> path, dir_list, file_list <span class="keyword">in</span> g:</span><br><span class="line">	dirlist = dir_list</span><br><span class="line">	<span class="keyword">break</span></span><br><span class="line"><span class="comment"># 从文件夹中读取所有文件的路径</span></span><br><span class="line"><span class="keyword">for</span> dir_path <span class="keyword">in</span> dir_list:</span><br><span class="line">	list_path = os.path.join(path, dir_path)</span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(list_path):</span><br><span class="line">      print(file)</span><br><span class="line"><span class="comment"># 从文件路径中读取文件，读取txt文件中的内容</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(list_path, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    lines = file.readlines()</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">    line.strip(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    print(line)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-2-文件排序"><a href="#4-2-文件排序" class="headerlink" title="4.2 文件排序"></a>4.2 文件排序</h3><ul>
+<li><p><strong>文件夹里的文件排序</strong>: key表示按照文件夹中的文件的文件名的哪一个位置进行排序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file_list.sort(key=<span class="keyword">lambda</span> x: <span class="built_in">int</span>(x.split(<span class="string">&#x27;_&#x27;</span>)[-<span class="number">1</span>][:-<span class="number">4</span>]))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-3-文件复制"><a href="#4-3-文件复制" class="headerlink" title="4.3 文件复制"></a>4.3 文件复制</h3><ul>
+<li><p><strong>对文件实现复制:</strong> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="comment"># 将file_path复制到line的路径中</span></span><br><span class="line">shutil.copy(line, file_path) </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-4-文件重命名"><a href="#4-4-文件重命名" class="headerlink" title="4.4 文件重命名"></a>4.4 文件重命名</h3><ul>
+<li><p><strong>重新命名文件或者文件夹:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.rename(src, dst); <span class="comment"># 重新命名文件夹;src为原始文件名，dst为目标文件名</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-5-文件目录"><a href="#4-5-文件目录" class="headerlink" title="4.5 文件目录"></a>4.5 文件目录</h3><ul>
+<li><p><strong>获取文件目录</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;***获取当前目录***&#x27;</span></span><br><span class="line"><span class="built_in">print</span> os.getcwd()</span><br><span class="line"><span class="built_in">print</span> os.path.abspath(os.path.dirname(__file__))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;***获取上级目录***&#x27;</span></span><br><span class="line"><span class="built_in">print</span> os.path.abspath(os.path.dirname(os.path.dirname(__file__)))</span><br><span class="line"><span class="built_in">print</span> os.path.abspath(os.path.dirname(os.getcwd()))</span><br><span class="line"><span class="built_in">print</span> os.path.abspath(os.path.join(os.getcwd(), <span class="string">&quot;..&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;***获取上上级目录***&#x27;</span></span><br><span class="line"><span class="built_in">print</span> os.path.abspath(os.path.join(os.getcwd(), <span class="string">&quot;../..&quot;</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="5-公式操作"><a href="#5-公式操作" class="headerlink" title="5.公式操作"></a>5.公式操作</h2><h3 id="5-1-加减乘除"><a href="#5-1-加减乘除" class="headerlink" title="5.1 加减乘除"></a>5.1 加减乘除</h3><ul>
+<li><p><strong>注意除法:</strong> 对于python的加减乘除，需要注意到的是两个数的类型，其区别体现在除法上</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a + b <span class="comment"># 加法操作 </span></span><br><span class="line">a - b <span class="comment"># 减法操作</span></span><br><span class="line">a // b <span class="comment"># a整除b，得到的是与a相同类型的数，没有小数</span></span><br><span class="line">a / b <span class="comment"># a除以b，如果a为整数类型，其效果与a//b相当，而a如果为小数类型，则两者不相同</span></span><br><span class="line">a * b <span class="comment"># 乘法操作</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="5-2-math包"><a href="#5-2-math包" class="headerlink" title="5.2 math包"></a>5.2 math包</h3><ul>
+<li><p><strong>just import:</strong> python内部自带了一个math包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">math.sqrt(x) <span class="comment"># 返回x的平方根</span></span><br><span class="line">math.<span class="built_in">pow</span>(x, y) <span class="comment"># 返回x的y次幂</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>角度更换为弧度:</strong> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_, radian = cmath.polar(<span class="built_in">complex</span>(point[<span class="number">0</span>], point[<span class="number">1</span>]))<span class="comment"># 角度转换为弧度制</span></span><br><span class="line">degree = math.degrees(radian) <span class="comment"># 弧度更换为角度</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="6-Opencv"><a href="#6-Opencv" class="headerlink" title="6. Opencv"></a>6. Opencv</h2><h3 id="写在前面-1"><a href="#写在前面-1" class="headerlink" title="写在前面"></a>写在前面</h3><ul>
+<li><strong>数据类型:</strong> Opencv对点的数据类型的要求比较高，对于几何学的操作一般需要类型为float32, 对于绘图的点一般需要类型为int</li>
+<li><strong>几何点类型:</strong> 几何点的排布尽量按照顺时针进行排布，凹多边形的情况需要进行考虑</li>
+<li><strong>shapely 是个好包</strong></li>
+</ul>
+<h3 id="6-1-绘图操作"><a href="#6-1-绘图操作" class="headerlink" title="6.1 绘图操作"></a>6.1 绘图操作</h3><ul>
+<li><p><strong>大小:</strong> 得到要写的单词大小,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">text_size = cv2.getTextSize(query_list[word_num][word_index], font, font_scale, thickness)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>绘制:</strong> 绘制文本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.putText(img, query_list[word_num][word_index], (start_point[<span class="number">1</span>], start_point[<span class="number">0</span>]), font,font_scale, (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>), thickness)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>背景文本:</strong> 给文本添加背景，其实就是修改图片背景颜色</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img[start_point[<span class="number">0</span>] - text_size[<span class="number">0</span>][<span class="number">1</span>]:start_point[<span class="number">0</span>], start_point[<span class="number">1</span>]:start_point[<span class="number">1</span>] + text_size[<span class="number">0</span>][<span class="number">0</span>], :] = (<span class="number">255</span>, <span class="built_in">int</span>(<span class="number">255</span>*(<span class="number">1</span>-att_map[level][word_num][word_index])), <span class="number">255</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在图上绘制点:</strong> 根据坐标绘制点在图中的位置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.circle(img, (piont[<span class="number">0</span>],point[<span class="number">1</span>]), radius, color)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="6-2-多边形几何操作"><a href="#6-2-多边形几何操作" class="headerlink" title="6.2 多边形几何操作"></a>6.2 多边形几何操作</h3><ul>
+<li><p><strong>在点集上计算凸包:</strong> 也就是计算包含所有点的外围轮廓点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pointset format:[[x1, y1], [x2, y2], ...](np.float32)</span></span><br><span class="line">pointhull = cv.convexHull(pointset, returnPoint=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># /****检查轮廓中夹杂的远点****/</span></span><br><span class="line">defects = cv.convexityDefects(pointset, pointhull)</span><br><span class="line">point_hull = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(defects.shape[<span class="number">0</span>]):</span><br><span class="line">		s, e, f, d = defects[i][<span class="number">0</span>]</span><br><span class="line">		point_hull.append(point_set[s])  <span class="comment"># start</span></span><br><span class="line">		point_hull.append(point_set[f])  <span class="comment"># far</span></span><br><span class="line">		point_hull.append(point_set[e])  <span class="comment"># end</span></span><br><span class="line">point_hull = np.array(point_hull)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>判断点是否在直线上或这两条线是否共线的方法:</strong> 两个向量叉积为0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">np.cross(a,b) == <span class="number">0</span></span><br><span class="line"><span class="comment"># 判断点是否在轮廓上 Point Polygon Test</span></span><br><span class="line"><span class="comment"># 对于这样的点的顺序必须是顺时针的顺序才可以</span></span><br><span class="line">dist = cv2.pointPolygonTest(cnt,(<span class="number">50</span>,<span class="number">50</span>),<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/10/15/Software/ProgramLanguages/Python/cross_physical.png" alt="Cross_physics"></p>
+</li>
+<li><p><strong>判断点是否在轮廓内:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.pointPolygonTest(contour, pt, <span class="literal">False</span>) <span class="comment"># -1表示在外面，0表示在边缘上，1表示在里面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>计算多边形面积:</strong> 用图形学的办法判断占用像素的大小</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># polygon为点集</span></span><br><span class="line">im = np.zeros((<span class="number">256</span>, <span class="number">256</span>))</span><br><span class="line">polygon_mask = cv.fillPoly(im, [polygon], <span class="number">255</span>)</span><br><span class="line">area = np.<span class="built_in">sum</span>(np.greater(polygon_mask, <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="6-3-矩阵变换操作"><a href="#6-3-矩阵变换操作" class="headerlink" title="6.3 矩阵变换操作"></a>6.3 矩阵变换操作</h3><ul>
+<li><strong>链接:</strong> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42054810/article/details/85098934">https://blog.csdn.net/weixin_42054810/article/details/85098934</a></li>
+<li><strong>相机标定等:</strong> <a target="_blank" rel="noopener" href="http://www.p-chao.com/2016-12-01/opencv%E8%BF%9B%E8%A1%8C%E5%90%84%E7%A7%8D%E7%9F%A9%E9%98%B5%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%8F%98%E6%8D%A2%E5%8F%82%E6%95%B0%E6%B1%82%E8%A7%A3/">http://www.p-chao.com/2016-12-01/opencv%E8%BF%9B%E8%A1%8C%E5%90%84%E7%A7%8D%E7%9F%A9%E9%98%B5%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%8F%98%E6%8D%A2%E5%8F%82%E6%95%B0%E6%B1%82%E8%A7%A3/</a></li>
+</ul>
+<h2 id="7-Python绘图工具"><a href="#7-Python绘图工具" class="headerlink" title="7. Python绘图工具"></a>7. Python绘图工具</h2><h3 id="7-1-绘制直方图"><a href="#7-1-绘制直方图" class="headerlink" title="7.1 绘制直方图"></a>7.1 绘制直方图</h3><ul>
+<li><p>绘制直方图中plt.hist里的数据格式是传入纵坐标想要显示的内容，横坐标通过设置xticks</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plt.xlabel(<span class="string">&quot;size&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;num_&#123;&#125;&quot;</span>.<span class="built_in">format</span>(i))</span><br><span class="line">plt.title(<span class="string">&quot;size_histogram&quot;</span>)</span><br><span class="line">x_ticks = np.arange(<span class="built_in">round</span>(class_size_range[i][<span class="number">0</span>]), <span class="built_in">round</span>(class_size_range[i][<span class="number">1</span>]), <span class="number">5</span>)</span><br><span class="line">plt.xticks(x_ticks)</span><br><span class="line">plt.hist(class_size_num[i], edgecolor=<span class="string">&#x27;k&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">plt.savefig(<span class="string">&quot;static_data/class_size_num_&#123;&#125;.jpg&quot;</span>.<span class="built_in">format</span>(i))</span><br><span class="line">plt.close()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="8-踩过的坑"><a href="#8-踩过的坑" class="headerlink" title="8. 踩过的坑"></a>8. 踩过的坑</h2><h3 id="8-1-数据处理"><a href="#8-1-数据处理" class="headerlink" title="8.1 数据处理"></a>8.1 数据处理</h3><ul>
+<li><p>对于数据集的处理，可能会混入一些不应该出现的数据，需要进行判断。</p>
+<p>如:处理分类数据集时，数据集混入了不是jpg的文件，导致统计错误</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IMG_EXTENSIONS = [<span class="string">&#x27;.jpg&#x27;</span>, <span class="string">&#x27;.JPG&#x27;</span>, <span class="string">&#x27;.jpeg&#x27;</span>, <span class="string">&#x27;.JPEG&#x27;</span>,</span><br><span class="line">                  <span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.PNG&#x27;</span>, <span class="string">&#x27;.ppm&#x27;</span>, <span class="string">&#x27;.PPM&#x27;</span>, <span class="string">&#x27;.bmp&#x27;</span>, <span class="string">&#x27;.BMP&#x27;</span>]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_image_file</span>(<span class="params">filename</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">any</span>(filename.endswith(extension) <span class="keyword">for</span> extension <span class="keyword">in</span> IMG_EXTENSIONS)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="8-2-变量操作"><a href="#8-2-变量操作" class="headerlink" title="8.2 变量操作"></a>8.2 变量操作</h3><ul>
+<li><strong>or操作:</strong> 很容易混淆，表示比较，返回值不是bool值</li>
+</ul>
+<h3 id="8-3-bug记录"><a href="#8-3-bug记录" class="headerlink" title="8.3 bug记录"></a>8.3 bug记录</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Process finished with <span class="built_in">exit</span> code <span class="number">139</span> (interrupted by signal <span class="number">11</span>: SIGSEGV) macbook <span class="comment">//这种很容易以为是设备问题，其实不是，需要检查代码，代码内存溢出</span></span><br></pre></td></tr></table></figure>
+<h2 id="9-python编译原理"><a href="#9-python编译原理" class="headerlink" title="9. python编译原理"></a>9. python编译原理</h2><h3 id="9-1-python程序包"><a href="#9-1-python程序包" class="headerlink" title="9.1 python程序包"></a>9.1 python程序包</h3><ul>
+<li><strong>import包</strong>: 包与文件夹的区别就在于<strong>init</strong>.py 有没有包含在文件夹中</li>
+</ul>
+<h2 id="10-矩阵numpy"><a href="#10-矩阵numpy" class="headerlink" title="10. 矩阵numpy"></a>10. 矩阵numpy</h2><h3 id="10-1-基本概念"><a href="#10-1-基本概念" class="headerlink" title="10.1 基本概念"></a>10.1 基本概念</h3><ul>
+<li><strong>何为numpy:</strong> 在处理数据的过程中，不免遇到存储结构为多维的结果比如说图像(h, w, 3), 代表一个数据的多个属性等等，numpy就是用来存储这些数据，并且为这些数据提供矩阵操作，以方便编程</li>
+</ul>
+<h3 id="10-2-numpy基本操作"><a href="#10-2-numpy基本操作" class="headerlink" title="10.2 numpy基本操作"></a>10.2 numpy基本操作</h3><ul>
+<li><p><strong>numpy排序操作</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sort_index =np.argsort(degree) <span class="comment"># 按角度对点进行排序</span></span><br><span class="line">point = point[sort_index] <span class="comment"># 从按角度排序的点提取出来的点</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>numpy删除操作:</strong> 在vector中删去特定元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">remove_index = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">np.delete(point, remove_index, axis=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>numpy矩阵获取最大最小值:</strong> 有值的最小最大h和最小最大w</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">min_w, max_w = np.where(np.<span class="built_in">any</span>(matric, axis=<span class="number">0</span>))[<span class="number">0</span>][[<span class="number">0</span>, -<span class="number">1</span>]]</span><br><span class="line">min_h, max_h = np.where(np.<span class="built_in">any</span>(matric, axis=<span class="number">1</span>))[<span class="number">0</span>][[<span class="number">0</span>, -<span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="10-3-numpy进阶操作"><a href="#10-3-numpy进阶操作" class="headerlink" title="10.3 numpy进阶操作"></a>10.3 numpy进阶操作</h3><ul>
+<li><p><strong>每个维度的操作:</strong> 与python中的map函数操作类似</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">norm = <span class="keyword">lambda</span> box:np.array([X[box[<span class="number">1</span>]],Y[box[<span class="number">0</span>]],X[box[<span class="number">3</span>]-<span class="number">1</span>],Y[box[<span class="number">2</span>]-<span class="number">1</span>]])</span><br><span class="line">boxes = np.apply_along_axis(norm,<span class="number">1</span>,boxes) <span class="comment"># 对每个维度做norm的变换</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/" title="Python">http://jiaqiuzhou.github.io/2020/10/15/Software/ProgramLanguages/Python/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ProgramLanguage/" rel="tag"># ProgramLanguage</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/11/Knowledge/DeepLearning/Foundation/lecture-learn/" rel="prev" title="lecture_learn">
+      <i class="fa fa-chevron-left"></i> lecture_learn
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/27/Project/Text_2Dto3D/Text-to-3Dbuilding/" rel="next" title="Text to 3D building">
+      Text to 3D building <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-text">1. 写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F"><span class="nav-text">2. 创建第一个程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="nav-text">3. 数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%8F%98%E9%87%8F%E6%A6%82%E8%BF%B0"><span class="nav-text">3.1 变量概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC"><span class="nav-text">3.2 变量赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-list%E6%93%8D%E4%BD%9C%E2%80%94python%E7%B2%BE%E5%8D%8E"><span class="nav-text">3.3 list操作—python精华</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-why-list%EF%BC%9F"><span class="nav-text">3.3.1 why list？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-list%E5%A4%8D%E5%88%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">3.3.2 list复制操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-list%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">3.3.3 list基本操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-4-%E9%9A%8F%E6%9C%BA%E9%87%87%E6%A0%B7%E6%93%8D%E4%BD%9C"><span class="nav-text">3.3.4 随机采样操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-5-%E6%95%B0%E6%8D%AE%E4%B8%8B%E6%A0%87"><span class="nav-text">3.3.5 数据下标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-6-%E7%BB%9F%E8%AE%A1%E6%93%8D%E4%BD%9C"><span class="nav-text">3.3.6 统计操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-7-%E6%8E%92%E5%BA%8F%E6%93%8D%E4%BD%9C"><span class="nav-text">3.3.7 排序操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-8-%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="nav-text">3.3.8 插入操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-9-list%E6%95%B4%E4%BD%93%E6%93%8D%E4%BD%9C-map-filter-reduce-zip"><span class="nav-text">3.3.9 list整体操作:map(), filter(), reduce(), zip()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-10-list%E5%8E%BB%E6%8E%89%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0"><span class="nav-text">3.3.10 list去掉重复元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">3.4 正则表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">4.文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E8%AF%BB%E5%8F%96-%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6"><span class="nav-text">4.1 读取&#x2F;存储文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%96%87%E4%BB%B6%E6%8E%92%E5%BA%8F"><span class="nav-text">4.2 文件排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6"><span class="nav-text">4.3 文件复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E6%96%87%E4%BB%B6%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-text">4.4 文件重命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95"><span class="nav-text">4.5 文件目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%85%AC%E5%BC%8F%E6%93%8D%E4%BD%9C"><span class="nav-text">5.公式操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4"><span class="nav-text">5.1 加减乘除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-math%E5%8C%85"><span class="nav-text">5.2 math包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Opencv"><span class="nav-text">6. Opencv</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2-1"><span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E7%BB%98%E5%9B%BE%E6%93%8D%E4%BD%9C"><span class="nav-text">6.1 绘图操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E5%A4%9A%E8%BE%B9%E5%BD%A2%E5%87%A0%E4%BD%95%E6%93%8D%E4%BD%9C"><span class="nav-text">6.2 多边形几何操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E7%9F%A9%E9%98%B5%E5%8F%98%E6%8D%A2%E6%93%8D%E4%BD%9C"><span class="nav-text">6.3 矩阵变换操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Python%E7%BB%98%E5%9B%BE%E5%B7%A5%E5%85%B7"><span class="nav-text">7. Python绘图工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E7%BB%98%E5%88%B6%E7%9B%B4%E6%96%B9%E5%9B%BE"><span class="nav-text">7.1 绘制直方图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91"><span class="nav-text">8. 踩过的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-text">8.1 数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-%E5%8F%98%E9%87%8F%E6%93%8D%E4%BD%9C"><span class="nav-text">8.2 变量操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-bug%E8%AE%B0%E5%BD%95"><span class="nav-text">8.3 bug记录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-python%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86"><span class="nav-text">9. python编译原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-python%E7%A8%8B%E5%BA%8F%E5%8C%85"><span class="nav-text">9.1 python程序包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E7%9F%A9%E9%98%B5numpy"><span class="nav-text">10. 矩阵numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">10.1 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-numpy%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">10.2 numpy基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-numpy%E8%BF%9B%E9%98%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">10.3 numpy进阶操作</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍DeepLearning中利用pytorch进行的一整套的训练流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytorch语言">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/08/05/Software/ProgramLanguages/Pytorch/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍DeepLearning中利用pytorch进行的一整套的训练流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-05T12:36:01.000Z">
+<meta property="article:modified_time" content="2021-01-31T03:37:12.491Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="ProgramLanguage">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/08/05/Software/ProgramLanguages/Pytorch/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Pytorch语言 | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/08/05/Software/ProgramLanguages/Pytorch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pytorch语言
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-05 20:36:01" itemprop="dateCreated datePublished" datetime="2020-08-05T20:36:01+08:00">2020-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-31 11:37:12" itemprop="dateModified" datetime="2021-01-31T11:37:12+08:00">2021-01-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/08/05/Software/ProgramLanguages/Pytorch/" class="post-meta-item leancloud_visitors" data-flag-title="Pytorch语言" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/05/Software/ProgramLanguages/Pytorch/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/05/Software/ProgramLanguages/Pytorch/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍DeepLearning中利用pytorch进行的一整套的训练流程</p>
+<a id="more"></a>
+<ul>
+<li>整体流程应该是分为以下几个步骤：<ul>
+<li>数据集加载，处理以及label配置</li>
+<li>训练模型加载，参数训练以及训练过程参数记录</li>
+<li>测试模型性能</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-数据集加载与处理"><a href="#1-数据集加载与处理" class="headerlink" title="1. 数据集加载与处理"></a>1. 数据集加载与处理</h2><h3 id="1-1-写在前面"><a href="#1-1-写在前面" class="headerlink" title="1.1 写在前面"></a>1.1 写在前面</h3><ul>
+<li>数据处理是网络训练的关键步骤，对于数据处理一定要做好，如果是调的包，要看好传入的参数，比如dataloader的coff_fn可能不是默认的，而是自定义的，这个时候就要区分好。</li>
+</ul>
+<h3 id="1-2-数据处理"><a href="#1-2-数据处理" class="headerlink" title="1.2 数据处理"></a>1.2 数据处理</h3><ul>
+<li><p><strong>数据处理</strong>: 进行数据处理的时候必须对数据集有所了解,才能知道应该进行何种操作</p>
+</li>
+<li><p>利用pytorch自带的transform类,代码示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line">train_transform = transforms.Compose([</span><br><span class="line">  transforms.RandomHorizontalFlip(),</span><br><span class="line">	transforms.ToTensor()</span><br><span class="line">])   </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="1-3-数据装载"><a href="#1-3-数据装载" class="headerlink" title="1.3 数据装载"></a>1.3 数据装载</h3><ul>
+<li><p><strong>训练数据集的装载:</strong> 对于数据不仅包括数据的读取，还有label的读取，代码示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先构建dataset,每一个Dataset的类除了初始化外，</span></span><br><span class="line"><span class="comment"># 还必须重构__len__():返回数据集的数目;</span></span><br><span class="line"><span class="comment"># 重构__getitem__():返回数据集的整数索引</span></span><br><span class="line">dataset_train = Dataset(Data_dir)</span><br><span class="line">dataloader_train = torch.utils.data.Dataloader(dataset_train,batch_size,...)</span><br></pre></td></tr></table></figure>
+<p>具体dataloader查阅文档的使用可以查看链接:<a target="_blank" rel="noopener" href="https://pytorch-cn.readthedocs.io/zh/latest/package_references/data/">https://pytorch-cn.readthedocs.io/zh/latest/package_references/data/</a></p>
+</li>
+<li><p><strong>分类任务图片的加载:</strong>对于一个文件夹中的东西就是一个label可以直接用以下代码,代码示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision.datasets <span class="keyword">import</span> ImageFolder</span><br><span class="line">ds = ImageFolder(imgs_folder, train_transform) <span class="comment">#读取图片，其中每个文件夹为一类</span></span><br><span class="line">train_loader, num_classes = ds, <span class="built_in">len</span>(ds.classes) </span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>验证数据集的装载</strong>: 可以采用对数据集进行切割的方式，也可以采用直接读取的方式</p>
+</li>
+<li><p><strong>训练过程的装载流程: </strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step= dataset/batchsize,所以分解得到的data有batchsize个</span></span><br><span class="line"><span class="keyword">for</span> step, data <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.dataloader_train, <span class="number">0</span>):</span><br><span class="line">  	train...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="2-训练过程"><a href="#2-训练过程" class="headerlink" title="2. 训练过程"></a>2. 训练过程</h2><h3 id="2-1-训练参数配置"><a href="#2-1-训练参数配置" class="headerlink" title="2.1 训练参数配置"></a>2.1 训练参数配置</h3><ul>
+<li>在DeepLearning的训练过程中，有许多需要作为<strong>超参数</strong>进行设置，使得下一次训练的时候非常方便直接便可以进行修改训练</li>
+<li>训练过程中需要配置的参数:</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>缩写</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据地址</td>
+<td>—data_path</td>
+<td>存放数据集的地址</td>
+</tr>
+<tr>
+<td>设备</td>
+<td>—gpu</td>
+<td>设置使用gpu的卡数</td>
+</tr>
+<tr>
+<td>训练轮数</td>
+<td>—epoch</td>
+<td>设置循环训练的次数</td>
+</tr>
+<tr>
+<td>批大小</td>
+<td>—batchsize</td>
+<td>设置每个epoch的大小，一般4的倍数</td>
+</tr>
+<tr>
+<td>输出文件地址</td>
+<td>—out_path</td>
+<td>训练记录,每个epoch训练模型</td>
+</tr>
+<tr>
+<td>学习率</td>
+<td>—lr</td>
+<td>设置初始化学习率</td>
+</tr>
+<tr>
+<td>优化方式</td>
+<td>—optimizer</td>
+<td>设置优化方式Adam等</td>
+</tr>
+<tr>
+<td>权重衰减</td>
+<td>—weight_decay</td>
+<td>设置权重衰减参数，一般4e-5</td>
+</tr>
+<tr>
+<td>加载模型</td>
+<td>—checkpoint</td>
+<td>设置重新训练所需要加载的模型</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><p>代码示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line">parser = argparse.ArgumentParser(description=<span class="string">&#x27;Train network&#x27;</span>) <span class="comment"># argparse初始化</span></span><br><span class="line">parser.add_argument(<span class="string">&#x27;--gpu&#x27;</span>, default=<span class="string">&#x27;0&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;gpu use&#x27;</span>)<span class="comment"># 参数添加,default填写默认值</span></span><br><span class="line">print(args.gpu) <span class="comment"># 通过&#x27;--&#x27;后面的东西即可标记该变量进行使用</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-2-训练过程记录—文件形式"><a href="#2-2-训练过程记录—文件形式" class="headerlink" title="2.2 训练过程记录—文件形式"></a>2.2 训练过程记录—文件形式</h3><ul>
+<li><p>在训练过程中，关键的信息需要通过文件的方式记录下来，比如配置参数，网络结构等</p>
+</li>
+<li><p>最为关键的loss 记录信息为: 时间// 每一轮Epoch/总Epoch // learning rate // loss  // test accuracy</p>
+</li>
+<li><p>logger使用代码示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="comment">##----------------------------初始化------------------------##</span></span><br><span class="line">logger = logging.getLogger(logger_name) <span class="comment"># 设置logger名字</span></span><br><span class="line"><span class="comment">## 设置文件，记录格式，保存路径</span></span><br><span class="line">file_formatter = logging.Formatter(<span class="string">&#x27;%(asctime)s %(levelname)s: %(message)s&#x27;</span>) </span><br><span class="line">file_handler = logging.FileHandler(os.path.join(save_path, <span class="string">&quot;experiment.log&quot;</span>))</span><br><span class="line">file_handler.setFormatter(file_formatter) <span class="comment"># 为文件处理填入格式</span></span><br><span class="line">logger.addHandler(file_handler) <span class="comment"># 给logger添加文件处理</span></span><br><span class="line"><span class="comment">## 设置命令行</span></span><br><span class="line">console_formatter = logging.Formatter(<span class="string">&#x27;%(message)s&#x27;</span>) <span class="comment"># 记录格式</span></span><br><span class="line">console_handler = logging.consoleHandler(sys.stdout) <span class="comment"># 设置系统输出</span></span><br><span class="line">console_handler.setFormatter(console_formatter) <span class="comment"># 填入命令行格式</span></span><br><span class="line">logger.addHandler(console_handler) <span class="comment"># 添加命令行处理</span></span><br><span class="line"><span class="comment">## 设置填写的INFO</span></span><br><span class="line">logger.setLevel(logging.INFO) </span><br><span class="line"><span class="comment">##--------------------------信息打印------------------------##</span></span><br><span class="line">logger.info(<span class="string">&#x27;Epoch: [&#123;:d&#125;/&#123;:d&#125;][&#123;:d&#125;/&#123;:d&#125;]\t\tTrain: lr=&#123;:.8f&#125;\tLoss=&#123;:.4f&#125;‘.format(epoch, args.end_epoch, i, len(train_loader), get_learning_rate(optimizer), losses.avg))</span></span><br><span class="line"><span class="string"># 输出如下: 2019-12-10 16:39:43,616 INFO: Epoch: [11/45][90/10117]		Train: lr=0.08596699	Loss=10.6418</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-3-训练记录可视化—Tensorboard"><a href="#2-3-训练记录可视化—Tensorboard" class="headerlink" title="2.3 训练记录可视化—Tensorboard"></a>2.3 训练记录可视化—Tensorboard</h3></li>
+<li><p>训练得到的结果需要使用TensorBoard工具进行可视化</p>
+</li>
+<li><p>TensorBoard代码示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorboardX <span class="keyword">import</span> SummaryWriter</span><br><span class="line">writer = SummaryWriter(args.outpath) <span class="comment"># 填写train_log想进行记录的文件夹</span></span><br><span class="line">writer.add_scalar(<span class="string">&#x27;Train_Loss&#x27;</span>, train_loss, epoch) <span class="comment"># title y x</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-4-训练参数记录"><a href="#2-4-训练参数记录" class="headerlink" title="2.4 训练参数记录"></a>2.4 训练参数记录</h3><ul>
+<li><p>保存和恢复模型中的参数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">torch.save(the_model.state_dict(), PATH) <span class="comment"># Save the model</span></span><br><span class="line">the_model = TheModelClass(*args, **kwargs)</span><br><span class="line">the_model.load_state_dict(toch.load(PATH)) <span class="comment"># load the model</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>参数量计算:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchsummary <span class="keyword">import</span> summary</span><br><span class="line">summary(model, (<span class="number">3</span>, <span class="number">112</span>, <span class="number">112</span>), device=<span class="string">&#x27;cpu&#x27;</span>)<span class="comment"># model input_size device</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模型训练参数记录:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">check_point_params[<span class="string">&quot;model&quot;</span>] = model.state_dict()</span><br><span class="line">check_point_params[<span class="string">&quot;optimizer&quot;</span>] = optimizer</span><br><span class="line">check_point_params[<span class="string">&quot;epoch&quot;</span>] = epoch</span><br><span class="line">torch.save(check_point_params, os.path.join(output_path, filename))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-5-随机数设置"><a href="#2-5-随机数设置" class="headerlink" title="2.5 随机数设置"></a>2.5 随机数设置</h3><ul>
+<li><p>在神经网路训练的过程中，需要随机初始化权重weight、正则化的随机dropout等、层的随机行、最优化的随机等</p>
+</li>
+<li><p>代码示例:</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> train:</span><br><span class="line">	manualSeed = random.randint(<span class="number">1</span>, <span class="number">10000</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	manualSeed = <span class="number">100</span></span><br><span class="line">random.seed(manualSeed)</span><br><span class="line"> torch.manual_seed(manualSeed)</span><br><span class="line"> torch.cuda.manual_seed(manualSeed)</span><br><span class="line"> np.random.seed(manualSeed)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-6-模型设置"><a href="#2-6-模型设置" class="headerlink" title="2.6 模型设置"></a>2.6 模型设置</h3><ul>
+<li><p><strong>卷积操作:</strong> nn.Conv2d(in_channels, out_channels, kernel_size)</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn </span><br><span class="line">self.conv = nn.Conv2d(<span class="number">3</span>, <span class="number">64</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>归一化操作:</strong> nn.BatchNorm2d(channels)</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.bn = nn.BatchNorm2d(<span class="number">64</span>, eps=<span class="number">0.0010000000474974513</span>) </span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>激活函数:</strong> nn.PReLU(channels)</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.prelu = nn.PReLU(<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-7-前向传播与反向传播"><a href="#2-7-前向传播与反向传播" class="headerlink" title="2.7 前向传播与反向传播"></a>2.7 前向传播与反向传播</h3><ul>
+<li><p><strong>初始化优化器</strong>: </p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> optim</span><br><span class="line">optimizer = optim.SGD([&#123;<span class="string">&#x27;params&#x27;</span>: paras_wo_bn, <span class="string">&#x27;weight_decay&#x27;</span>: <span class="number">4e-5</span>&#125;,         		                 &#123;<span class="string">&#x27;params&#x27;</span>: paras_only_bn, <span class="string">&#x27;weight_decay&#x27;</span>: <span class="number">0</span>&#125;],         lr=args.lr, momentum=args.mom, weight_decay=args.weight_decay, nesterov=<span class="literal">True</span>)</span><br><span class="line"><span class="comment">#将优化器的learning rate配置成cos形式的learning rate</span></span><br><span class="line">scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, args.end_epoch)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>前向传播与反向传播:</strong>整体流程就是前传，计算损失，优化器梯度置零，计算梯度，梯度更新，代码实例如下:</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> prefetch_generator <span class="keyword">import</span> BackgroundGenerator</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(start_epoch, end_epoch):</span><br><span class="line">    pbar = <span class="built_in">enumerate</span>(BackgroundGenerator(train_loader)) <span class="comment"># 将数据进行打包</span></span><br><span class="line">    <span class="keyword">for</span> i, (img, label) <span class="keyword">in</span> pbar:</span><br><span class="line">        img = img.cuda()</span><br><span class="line">        label = label.cuda()</span><br><span class="line">        output = model(img)  <span class="comment"># 前向传播</span></span><br><span class="line">        loss = criterion(output, label) <span class="comment"># Calculate the loss</span></span><br><span class="line">				optimizer.zero_grad()  <span class="comment"># 反向传播</span></span><br><span class="line">        loss.backward()</span><br><span class="line">        clip_gradient(optimizer, args.grad_clip) <span class="comment"># 防止梯度爆炸</span></span><br><span class="line">        optimizer.step()                         <span class="comment"># 更新参数</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="3-Pytorch操作"><a href="#3-Pytorch操作" class="headerlink" title="3. Pytorch操作"></a>3. Pytorch操作</h2><h3 id="3-1-tensor操作"><a href="#3-1-tensor操作" class="headerlink" title="3.1 tensor操作"></a>3.1 tensor操作</h3><ul>
+<li><p><strong>torch.Tensor与torch.tensor的区别:</strong></p>
+<ul>
+<li>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/tfcy694/article/details/85338745，简单的来说就是tensor创建的会根据传入的值决定类型，Tensor创建直接创建floatTensor类型">https://blog.csdn.net/tfcy694/article/details/85338745，简单的来说就是tensor创建的会根据传入的值决定类型，Tensor创建直接创建floatTensor类型</a></li>
+</ul>
+</li>
+<li><p><strong>创建pytorch的tensor值:</strong> 重复维度的创建方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.FloatTensor([[<span class="number">1.0</span>]]).repeat(sample_num, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>选定行列并保持维度:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 选择z中除了第一行的数据</span></span><br><span class="line">z[torch.arange(z.size(<span class="number">0</span>)) != <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>把两个tensor结合在一起:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在第零维进行特征的concat</span></span><br><span class="line">torch.cat((tensor1, tensor2), dim=<span class="number">0</span>) </span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>维度为1操作:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 除去维度为1的冗余维度</span></span><br><span class="line">torch.squeeze(tensor1)</span><br><span class="line">tensor1.squeeze(<span class="number">0</span>) <span class="comment"># 指定除去的维度位置</span></span><br><span class="line"><span class="comment"># 增加一个维度</span></span><br><span class="line">tensor1.unsqueeze(<span class="number">0</span>) </span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>将numpy转为tensor:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.from_numpy(np.array(img))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>将tensor广播的方法:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_obj_vector = torch.FloatTensor([[<span class="number">0.0</span>]]).repeat(<span class="number">1</span>, <span class="built_in">len</span>(room_classes)+<span class="number">1</span>+<span class="built_in">len</span>(position_classes))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>返回torch值为1的方法:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.<span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(objs_vector_test[<span class="number">0</span>][<span class="number">0</span>][-<span class="number">1</span>])-<span class="number">1</span>)[torch.eq(objs_vector_test[<span class="number">0</span>][<span class="number">0</span>][-<span class="number">1</span>], <span class="number">1</span>)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>tensor的排序还原操作:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">l = torch.randint(<span class="number">10</span>,(<span class="number">10</span>,))</span><br><span class="line">a, idx1 = torch.sort(l)</span><br><span class="line">b, idx2 = torch.sort(idx1)</span><br><span class="line">a.index_select(<span class="number">0</span>, idx2)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-2-图像操作"><a href="#3-2-图像操作" class="headerlink" title="3.2 图像操作"></a>3.2 图像操作</h3><ul>
+<li><p><strong>torch图片转换为np:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">image = np.array(image) * <span class="number">255</span></span><br><span class="line">image = image.swapaxes(<span class="number">0</span>, <span class="number">2</span>)</span><br><span class="line">image = image.swapaxes(<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="4-遇到的坑"><a href="#4-遇到的坑" class="headerlink" title="4.遇到的坑"></a>4.遇到的坑</h2><h3 id="4-1-数据处理常见坑"><a href="#4-1-数据处理常见坑" class="headerlink" title="4.1 数据处理常见坑"></a>4.1 数据处理常见坑</h3><p><strong>4.1.1 collate_fn必须要是tensor，list等，不能是object</strong></p>
+<ul>
+<li>对于可变长度的输入，pytorch会默认把这个东西进行压缩，直接cat起来，而这样的话，就会报错</li>
+<li><strong>处理办法:</strong> 将batchsize设为1,将collate_fn设为自己的函数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">collate_fn</span>(<span class="params">self, batch</span>):</span></span><br><span class="line">       <span class="comment"># training set</span></span><br><span class="line">       <span class="keyword">if</span> <span class="built_in">len</span>(batch[<span class="number">0</span>]) == <span class="number">4</span>:</span><br><span class="line">           pair_data = <span class="built_in">list</span>()</span><br><span class="line">           init_contour = <span class="built_in">list</span>()</span><br><span class="line">           indicator_hull = <span class="built_in">list</span>()</span><br><span class="line">           indicator_value = <span class="built_in">list</span>()</span><br><span class="line">           <span class="comment"># batch</span></span><br><span class="line">           <span class="keyword">for</span> b <span class="keyword">in</span> batch:</span><br><span class="line">               pair_data.append(b[<span class="number">0</span>])</span><br><span class="line">               init_contour.append(b[<span class="number">1</span>])</span><br><span class="line">               indicator_hull.append(b[<span class="number">2</span>])</span><br><span class="line">               indicator_value.append(b[<span class="number">3</span>])</span><br><span class="line">           <span class="keyword">return</span> pair_data, init_contour, indicator_hull, indicator_value</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-训练过程常见坑"><a href="#4-2-训练过程常见坑" class="headerlink" title="4.2 训练过程常见坑"></a>4.2 训练过程常见坑</h3><p><strong>4.2.1 Pytorch计算流图问题</strong></p>
+<ul>
+<li>pytorch无论是eval还是train都会创建计算流图，因此<strong>test的时候记得加上.item()或者eval的时候加上with torch.no_grad()</strong></li>
+<li>误差图计算的时候很容易忽略掉初始化的item操作，要注意</li>
+</ul>
+<p><strong>4.2.2 Python程序效率问题</strong></p>
+<ul>
+<li>少用循环，特别是在训练过程数据输入数据的时候，减少训练时间</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/08/05/Software/ProgramLanguages/Pytorch/" title="Pytorch语言">http://jiaqiuzhou.github.io/2020/08/05/Software/ProgramLanguages/Pytorch/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ProgramLanguage/" rel="tag"># ProgramLanguage</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/05/Software/system/Linux/" rel="prev" title="Linux操作指令">
+      <i class="fa fa-chevron-left"></i> Linux操作指令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/05/Software/system/system-environment/" rel="next" title="Linux环境配置">
+      Linux环境配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E9%9B%86%E5%8A%A0%E8%BD%BD%E4%B8%8E%E5%A4%84%E7%90%86"><span class="nav-text">1. 数据集加载与处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-text">1.1 写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-text">1.2 数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%95%B0%E6%8D%AE%E8%A3%85%E8%BD%BD"><span class="nav-text">1.3 数据装载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B"><span class="nav-text">2. 训练过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE"><span class="nav-text">2.1 训练参数配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95%E2%80%94%E6%96%87%E4%BB%B6%E5%BD%A2%E5%BC%8F"><span class="nav-text">2.2 训练过程记录—文件形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%AE%AD%E7%BB%83%E8%AE%B0%E5%BD%95%E5%8F%AF%E8%A7%86%E5%8C%96%E2%80%94Tensorboard"><span class="nav-text">2.3 训练记录可视化—Tensorboard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0%E8%AE%B0%E5%BD%95"><span class="nav-text">2.4 训练参数记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E9%9A%8F%E6%9C%BA%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="nav-text">2.5 随机数设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E6%A8%A1%E5%9E%8B%E8%AE%BE%E7%BD%AE"><span class="nav-text">2.6 模型设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E4%B8%8E%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="nav-text">2.7 前向传播与反向传播</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Pytorch%E6%93%8D%E4%BD%9C"><span class="nav-text">3. Pytorch操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-tensor%E6%93%8D%E4%BD%9C"><span class="nav-text">3.1 tensor操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%9B%BE%E5%83%8F%E6%93%8D%E4%BD%9C"><span class="nav-text">3.2 图像操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91"><span class="nav-text">4.遇到的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%B8%B8%E8%A7%81%E5%9D%91"><span class="nav-text">4.1 数据处理常见坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B%E5%B8%B8%E8%A7%81%E5%9D%91"><span class="nav-text">4.2 训练过程常见坑</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

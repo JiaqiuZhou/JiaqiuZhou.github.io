@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录一点一滴学习的云服务技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cloud_technology">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="记录一点一滴学习的云服务技术">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/horizontal_scaling.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/Vertical_scaling.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/cloud_service_consumer.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/google_cloud_data_center">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/BasicServiceModels.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/DataCenterCost.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/hypervisor.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/HDFSComponents.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/CloudArchitecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/GFSArchitecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/HDFSArchitecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/DistributedWordCount.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/DistributedWordCount2.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/MapReduceWork.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/MapReduceExample.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/MonitoringAgent.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/ResourceAgent.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/polingAgent.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/VitualServersHypervisor.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/ListScheduling.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/ListSchedulingTaskSelection.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/listSchedulingEFT.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/DataCenterCosts.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/Fat-TreeTopology.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/FiConnRecursiveTopology.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/DCellRecursiveTopology.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/BCubeRecursiveTopology.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/OpticalCircuitSwitch.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/c-ThroughFlexibleDCN.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/serviceLoadOutside.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/ServiceLoadInside.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/HorizontalScaling.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/HorizontalScaling2.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/HorizontalScaling3.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/CloudBurstingArchitecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/ElasticDiskProvisioningArchitecture.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/migration.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/migration2.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/LiveVMMigration.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/MigrationAlgorithm.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/MoblieComputing.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/ComputationPartition.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/Bottleneck.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/PartitioniongAffectsPerf.png">
+<meta property="article:published_time" content="2020-11-02T12:15:15.000Z">
+<meta property="article:modified_time" content="2020-11-07T14:21:03.949Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="Software-fundation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/horizontal_scaling.png">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>cloud_technology | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          cloud_technology
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-02 20:15:15" itemprop="dateCreated datePublished" datetime="2020-11-02T20:15:15+08:00">2020-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 22:21:03" itemprop="dateModified" datetime="2020-11-07T22:21:03+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/11/02/Software/fundation/cloud-technology/" class="post-meta-item leancloud_visitors" data-flag-title="cloud_technology" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/11/02/Software/fundation/cloud-technology/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/11/02/Software/fundation/cloud-technology/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录一点一滴学习的云服务技术</p>
+<a id="more"></a>
+<h2 id="1-云计算基本概念"><a href="#1-云计算基本概念" class="headerlink" title="1.云计算基本概念"></a>1.云计算基本概念</h2><h3 id="1-1-云计算概念和特性"><a href="#1-1-云计算概念和特性" class="headerlink" title="1.1 云计算概念和特性"></a>1.1 云计算概念和特性</h3><ul>
+<li><strong>基本概念:</strong> 是一种<strong>信息技术的范式</strong>，使得可以<strong>无所不在地访问系统的资源池</strong>和用很少的管理工作享受更高级别的服务，通常是在网络上进行</li>
+<li><strong>基本特性:</strong> <ul>
+<li><strong>按需请求:</strong> 资源消耗者可以<strong>单方面的请求</strong>计算机服务器在<strong>需要的时候</strong></li>
+<li><strong>资源汇集:</strong> 云服务提供者的计算资源是<strong>集中的</strong></li>
+<li><strong>随时随地网络访问:</strong> 云服务计算资源可以通过<strong>异构网络</strong>访问</li>
+<li><strong>地理位置独立:</strong> 资源消耗者不需要考虑自己的地理位置</li>
+<li><strong>快速且灵活:</strong> 服务可以被快速并且灵活的提供</li>
+<li><strong>仅需支付所访问的服务:</strong> 仅针对被提供的服务收费</li>
+<li><strong>多用户:</strong> 资源和应用可以分享给多个用户<strong>不需要和其他人关联</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-基本概念和术语"><a href="#1-2-基本概念和术语" class="headerlink" title="1.2 基本概念和术语"></a>1.2 基本概念和术语</h3><ul>
+<li><p><strong>可扩展性:</strong> IT资源可以处理增加或减少的使用需求的能力</p>
+<ul>
+<li><p><strong>水平扩展(horizontal scaling):</strong> 改变IT资源的数量，水平分配资源也称为向外扩展（scaling out），水平释放资源也成为向内扩展（scaling in）</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/horizontal_scaling.png" alt="horizontal_scaling"></p>
+</li>
+<li><p><strong>垂直扩展(vertical scaling): </strong>现有IT资源被具有更大或更小容量的资源所替代, 被具有更大容量的IT资源替代，称为向上扩展（scaling up），被具有更小容量的IT资源替代，称为向下扩展（scaling down）</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/Vertical_scaling.png" alt="Vertical_scaling"></p>
+</li>
+</ul>
+</li>
+<li><p><strong>云服务:</strong> 指任何可以通过云远程访问的IT资源</p>
+<ul>
+<li>与其他IT领域中的服务技术（比如面向服务的架构，SOA）的“服务”含义<strong>更为宽泛</strong></li>
+<li><strong>并非云中所有的IT资源都可以被远程访问</strong>，其中有公开发布的API的软件程序可以专门部署为允许远程客户访问</li>
+</ul>
+</li>
+<li><p><strong>云服务用户:</strong> 是一个临时的运行时角色，由<strong>访问云服务的软件程序</strong>担任</p>
+<ul>
+<li><strong>常见类型:</strong> <ul>
+<li>能够通过已发布的服务合同远程访问云服务的软件程序和服务</li>
+<li>运行某些软件的工作站、便携电脑和移动设备</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/cloud_service_consumer.png" alt="cloud_service_consumer"></p>
+</li>
+<li><p><strong>数据中心:</strong> 数据中心其实就是各个服务器的组合，然后如何利用分层的结构书，<strong>冗余均衡</strong>的布置网络结构，使得当一个服务器损坏的时候，有另外几个服务器仍然可以得到响应。如图为曝光的google的数据中心图</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/google_cloud_data_center" alt="google_cloud_data_center"></p>
+</li>
+</ul>
+<h3 id="1-3-交付模式-Basic-Services-Model"><a href="#1-3-交付模式-Basic-Services-Model" class="headerlink" title="1.3 交付模式(Basic Services Model)"></a>1.3 交付模式(Basic Services Model)</h3><ul>
+<li><p><strong>概览:</strong> SaaS—&gt;PaaS—&gt;IaaS</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/BasicServiceModels.png" alt="BasicServiceModels"></p>
+</li>
+<li><p><strong>软件即服务(Software as a Service):</strong> 应用在云上部署，consumer是<strong>最终用户</strong>，比方说电子邮件服务</p>
+</li>
+<li><p><strong>平台即服务(Platform as a Service):</strong> 为<strong>用户提供编程语言和工具</strong>，以便在云上开发和部署应用程序, consumer是<strong>开发人员</strong>，例如，Google App Engine，Microsoft Azure</p>
+</li>
+<li><p><strong>基础架构即服务(Infrastructure as a Service):</strong>  提供<strong>处理，存储，网络和其他基础计算资源</strong>，消费者能够部署和运行任意软件，包括操作系统和应用程序，消费者是<strong>开发人员或系统管理员</strong>，例如，Amazon EC2</p>
+</li>
+</ul>
+<h3 id="1-4-经济合理性"><a href="#1-4-经济合理性" class="headerlink" title="1.4 经济合理性"></a>1.4 经济合理性</h3><ul>
+<li><p><strong>规模经济:</strong> 大的数据中心比小的数据中心操作成本更小,大表示10w+服务器，小表示小于10000服务器</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/DataCenterCost.png" alt="DataCenterCost"></p>
+<ul>
+<li><p><strong>电力成本:</strong> 目前，运营数据中心的电力成本占总运营成本的10％至20％, 大型数据中心的每服务器<strong>电源成本较低</strong></p>
+<ul>
+<li><strong>共享机架和交换机</strong>等项目</li>
+<li><strong>谈判价格</strong>, 大用户可以协商大幅折扣</li>
+<li><strong>地理选择</strong>, 大型数据中心可以位于电力成本最低的地方</li>
+<li><strong>收购更便宜的电源</strong>，如风电场和屋顶太阳能。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>硬件成本:</strong> 大型数据中心的运营商可以比小型购买者获得<strong>高达30％的硬件购买折扣</strong></p>
+</li>
+<li><p><strong>基础设施劳动力成本:</strong>更<strong>有效地利用</strong>系统管理员,以减少人力成本 </p>
+<ul>
+<li>小型数据中心管理员服务~150台服务器</li>
+</ul>
+</li>
+<li>大型数据中心管理员服务&gt; 1000台服务器</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>安全性和可靠性:</strong> <strong>维持给定级别的安全性</strong>，冗余性和基本上的灾难恢复需要固定的投资水平。较大的数据中心可以通过其大量服务器分摊该投资</li>
+</ul>
+<h3 id="1-5-基本机制"><a href="#1-5-基本机制" class="headerlink" title="1.5 基本机制"></a>1.5 基本机制</h3><h4 id="1-5-1-Virtual-Machine-虚拟机"><a href="#1-5-1-Virtual-Machine-虚拟机" class="headerlink" title="1.5.1 Virtual Machine(虚拟机)"></a>1.5.1 Virtual Machine(虚拟机)</h4><ul>
+<li><strong>地址空间:</strong> 与其他虚拟机独立</li>
+<li><strong>应用程序:</strong> 看起来像个裸机(metal machine)</li>
+<li>分配了IP地址并具有网络功能</li>
+<li>可以加载任何可以在主机的处理器上执行的操作系统或应用程序</li>
+</ul>
+<h4 id="1-5-2-监控器-Hypervisor"><a href="#1-5-2-监控器-Hypervisor" class="headerlink" title="1.5.2 监控器(Hypervisor)"></a>1.5.2 监控器(Hypervisor)</h4><ul>
+<li><p><strong>虚拟机管理程序:</strong> 是用于创建和管理虚拟机的操作系统</p>
+</li>
+<li><p>例如，VMWare，Xen，KVM</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/hypervisor.png" alt="hypervisor"></p>
+</li>
+</ul>
+<h4 id="1-5-3-文件系统-File-system"><a href="#1-5-3-文件系统-File-system" class="headerlink" title="1.5.3 文件系统(File system)"></a>1.5.3 文件系统(File system)</h4><ul>
+<li><p>每个虚拟机都可以访问文件系统</p>
+</li>
+<li><p>HDFS(Hadoop分布式文件系统)一种广泛使用的开源云文件系统</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/HDFSComponents.png" alt="HDFSComponents"></p>
+</li>
+</ul>
+<h3 id="1-6-云架构"><a href="#1-6-云架构" class="headerlink" title="1.6 云架构"></a>1.6 云架构</h3><h4 id="1-6-1-安全性-Security"><a href="#1-6-1-安全性-Security" class="headerlink" title="1.6.1 安全性(Security)"></a>1.6.1 安全性(Security)</h4><ul>
+<li>多租户使得云环境更加关注额外的信息</li>
+<li><strong>无意的信息共享:</strong> 由于共享资源的使用，可能会共享该信息。例如。如果重新分配磁盘，则磁盘上的信息可能仍然存在。</li>
+<li><strong>虚拟机逃逸(escape):</strong> 是突破虚拟机（虚拟机管理程序）并与主机操作系统交互的过程</li>
+<li><strong>拒绝服务攻击:</strong> 一个用户可以使用主机服务器的资源并将其拒绝给其他用户</li>
+</ul>
+<h4 id="1-6-2-性能-Performance"><a href="#1-6-2-性能-Performance" class="headerlink" title="1.6.2 性能(Performance)"></a>1.6.2 性能(Performance)</h4><ul>
+<li><strong>负载平衡:</strong> 是在<strong>多个计算资源之间分配工作负载</strong>以避免单个资源过载 </li>
+<li><strong>自动扩展:</strong> 是一种计算资源量的方法，通常根据活动服务器的数量来衡量，根据负载<strong>自动缩放(scales)</strong></li>
+</ul>
+<h4 id="1-6-3-可使用性-Availability"><a href="#1-6-3-可使用性-Availability" class="headerlink" title="1.6.3 可使用性(Availability)"></a>1.6.3 可使用性(Availability)</h4><ul>
+<li><strong>考虑多种情况:</strong> 云提供商确保在<strong>一些值得注意的例外情况</strong>下云服务也可以使用</li>
+<li><strong>故障检测:</strong> 应用程序开发人员必须假设实例将失败，并<strong>在发生故障时构建检测和更正机制</strong></li>
+</ul>
+<h2 id="2-云计算数据处理架构"><a href="#2-云计算数据处理架构" class="headerlink" title="2. 云计算数据处理架构"></a>2. 云计算数据处理架构</h2><p><img src="/2020/11/02/Software/fundation/cloud-technology/CloudArchitecture.png" alt="CloudArchitecture"></p>
+<h3 id="2-1-并发控制-分布式协同管理"><a href="#2-1-并发控制-分布式协同管理" class="headerlink" title="2.1 并发控制(分布式协同管理)"></a>2.1 并发控制(分布式协同管理)</h3><h4 id="2-1-1-基于锁的并发控制"><a href="#2-1-1-基于锁的并发控制" class="headerlink" title="2.1.1 基于锁的并发控制"></a>2.1.1 基于锁的并发控制</h4><ul>
+<li><p><strong>读取操作:</strong> 检测有没有锁在D数据上，才能读操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Read(D):</span><br><span class="line">	<span class="keyword">if</span> T_i has a lock on D</span><br><span class="line">		then </span><br><span class="line">			read(D)</span><br><span class="line">		<span class="keyword">else</span> begin </span><br><span class="line">			<span class="keyword">if</span> necessary wait until no </span><br><span class="line">        other transaction has a lock-S on D;</span><br><span class="line">			read(D)</span><br><span class="line">		end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>写操作:</strong> 查看有没有写操作的锁，有读操作的锁就把它升级为写操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Write(D):</span><br><span class="line">	<span class="keyword">if</span> T_i has a lock-X on D</span><br><span class="line">		then </span><br><span class="line">			write(D)</span><br><span class="line">		<span class="keyword">else</span> begin</span><br><span class="line">			<span class="keyword">if</span> necessary wait until no </span><br><span class="line">        other trans. has any lock on D,</span><br><span class="line">			<span class="keyword">if</span> T_i has a lock-S on D</span><br><span class="line">				then </span><br><span class="line">					upgrade lock on D to lock-X</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					grant T_i a lock-X on D</span><br><span class="line">				write(D)</span><br><span class="line">			end;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-1-2-基于时间戳的并发控制"><a href="#2-1-2-基于时间戳的并发控制" class="headerlink" title="2.1.2 基于时间戳的并发控制"></a>2.1.2 基于时间戳的并发控制</h4><ul>
+<li><strong>概述:</strong> 每个指令进入系统的时候都会配置时间戳，基于时间戳的协议可确保以时间戳顺序执行任何冲突的读写操作。<ul>
+<li>W-timestamp(Q)是成功执行写入(Q)的任何事务的最大时间戳</li>
+<li>R-timestamp(Q)是成功执行read(Q)的任何事务的最大时间戳</li>
+</ul>
+</li>
+<li><strong>具体过程:</strong><ul>
+<li><strong>读操作:</strong> <ul>
+<li><strong>TS(Ti)&lt;=W-timestamp(Q):</strong> 则Ti需要读取已经被覆盖的Q值, 因此, 拒绝读取操作，并回退Ti</li>
+<li><strong>TS(Ti)&gt;=W-timestamp(Q):</strong> 则执行读取操作，并且将R-timestamp(Q)设置为max(R-timestamp(Q), TS(Ti))</li>
+</ul>
+</li>
+<li><strong>写操作:</strong><ul>
+<li><strong>TS(Ti)&lt;R-timestamp(Q):</strong> 则先前需要Ti产生的Q值,因此，拒绝写入操作，并且回退Ti</li>
+<li><strong>TS(Ti)&lt; W-timestamp(Q):</strong> 则Ti试图写出过时的Q值。因此，拒绝此写入操作，并回退Ti</li>
+<li>否则，<strong>执行写操作</strong>，并且W-timestamp(Q)被设置为TS(Ti)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-分布式文件系统-HDFS"><a href="#2-2-分布式文件系统-HDFS" class="headerlink" title="2.2 分布式文件系统(HDFS)"></a>2.2 分布式文件系统(HDFS)</h3><h4 id="2-2-1-基本概念"><a href="#2-2-1-基本概念" class="headerlink" title="2.2.1 基本概念"></a>2.2.1 基本概念</h4><ul>
+<li><p><strong>GFS基本架构:</strong> 多层次容错，自动复制，按块存储，并行读取，效率高</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/GFSArchitecture.png" alt="GFSArchitecture"></p>
+</li>
+<li><p><strong>特点:</strong> GFS的开源实现</p>
+<ul>
+<li><strong>容量大</strong>：terabytes or petabytes<ul>
+<li>将数据保存到大量的节点当中</li>
+<li>支持很大单个文件</li>
+</ul>
+</li>
+<li><strong>高可靠性、快速访问、高可扩展</strong><ul>
+<li>大量的数据复制</li>
+<li>简单加入更多服务器</li>
+</ul>
+</li>
+<li>HDFS是针对MapReduce设计，<strong>本地局部性</strong><ul>
+<li>数据尽可能根据其本地局部性进行访问与计算</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>设计:</strong> 基于<strong>块的文件</strong>存储</p>
+<ul>
+<li>块进行复制的形式放置，<strong>按照块的方式随机选择存储节点</strong></li>
+<li>副本的<strong>默认数目</strong>是3，系统可靠性与资源折中</li>
+<li><strong>默认的块</strong>的大小是<strong>64MB</strong>,可以根据文件系统来实际考虑<ul>
+<li>减少元数据的量</li>
+<li>有利于顺序读写（在磁盘上数据顺序存放）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>负载均衡:</strong> </p>
+<ul>
+<li><strong>加入一个新节点的步骤:</strong><ul>
+<li>配置新节点上的hadoop程序</li>
+<li>在Master的slaves文件中加入新的slave节点</li>
+<li>启动slave节点上的DataNode，会自动取联系NameNode，加入到集群中</li>
+</ul>
+</li>
+<li><strong>Balancer类用来做负载均衡:</strong><ul>
+<li>默认均衡参数是10%范围内</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-2-HDFS体系结构"><a href="#2-2-2-HDFS体系结构" class="headerlink" title="2.2.2 HDFS体系结构"></a>2.2.2 HDFS体系结构</h4><p><img src="/2020/11/02/Software/fundation/cloud-technology/HDFSArchitecture.png" alt="HDFSArchitecture"></p>
+<ul>
+<li><strong>HDFS写流程:</strong> <ul>
+<li>应用程序发起<strong>写操作</strong>到任意文件系统—&gt;client将其进行<strong>缓存</strong>到64K block</li>
+<li>client<strong>通知NameNode</strong>准备写一个新的block—&gt;NameNode<strong>返回三个DataNodes的列表</strong>来存block</li>
+<li>Client<strong>把block数据发</strong>到第一个DataNodes并通知DataNodes复制到另外两个节点</li>
+<li><strong>第一个DataNode写了block数据</strong>然后发给另外第二个，然后第二个写了发给第三个，第三个写</li>
+<li><strong>每个DataNode报告完成</strong>了写给client—&gt;<strong>Client提交</strong>写到NameNode中当三个都完成了以后</li>
+</ul>
+</li>
+<li><strong>HDFS可靠性:</strong><ul>
+<li><strong>磁盘数据错误:</strong> 心跳 重新分布</li>
+<li><strong>复制数据完整性:</strong> 校验和(checksum)</li>
+<li><strong>原数据磁盘故障:</strong> 检查点(checkpoint)</li>
+<li><strong>快照(Snapshots):</strong> 文件某一时刻的状态记录,用于回退</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-NoSQL系统"><a href="#2-3-NoSQL系统" class="headerlink" title="2.3 NoSQL系统"></a>2.3 NoSQL系统</h3><h4 id="2-3-1-基本概念"><a href="#2-3-1-基本概念" class="headerlink" title="2.3.1 基本概念"></a>2.3.1 基本概念</h4><ul>
+<li><strong>优点:</strong> 非关系型，不需要架构，非结构化</li>
+<li><p><strong>可用性:</strong> 数据被复制到多个节点并可以<strong>进行分区</strong>; 轻松替换下行节点, 无单点故障</p>
+<ul>
+<li><strong>可扩展性:</strong> 水平<strong>可扩展</strong></li>
+<li><strong>成本:</strong> 价格低廉，易于实施</li>
+<li><strong>性能:</strong> 大规模写入性能, 快速键值访问</li>
+</ul>
+</li>
+<li><p><strong>缺点:</strong>  不完全支持关系特性:无连接，按操作分组和排序(分区内除外),跨分区没有参照完整性约束</p>
+<ul>
+<li><p><strong>无声明性查询语言:</strong> (例如，SQL)→更多编程</p>
+</li>
+<li><p><strong>松弛ACID(原子性 一致性 隔离性 持久性)</strong>（请参阅CAP定理: 一个分布式系统不能同时满足一致性，可用性和分区容错性）→<strong>更少的保证</strong></p>
+</li>
+<li><p>不容易与支持SQL的其他应用程序集成</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-2-NoSQL类型—无架构，灵活数据类型"><a href="#2-3-2-NoSQL类型—无架构，灵活数据类型" class="headerlink" title="2.3.2 NoSQL类型—无架构，灵活数据类型"></a>2.3.2 NoSQL类型—无架构，灵活数据类型</h4><ul>
+<li><strong>基于键值:</strong> DynamoDB, Voldermort, Scalaris</li>
+<li><strong>基于文档:</strong> MongoDB，CouchDB </li>
+<li><strong>基于列:</strong> BigTable，Cassandra，Hbased</li>
+<li><strong>基于图形:</strong> Neo4J，InfoGrid</li>
+</ul>
+<h3 id="2-4-分布式数据处理编程框架—MapReduce"><a href="#2-4-分布式数据处理编程框架—MapReduce" class="headerlink" title="2.4 分布式数据处理编程框架—MapReduce"></a>2.4 分布式数据处理编程框架—MapReduce</h3><h3 id="2-4-1-基本概念"><a href="#2-4-1-基本概念" class="headerlink" title="2.4.1 基本概念"></a>2.4.1 基本概念</h3><ul>
+<li><strong>简单的编程模型</strong>，<strong>功能模型</strong></li>
+<li><strong>用于大规模数据处理</strong><ul>
+<li>利用大量商用计算机</li>
+<li>以分布式方式执行流程</li>
+<li>提供<strong>高可用性</strong>(MapReduce关键)</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-2-整体流程"><a href="#2-4-2-整体流程" class="headerlink" title="2.4.2 整体流程"></a>2.4.2 整体流程</h3><ul>
+<li><p><strong>分布式词汇统计:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/DistributedWordCount.png" alt="DistributedWordCount"></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/DistributedWordCount2.png" alt="DistributedWordCount2"></p>
+</li>
+<li><p><strong>模型中所使用的函数:</strong> </p>
+<ul>
+<li><p><strong>Map:</strong> 处理键/值对以生成中间键/值对</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>(<span class="built_in">string</span> value):</span><br><span class="line"><span class="comment">//key: document name</span></span><br><span class="line"><span class="comment">//value: document contents</span></span><br><span class="line">	<span class="keyword">for</span> each word w in value</span><br><span class="line">		EmitIntermediate(w, <span class="string">&quot;1&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Reduce:</strong> 合并与同一键关联的所有中间值</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">reduce(<span class="built_in">string</span> key, iterator values)</span><br><span class="line"><span class="comment">//key: word</span></span><br><span class="line"><span class="comment">//values: list of counts</span></span><br><span class="line">  <span class="keyword">int</span> results = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> each v in values</span><br><span class="line">      result += ParseInt(v);</span><br><span class="line">	Emit(AsString(result));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Partition:</strong> 对数据进行划分, 划分成多少份，分配到多少个服务器进行Reducing，使得负载均衡，默认情况下：hash（key）mod R, 均衡</p>
+</li>
+<li><p><strong>Shuffling:</strong> 数据交互之间会产生大量的数据传输，需要考虑如何使得通信成本比较低</p>
+</li>
+</ul>
+</li>
+<li><p><strong>MapReduce例子:</strong> 在map完成之前不能开始reduce, master必须传达中间文件的位置, 根据数据位置安排任务, 如果map的worker在reduce完成之前的任何时间失败，任务必须完全重新运行</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/MapReduceWork.png" alt="MapReduceWork"></p>
+<ul>
+<li><strong>具体步骤:</strong> <ul>
+<li><strong>划分数据集</strong>成三行(Key-Value类型)—&gt; Mapping<strong>扫描这个数据集</strong>形成key-value二元组(key, list)(这些中间数据存放在本地，也就是map所运行的服务器里面)</li>
+<li><strong>划分成组</strong>，把数据进行shuffling(排序)—&gt;<strong>数据传输</strong>(跨服务器)</li>
+<li>Reducing把数组的值求和</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/MapReduceExample.png" alt="MapReduceExample"></p>
+</li>
+</ul>
+<h3 id="2-4-3-其他问题"><a href="#2-4-3-其他问题" class="headerlink" title="2.4.3 其他问题"></a>2.4.3 其他问题</h3><ul>
+<li><p><strong>Master调度策略:</strong> </p>
+<ul>
+<li>向GFS询问输入文件块副本的位置</li>
+<li>Map任务通常分为64MB(== GFS块大小),按时间表 以便GFS输入块副本位于同一台机器或同一机架上</li>
+</ul>
+</li>
+<li><p><strong>读取效率效果:</strong> 数千个机器以本地磁盘速度读取输入, 没有这个，机架开关限制读取速率</p>
+</li>
+<li><p><strong>系统容错:</strong> </p>
+<ul>
+<li><p><strong>worker故障:</strong> 心跳，worker定期由master执行操作, 无响应=工作失败, 如果worker的处理器发生故障，该worker的任务将重新分配给另一worker。</p>
+</li>
+<li><p><strong>master故障:</strong> master写入定期检查点, 可以从上次检查点状态启动另一个master, 如果master最终死亡，则作业将中止</p>
+</li>
+<li><p><strong>主动方式(冗余执行):</strong> “落后者”（慢工作者）的问题</p>
+<ul>
+<li><p>计算几乎完成后，重新安排正在进行的任务</p>
+</li>
+<li><p>无论何时完成主要或备份执行，都将其标记为已完成</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-特殊云机制"><a href="#3-特殊云机制" class="headerlink" title="3.特殊云机制"></a>3.特殊云机制</h2><h3 id="3-1-云使用监控"><a href="#3-1-云使用监控" class="headerlink" title="3.1 云使用监控"></a>3.1 云使用监控</h3><ul>
+<li><strong>基本概念:</strong> 是一种轻量级的<strong>自治软件程序</strong>, 用于<strong>收集和处理IT资源的使用数据</strong>, 使用数据发送到<strong>日志数据库</strong>，以便进行后续处理和报告</li>
+</ul>
+<h4 id="3-1-1-实现方式—监控代理"><a href="#3-1-1-实现方式—监控代理" class="headerlink" title="3.1.1 实现方式—监控代理"></a>3.1.1 实现方式—监控代理</h4><ul>
+<li><p><strong>基本概念:</strong> 是一个中间的时间驱动程序，<strong>对数据流进行透明的监控</strong>和分析(像水表)</p>
+</li>
+<li><p><strong>监控代理:</strong> </p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/MonitoringAgent.png" alt="MonitoringAgent"></p>
+</li>
+</ul>
+<h4 id="3-1-2-实现方式—资源代理"><a href="#3-1-2-实现方式—资源代理" class="headerlink" title="3.1.2 实现方式—资源代理"></a>3.1.2 实现方式—资源代理</h4><ul>
+<li><p><strong>基本概念:</strong> 是一种处理模块，在<strong>资源软件级别监控</strong>预定义的且可观测事件的使用指标，比如：启动、暂停、恢复和垂直扩展（像自动停车场）</p>
+</li>
+<li><p><strong>资源代理:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/ResourceAgent.png" alt="ResourceAgent"></p>
+</li>
+</ul>
+<h4 id="3-1-3-实现方式—轮询代理"><a href="#3-1-3-实现方式—轮询代理" class="headerlink" title="3.1.3 实现方式—轮询代理"></a>3.1.3 实现方式—轮询代理</h4><ul>
+<li><p><strong>基本概念:</strong> 是一种处理模块，通过轮询IT资源来<strong>周期性地监控IT资源</strong>状态（比如正常运行时间和停机时间。(像巡夜守卫)</p>
+</li>
+<li><p><strong>轮询代理:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/polingAgent.png" alt="polingAgent"></p>
+</li>
+</ul>
+<h3 id="3-2-自动伸缩监听器-Automated-scaling-listener-mechanism"><a href="#3-2-自动伸缩监听器-Automated-scaling-listener-mechanism" class="headerlink" title="3.2 自动伸缩监听器(Automated scaling listener mechanism)"></a>3.2 自动伸缩监听器(Automated scaling listener mechanism)</h3><ul>
+<li><strong>基本概念:</strong> 一个<strong>服务代理，监控和追踪云服务用户和云服务之间的通讯</strong>，用以动态自动伸缩，通常部署在靠近防火墙的位置，来自动追踪负载状态信息。</li>
+<li><strong>不同响应:</strong> 对应负载波动的条件，提供不同类型的响应<ul>
+<li><strong>自动伸缩IT资源(auto-scaling):</strong> 根据事先定义的参数</li>
+<li><strong>自动通知云用户(auto-notification):</strong> 负载过高或过低时</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-负载均衡器"><a href="#3-3-负载均衡器" class="headerlink" title="3.3 负载均衡器"></a>3.3 负载均衡器</h3><ul>
+<li><strong>基本概念:</strong> 是一个<strong>运行时代理</strong>，主要用于把<strong>负载在两个或更多的IT 资源</strong>上做均衡, 负载均衡器可以<strong>执行不同的运行时负载分配功能</strong>：<ul>
+<li>非对称分配(Asymmetric distribution)</li>
+<li>负载优先级(Workload prioritization)</li>
+<li>内容感知的分配(Content-aware distribution)</li>
+</ul>
+</li>
+<li><strong>实体和部署:</strong> 通常位于<strong>产生负载的IT资源和执行负载处理的IT资源</strong>之间的通讯路径上，负载均衡器可以被设计成一个透明的代理</li>
+<li><strong>载体:</strong><ul>
+<li>多层网络交换机(multi-layer network switch)</li>
+<li>专门的硬件设备(dedicated hardware appliance)</li>
+<li>专门的基于软件的系统(dedicated software-based system (in server OS))</li>
+</ul>
+</li>
+<li><strong>调度策略:</strong><ul>
+<li>轮转、负载水平，</li>
+<li>同一用户的多个请求调度到同一服务器</li>
+<li>同一租户的请求调度到尽量少的一组服务器</li>
+<li>尽量实现不同类型负载的互补</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-4-按使用付费监控器-pay-per-use-monitor"><a href="#3-4-按使用付费监控器-pay-per-use-monitor" class="headerlink" title="3.4 按使用付费监控器(pay-per-use monitor)"></a>3.4 按使用付费监控器(pay-per-use monitor)</h3><ul>
+<li><strong>基本概念:</strong>  按照<strong>预先定义好的定价参数测量云资源</strong>使用，并生成使用日志用于计算费用, 使用数据由计费管理系统(billing management system)进行处理。</li>
+<li><strong>典型的监控变量：</strong><ul>
+<li>请求/响应消息数量</li>
+<li>传送的数据量</li>
+<li>带宽消耗</li>
+</ul>
+</li>
+<li><strong>实现方式:</strong><ul>
+<li>资源代理</li>
+<li>监控代理</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-5-故障转移系统-failover-system"><a href="#3-5-故障转移系统-failover-system" class="headerlink" title="3.5 故障转移系统(failover system)"></a>3.5 故障转移系统(failover system)</h3><ul>
+<li><strong>基本概念:</strong> 通过使用现有的<strong>集群技术提供冗余的实现</strong>来增加IT资源的可靠性和可用性。只要当前活跃的IT资源变得不可用时，便会<strong>自动切换到冗余的或待机IT资源实例</strong>上</li>
+<li><strong>类型:</strong> 主动-主动，主动-被动<ul>
+<li><strong>主动-主动:</strong> 多个实例都处于活动状态，同时提供服务, IT 资源的冗余实现和负载均衡器是必须要的</li>
+<li><strong>主动-被动:</strong> 一个处于活动状态，一个待机或闲置<ul>
+<li>当IT资源变得不可用的时候，就会激活待机实例来接管工作</li>
+<li>相应的工作负载就会被重定向到接管操作的这个实例上</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-6-虚拟机监控器"><a href="#3-6-虚拟机监控器" class="headerlink" title="3.6 虚拟机监控器"></a>3.6 虚拟机监控器</h3><ul>
+<li><p><strong>基本概念:</strong> 虚拟化基础设施的最基本部分，主要用来<strong>在物理服务器上生成虚拟服务器</strong>实例。虚拟机监控器通常受限于一台物理服务器</p>
+<ul>
+<li><strong>VIM(Virtual Infrastructure Manager)</strong>提供了一组特性<strong>来管理跨物理服务器</strong>的<strong>多虚拟机监控器</strong></li>
+</ul>
+</li>
+<li><p><strong>监控器例子:</strong> 虚拟服务器是通过各个物理服务器上的单个虚拟机监控器创建的，三个虚拟机管理程序由同一个VIM共同控制</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/VitualServersHypervisor.png" alt="VitualServersHypervisor"></p>
+</li>
+</ul>
+<h3 id="3-7-资源集群"><a href="#3-7-资源集群" class="headerlink" title="3.7 资源集群"></a>3.7 资源集群</h3><ul>
+<li><p><strong>基本概念:</strong> 把<strong>多个IT资源实例分为一组</strong>，使得他们能像一个IT资源那样进行操作, 通过高速专用网络链接或者集群结点实现<strong>工作负载、任务调度、数据共享和系统同步</strong>等通讯要求</p>
+</li>
+<li><p><strong>常见的资源集群类型</strong>包括：</p>
+<ul>
+<li><p>服务器集群——提高性能和可用性</p>
+</li>
+<li><p>数据库集群——提高数据可用性，维持数据的一致性</p>
+</li>
+<li><p>大数据集集群——数据的分区和分布</p>
+</li>
+</ul>
+</li>
+<li><p><strong>负载均衡的集群:</strong> 保持集中管理的特性下实现了在集群结点中的分布式工作负载 </p>
+</li>
+<li><p><strong>高可用集群:</strong> 在多节点失效的情况下保持系统的可用性，需要冗余实现和故障转移机制</p>
+</li>
+</ul>
+<h3 id="3-8-多设备代理"><a href="#3-8-多设备代理" class="headerlink" title="3.8 多设备代理"></a>3.8 多设备代理</h3><ul>
+<li><strong>基本概念:</strong> <strong>用于运行时的数据转换</strong>, 克服云服务和多样性的云服务用户之间的<strong>不兼容性,</strong> 使得云服务能够被更广泛的云服务用户程序和设备所使用, 需要创建<strong>映射逻辑(mapping logic)</strong>来改变运行时交换的信息,</li>
+<li>多设备代理通常是<strong>作为网关</strong>存在的：<ul>
+<li>XML 网关</li>
+<li>云存储网关</li>
+<li>移动设备网关</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-9-状态管理数据库"><a href="#3-9-状态管理数据库" class="headerlink" title="3.9 状态管理数据库"></a>3.9 状态管理数据库</h3><ul>
+<li><strong>基本概念:</strong> 是<strong>一种存储设备</strong>，用来暂时地持久化软件程序的状态数据,软件程序可以把状态数据卸载到数据库中<ul>
+<li>替代状态数据<strong>缓存在内存</strong>中的一种方法，用以<strong>降低程序占用的运行时的内存量</strong></li>
+<li>状态管理数据库使得软件程序和周边的基础设施都具有更大的可扩展性</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-调度问题与机制"><a href="#4-调度问题与机制" class="headerlink" title="4. 调度问题与机制"></a>4. 调度问题与机制</h2><h3 id="4-1-常见调度问题"><a href="#4-1-常见调度问题" class="headerlink" title="4.1 常见调度问题"></a>4.1 常见调度问题</h3><ul>
+<li><strong>单处理器上的任务包调度问题(Bag-of-Tasks on Single Processor):</strong><ul>
+<li><strong>给定:</strong> 每个任务的发布时间和工作量或截止日期</li>
+<li>决定任务<strong>什么时候</strong>执行</li>
+<li><strong>目标:</strong> 每个任务的平均完成时间和截止日期</li>
+</ul>
+</li>
+<li><strong>多处理器上的任务包调度问题(Bag-of-Tasks on Multi-Processors):</strong><ul>
+<li><strong>给定:</strong> 每个任务的发布时间和工作量,</li>
+<li>决定任务<strong>when和where</strong>执行</li>
+</ul>
+</li>
+<li><strong>异构处理器上的DAGs调度(DAGs Scheduling on Heterogeneous Processors):</strong><ul>
+<li><strong>给定:</strong> 每个处理器上每个任务的处理时间，边缘上的通信时间</li>
+<li>决定每个任务<strong>when和where</strong>执行</li>
+</ul>
+</li>
+<li><strong>作业车间调度(job Shop Problem): 多个任务调配到多个处理器上</strong><ul>
+<li><strong>给定:</strong> 每个处理器上每个任务的处理时间，边缘上的通信时间</li>
+<li>每个作业都只让每个处理器处理一起</li>
+</ul>
+</li>
+<li><strong>周期性任务调度</strong></li>
+</ul>
+<h3 id="4-2-调度方法"><a href="#4-2-调度方法" class="headerlink" title="4.2 调度方法"></a>4.2 调度方法</h3><ul>
+<li>实时调度vs.非实时调度</li>
+<li>静态调度vs.动态调度</li>
+<li>离线调度vs.在线调度<ul>
+<li><strong>在线调度:</strong> <ul>
+<li>以机器为中心的方法, 在机器空闲时触发调度, 对于每台空闲机器，根据某些策略选择任务，例如，先来先服务(FCFS), 最短作业优先(SJF), 最早的截止时间优先(EDF),等待时间最长的工作优先</li>
+<li>以任务为中心的方法, 在新任务到达时触发调度，对于每个计划任务，根据某些策略选择机器，例如，最早的完成时间,…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>确定性调度vs.随机调度</li>
+</ul>
+<h3 id="4-3-列调度算法-List-Scheduling-Method"><a href="#4-3-列调度算法-List-Scheduling-Method" class="headerlink" title="4.3 列调度算法(List Scheduling Method)"></a>4.3 列调度算法(List Scheduling Method)</h3><ul>
+<li><p><strong>算法过程:</strong></p>
+<ul>
+<li><strong>任务选择(Task Selection):</strong> 通过为每个任务分配优先级来构建有序的任务列表，并按优先级顺序选择任务。</li>
+<li><strong>处理器选择(Processor Selection):</strong> 每个所选任务被安排到处理器，该处理器最小化预定义的成本函数。</li>
+<li>重复步骤1和步骤2，直到调度完所有任务 </li>
+</ul>
+</li>
+<li><p><strong>算法例子:</strong> </p>
+<ul>
+<li><p><strong>算法任务描述:</strong> 左图的路径是每个任务在处理器之间的传输时间(同一台处理器则不需要计算)，右图是每个任务在不同处理器上所花费的时间，目标是希望完全最后的任务的时间最短</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/ListScheduling.png" alt="ListScheduling"></p>
+</li>
+<li><p><strong>Step1:Task Selection:</strong> 通过计算每个任务执行到底所需要的最长时间，时间越长优先级越高 ，取三个处理器的平均时间+传输时间</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/ListSchedulingTaskSelection.png" alt="ListSchedulingTaskSelection"></p>
+<p>得到任务优先级</p>
+<script type="math/tex; mode=display">
+\{n_1, n_3, n_4, n_2, n_5, n_6, n_9, n_7, n_8,n_{10}\}</script></li>
+<li><p><strong>Step2: Processor Selection:</strong> Earlist Finish Time最早完成时间</p>
+<script type="math/tex; mode=display">
+n_i表示第i个任务， P_j表示第j个处理器, AFT:任务完成时间点\\
+EST:最早开始时间, avail[j]:表示处理器j变得空闲的时间\\
+c_{m,i}:传输时间, w_{i,j}: 执行时间\\
+EST(n_i, p_j) = max\{avail[j], max_{n_m\in pred(n_i)}(AFT(n_m)+c_{m,i})\} \\
+EFT(n_i,p_j)=w_{i,j}+ EST(n_i, p_j)\\
+EST(n_{entry}, p_j) = 0\\
+AFT(n_i) = min_{j}EFT(n_i, p_j)</script><p>选择可以完成每个任务最早的那个处理器</p>
+</li>
+<li><p><strong>创建EFT表:</strong> 举一个例子P2在任务3上为什么是34，也就是P3执行完1之后有了1就可以用9+传输时间12+执行时间13=34</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/listSchedulingEFT.png" alt="listSchedulingEFT"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-数据中心网络"><a href="#5-数据中心网络" class="headerlink" title="5.数据中心网络"></a>5.数据中心网络</h2><h3 id="5-1-设计目标与需求、成本"><a href="#5-1-设计目标与需求、成本" class="headerlink" title="5.1 设计目标与需求、成本"></a>5.1 设计目标与需求、成本</h3><ul>
+<li><p><strong>数据中心设计目标:</strong> 敏捷性，动态调整，</p>
+<ul>
+<li><p><strong>敏捷性:</strong> 任何服务，任何服务器</p>
+</li>
+<li><p>将服务器群转变为大的<strong>可替换池</strong></p>
+<ul>
+<li><p>让服务动态调整: 根据需要动态扩展和收缩他们的足迹</p>
+</li>
+<li><p>具有非阻塞核心的等距端点</p>
+</li>
+<li><p>无限的工作负载移动性</p>
+</li>
+</ul>
+</li>
+<li><p><strong>优势:</strong> 提高服务开发人员的工作效率, 降低成本, 实现高性能和可靠性</p>
+</li>
+</ul>
+</li>
+<li><p><strong>数据中心成本:</strong> </p>
+<ul>
+<li><strong>总成本</strong>各不相同<ul>
+<li>大型数据中心超过$ 1/4 B</li>
+<li><strong>服务器成本</strong>占主导地位</li>
+<li>网络成本显着</li>
+</ul>
+</li>
+<li><strong>长供应时间：</strong><ul>
+<li>每季度最多购买一台新服务器</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/DataCenterCosts.png" alt="DataCenterCosts"></p>
+</li>
+<li><p><strong>数据中心应用需求:</strong></p>
+<ul>
+<li><p>数据中心通常运行<strong>两种类型的应用程序</strong></p>
+<ul>
+<li><strong>面向外部</strong>（例如，向用户提供网页）</li>
+<li><strong>内部计算</strong>（例如，用于Web索引的MapReduce）</li>
+</ul>
+</li>
+<li><p><strong>工作负载</strong>通常是不可预测的：</p>
+</li>
+<li><p>多个服务在DC内并发运行</p>
+<ul>
+<li>对新服务的需求可能出现意外情况</li>
+<li>对新服务的需求飙升意味着成功</li>
+<li>但可能成功时遇到麻烦（如果没有准备好的话）！</li>
+</ul>
+</li>
+<li><p><strong>服务器故障</strong>是常态</p>
+</li>
+</ul>
+</li>
+<li><p><strong>数据中心网络需求:</strong></p>
+<ul>
+<li><p><strong>统一的高容量:</strong> 任何两台服务器之间的容量都很高，无论它们位于哪个机架上</p>
+<ul>
+<li>服务器之间的容量仅受其NICs(网络接口控制器Network Interface controller)限制</li>
+<li>添加服务器时无需考虑拓扑</li>
+</ul>
+</li>
+<li><p><strong>性能隔离:</strong> 一个服务的流量不受其他服务的影响</p>
+</li>
+<li><p><strong>易于管理：</strong>“即插即用”（第二层语义）</p>
+<ul>
+<li>平面寻址，因此任何服务器都可以拥有任何IP地址</li>
+<li>服务器配置与在局域网中相同</li>
+<li>依赖于广播的传统应用程序必须工作</li>
+</ul>
+</li>
+<li><p><strong>可扩展，易于管理，容错且高效</strong>的数据中心网络(DCN)的要求</p>
+<ul>
+<li>R1:任何VM都可以在不更改其IP地址的情况下迁移到任何物理机器</li>
+<li>R2:管理员不需要先配置任何交换机部署</li>
+<li>R3:任何终端主机都应通过任何可用路径与任何其他终端主机进行有效通信</li>
+<li>R4:无转发环路</li>
+<li>R5:故障检测应快速有效</li>
+</ul>
+</li>
+<li><p>对<strong>网络协议</strong>的影响:</p>
+<ul>
+<li><p>整个数据中心的单层2结构(R1和R2)</p>
+</li>
+<li><p>具有数十万个条目(R3)的Mac转发表</p>
+</li>
+<li>高效的路由协议，可快速将拓扑变化传播到所有点(R5)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-2-数据中心拓扑结构-分类"><a href="#5-2-数据中心拓扑结构-分类" class="headerlink" title="5.2 数据中心拓扑结构(分类)"></a>5.2 数据中心拓扑结构(分类)</h3><ul>
+<li><strong>Data Center Networks:</strong><ul>
+<li><strong>Fixed Topology:</strong> <ul>
+<li><strong>Tree-based:</strong> Basic tree，Fat tree，Clos network</li>
+<li><strong>Recursive:</strong> DCell, BCube, MDCube, FiConn</li>
+</ul>
+</li>
+<li><strong>Flexible Topology:</strong><ul>
+<li><strong>Fully Optical:</strong> OSA</li>
+<li><strong>Hybrid:</strong> c-Through, Helios</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-2-1-Tree-based-Clos-Network"><a href="#5-2-1-Tree-based-Clos-Network" class="headerlink" title="5.2.1 Tree-based: Clos Network"></a>5.2.1 Tree-based: Clos Network</h4><ul>
+<li><strong>基本概念:</strong> 与以前老电话的沟通模式一样，一对一占线，物理占线，一旦占领了这条线，其他的设备无法占用这条线</li>
+<li><strong>特点:</strong> 一对一链路专门分配，从系统角度来看，吞吐率不行，物理的链路多少决定了这个网络链接的吞吐率，一个设备到另外一个设备会有多条链路</li>
+</ul>
+<h4 id="5-2-2-基于树状的拓扑结构"><a href="#5-2-2-基于树状的拓扑结构" class="headerlink" title="5.2.2 基于树状的拓扑结构"></a>5.2.2 基于树状的拓扑结构</h4><ul>
+<li><strong>全连接结构</strong>: 每个服务器之间相互连接，当然是冗余程度最高的，而且不容易出现故障，然而当节点数增多的时候，连接的数目会呈爆炸式增长</li>
+<li><strong>纯树结构</strong>: 也就是一个服务器连接另外一个服务器，但当有一个服务器宕机后，就会出现服务器disconnect的情况，这种不满足冗余的要求</li>
+<li><strong>Fat Tree:</strong> 父亲节点有多个孩子节点存在，父亲节点作为交换机有多个服务器连接，使得当交换机宕机的时候，可以利用其他的服务器</li>
+</ul>
+<h4 id="5-2-3-Tree-based-Fat-Tree"><a href="#5-2-3-Tree-based-Fat-Tree" class="headerlink" title="5.2.3 Tree-based: Fat Tree"></a>5.2.3 Tree-based: Fat Tree</h4><ul>
+<li><p><strong>胖树的构造过程参考:</strong> <a target="_blank" rel="noopener" href="https://blogchinmaya.blogspot.com/2017/04/what-is-fat-tree-and-how-to-construct.html">https://blogchinmaya.blogspot.com/2017/04/what-is-fat-tree-and-how-to-construct.html</a></p>
+</li>
+<li><p><strong>构建过程:</strong> 胖树主要由三层构成，第一层<strong>Core layer</strong>，第二层<strong>Aggregation layer</strong>，第三层<strong>edge layer</strong>，K元胖树也就是Core layers中有<strong>K个switch</strong>，每个layer里面都是switch，最后是连接到<strong>服务器</strong>，以下是<strong>从Core构建到服务器的树的过程</strong></p>
+<ul>
+<li><strong>Step1:</strong>  k元胖树就有<strong>(k/2)^2</strong>个<strong>核心交换机(Core Switch)</strong>，也就是分成了<strong>k个pod</strong>，也就是虚线框的个数</li>
+<li><strong>Step2:</strong> 每个pod包含了<strong>(k/2)个Aggregation switches</strong>和<strong>(k/2)个edge switches</strong></li>
+<li><strong>Step3:</strong> 每个Aggr交换机连接到了<strong>(k/2)个核心交换机</strong>以及<strong>(k/2)个edge交换机</strong></li>
+<li><strong>Step4:</strong> 每个edge交换机连接到了<strong>(k/2)个服务器</strong>，因此每个pod会连接到<strong>(k/2)^2个服务器</strong>上</li>
+</ul>
+</li>
+<li><p><strong>性质:</strong> </p>
+<ul>
+<li>每个pod支持<strong>(k/2)^2个主机</strong>之间的<strong>非阻塞操作</strong>，每个源和目的地都有<strong>(k/2)^2路径</strong></li>
+<li>在任何平分处<strong>相同的带宽</strong>，每层具有相同的聚合带宽</li>
+<li>可以使用具有统一容量的<strong>廉价设备</strong>构建<ul>
+<li>每个端口支持与终端主机相同的速度       </li>
+<li>如果数据包是沿可用路径均匀分布的，所有设备都可以以线速传输</li>
+</ul>
+</li>
+<li><strong>可扩展性极佳</strong>：k-port交换机支持<script type="math/tex">k^3/4</script>服务器</li>
+</ul>
+</li>
+<li><p><strong>拓扑结构示意图:</strong> 三层拓扑结构, </p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/Fat-TreeTopology.png" alt="Fat-TreeTopology"></p>
+</li>
+</ul>
+<h4 id="5-2-4-Recursive-Topology-递归拓扑"><a href="#5-2-4-Recursive-Topology-递归拓扑" class="headerlink" title="5.2.4 Recursive Topology(递归拓扑)"></a>5.2.4 Recursive Topology(递归拓扑)</h4><ul>
+<li><p><strong>基本概念:</strong> 每台服务器上有多个端口, 服务器充当<strong>两个计算节点</strong>，并且在其端口之间<strong>实现流量转发功能</strong>，通过<strong>在服务器和交换机上添加更多端口进行扩展</strong>(本质)，也可以看成<strong>以服务器为中心的拓扑</strong></p>
+</li>
+<li><p><strong>FiConn:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/FiConnRecursiveTopology.png" alt="FiConnRecursiveTopology"></p>
+</li>
+<li><p><strong>DCell:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/DCellRecursiveTopology.png" alt="DCellRecursiveTopology"></p>
+</li>
+<li><p><strong>BCube:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/BCubeRecursiveTopology.png" alt="BCubeRecursiveTopology"></p>
+</li>
+</ul>
+<h4 id="5-2-5-Optical-and-Hybrid-DCN-光和数据混合中心网络"><a href="#5-2-5-Optical-and-Hybrid-DCN-光和数据混合中心网络" class="headerlink" title="5.2.5 Optical and Hybrid DCN(光和数据混合中心网络)"></a>5.2.5 Optical and Hybrid DCN(光和数据混合中心网络)</h4><ul>
+<li><p><strong>基本概念:</strong> 解决固定拓扑网络的问题，其有<strong>流量特性不灵活</strong>(未充分利用所有服务器)，<strong>带宽超额订购</strong>(Bandwidth oversubscription)，<strong>更高比特率的链路</strong>(铜线链路距离有限)等问题</p>
+</li>
+<li><p><strong>OpticalCircuitSwitch:</strong> 通过光来传递，<strong>容量更大，速度更快，沟通更稳定</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/OpticalCircuitSwitch.png" alt="OpticalCircuitSwitch"></p>
+</li>
+<li><p><strong>c-Through:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/c-ThroughFlexibleDCN.png" alt="c-ThroughFlexibleDCN"></p>
+</li>
+</ul>
+<h2 id="6-基本云架构"><a href="#6-基本云架构" class="headerlink" title="6. 基本云架构"></a>6. 基本云架构</h2><h3 id="6-1-负载均衡架构"><a href="#6-1-负载均衡架构" class="headerlink" title="6.1 负载均衡架构"></a>6.1 负载均衡架构</h3><ul>
+<li><p><strong>基本概念:</strong> <strong>工作负载分布架构</strong>的一个特殊变种, 专门针对扩展云服务实现的</p>
+<ul>
+<li>基于云服务的<strong>冗余部署:</strong> 部署在虚拟机上或容器中的应用程序或软件，多实例构成资源池</li>
+</ul>
+</li>
+<li><p><strong>两种形式:</strong></p>
+<ul>
+<li><p><strong>独立于云设备及主机服务器(外置方式):</strong> 负载均衡器截获云服务用户发送的消息(1)并将其转发给虚拟服务器，从而使工作负载的处理得到水平扩展(2)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/serviceLoadOutside.png" alt="serviceLoadOutside"></p>
+</li>
+<li><p><strong>作为应用程序/服务器环境的内置组建(内置方式):</strong> 云服务用户的请求发送给虚拟服务器A上的云服务A(1)。内置负载均衡逻辑包含在云服务实现中，它可以将请求分配给相邻的云服务A，这些云服务A的实现位于虚拟服务器B和C上(2)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/ServiceLoadInside.png" alt="ServiceLoadInside"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-2-动态可扩展架构"><a href="#6-2-动态可扩展架构" class="headerlink" title="6.2 动态可扩展架构"></a>6.2 动态可扩展架构</h3><ul>
+<li><strong>基本概念:</strong> 基于预先定义的扩展条件从资源池中<strong>动态分配IT资源</strong>, 是云资源弹性管理的<strong>核心机制</strong><ul>
+<li><strong>自动扩展监听器:</strong> 实现<strong>动态扩展的核心部件</strong>, 监听负载状态以决定何时扩展</li>
+</ul>
+</li>
+<li><strong>动态扩展架构:</strong> 水平、垂直、重定位</li>
+</ul>
+<h4 id="6-2-1-动态水平扩展-Dynamic-Horizontal-Scaling"><a href="#6-2-1-动态水平扩展-Dynamic-Horizontal-Scaling" class="headerlink" title="6.2.1 动态水平扩展(Dynamic Horizontal Scaling)"></a>6.2.1 动态水平扩展(Dynamic Horizontal Scaling)</h4><ul>
+<li><p><strong>基本概念:</strong> <strong>向内或向外扩展IT资源</strong>实例，<strong>自动扩展监听器请求资源</strong>复制，并发信号<strong>启动IT资源复制</strong></p>
+</li>
+<li><p><strong>水平扩展实例:</strong> </p>
+<ul>
+<li><p><strong>Step1:</strong> 云服务用户向云服务发送请求(1), 自动扩展监听器监视该云服务，判断预定义的容量阈值是否已经被超过(2)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/HorizontalScaling.png" alt="HorizontalScaling"></p>
+</li>
+<li><p><strong>Step2:</strong> 云服务用户的请求数量增加(3), 工作负载已超过性能阈值。根据预定义规则，自动扩展监听器决定下一步的操作(4)。如果云服务的实现被认为适合扩展，则自动扩展监听器启动扩展过程(5)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/HorizontalScaling2.png" alt="HorizontalScaling2"></p>
+</li>
+<li><p><strong>Step3:</strong> 自动扩展监听器向资源复制模块发送信号(6)，创建更多的云服务实例(7)。增加的工作负载可以得到满足，自动扩展监听器根据请求，继续监控并增加或减少IT资源(8)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/HorizontalScaling3.png" alt="HorizontalScaling3"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="6-2-2-动态垂直扩展-Dynamic-Vertical-Scaling"><a href="#6-2-2-动态垂直扩展-Dynamic-Vertical-Scaling" class="headerlink" title="6.2.2 动态垂直扩展(Dynamic Vertical Scaling)"></a>6.2.2 动态垂直扩展(Dynamic Vertical Scaling)</h4><ul>
+<li><strong>基本概念:</strong> 调整<strong>单个IT资源的处理容量</strong>, <strong>向上或向下扩展IT资源</strong>实例</li>
+</ul>
+<h4 id="6-2-3-动态重定位-Dynamic-Relocation"><a href="#6-2-3-动态重定位-Dynamic-Relocation" class="headerlink" title="6.2.3 动态重定位(Dynamic Relocation)"></a>6.2.3 动态重定位(Dynamic Relocation)</h4><ul>
+<li><strong>基本概念:</strong> 将IT资源重新放置到<strong>更大/更小容量的主机</strong>上</li>
+</ul>
+<h3 id="6-3-云爆发架构-Cloud-Bursting-Architecture"><a href="#6-3-云爆发架构-Cloud-Bursting-Architecture" class="headerlink" title="6.3 云爆发架构(Cloud Bursting Architecture)"></a>6.3 云爆发架构(Cloud Bursting Architecture)</h3><ul>
+<li><p><strong>基本概念:</strong> <strong>动态扩展架构的特殊形式</strong></p>
+<ul>
+<li><strong>云数据中心和企业IT资源协同:</strong> Burst-in and burst-out</li>
+<li>基于云的IT资源是<strong>冗余性预部署:</strong> 保持非活跃状态，直到发生云爆发</li>
+</ul>
+</li>
+<li><p><strong>云爆发结构:</strong> <strong>自动扩展监听器</strong>监控企业内部服务A的使用情况，当服务A的使用阈值被突破时，将服务用户C的请求重定向到服务A<strong>在云中的冗余实现</strong>(云服务A)(1)。<strong>资源复制系统</strong>用于保持状态管理数据库的同步(2)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/CloudBurstingArchitecture.png" alt="CloudBurstingArchitecture"></p>
+</li>
+</ul>
+<h3 id="6-4-弹性磁盘供给架构-Elastic-Disk-Provisioning-Architecture"><a href="#6-4-弹性磁盘供给架构-Elastic-Disk-Provisioning-Architecture" class="headerlink" title="6.4 弹性磁盘供给架构(Elastic Disk Provisioning Architecture)"></a>6.4 弹性磁盘供给架构(Elastic Disk Provisioning Architecture)</h3><ul>
+<li><p><strong>基本概念:</strong> <strong>动态存储供给系统</strong>, 确保按照云用户实际使用的存储量进行精确计费</p>
+<ul>
+<li>基于自动精简供给技术</li>
+<li>辅助机制: 云使用监控器，资源复制</li>
+</ul>
+</li>
+<li><p><strong>弹性磁盘供给架构:</strong> 450G为该虚拟服务器最大磁盘使用量, 云用户<strong>还未安装任何软件</strong>，这就意味着当前使用空间为0G, 分配的磁盘空间与实际使用空间相等(当前都为0), 云用户<strong>不用支付任何磁盘空间的使用费用</strong>(5)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/ElasticDiskProvisioningArchitecture.png" alt="ElasticDiskProvisioningArchitecture"></p>
+</li>
+</ul>
+<h2 id="7-高级云架构"><a href="#7-高级云架构" class="headerlink" title="7. 高级云架构"></a>7. 高级云架构</h2><h3 id="7-1-虚拟机监控器集群-Hypervisor-Clustering"><a href="#7-1-虚拟机监控器集群-Hypervisor-Clustering" class="headerlink" title="7.1 虚拟机监控器集群(Hypervisor Clustering)"></a>7.1 虚拟机监控器集群(Hypervisor Clustering)</h3><ul>
+<li><p><strong>基本概念:</strong> <strong>多个虚拟机监控器构成集群</strong>, 跨越多个物理服务器, <strong>实现高可用</strong></p>
+<ul>
+<li><strong>由中心VIM控制</strong>，通过<strong>常规心跳消息</strong>来检测虚拟机监控器的状态</li>
+<li>当物理机或者Hypervisor失效时进行<strong>在线迁移</strong>，使用<strong>共享云存储设备</strong>实现在线迁移</li>
+</ul>
+</li>
+<li><p><strong>在线迁移方式:</strong></p>
+<ul>
+<li><p><strong>非在线方式:</strong> Stop-and-copy</p>
+<ul>
+<li>停止源VM，通过network复制它的memory，重启目标VM</li>
+</ul>
+</li>
+<li><p><strong>在线方式:</strong> Near-zero downtime</p>
+<ul>
+<li><strong>dirty pages的概念:</strong> linux内核的概念，系统就把读写比较频繁的数据事先放到内存，以提高读写速度，这就是高速缓存，当进程修改了高速缓存中的数据时，该页就被标记为脏页</li>
+<li><strong>Step1:Pre-copy:</strong> 通过网络复制memory，保持迭代复制只有dirty pages，停止源VM如果dirty pages在阈值以下，复制剩余的dirty pages，启动目标VM</li>
+<li><strong>Step2: Post-copy:</strong> 停止源VM，通过网络复制CPU状态和page tables，启动目标VM，开启目标VM，在线复制它的memory</li>
+</ul>
+</li>
+<li><p><strong>在线迁移例子展示:</strong> 把故障的B上的服务器迁移到C</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/migration.png" alt="migration1"></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/migration2.png" alt="migration2"></p>
+</li>
+<li><p><strong>在线迁移过程:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/LiveVMMigration.png" alt="LiveVMMigration"></p>
+</li>
+<li><p><strong>在线迁移算法:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/MigrationAlgorithm.png" alt="MigrationAlgorithm"></p>
+</li>
+<li><p><strong>性能指标:</strong></p>
+<ul>
+<li>迁移时间vs.停机时间</li>
+<li>预复制(Pre-copy)实时迁移</li>
+<li>跳过技术(应该是阈值判断)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-2-云服务容错架构"><a href="#7-2-云服务容错架构" class="headerlink" title="7.2 云服务容错架构"></a>7.2 云服务容错架构</h3><ul>
+<li><strong>云服务不可用原因:</strong><ul>
+<li>运行时需求超出处理能力</li>
+<li>维护更新导致的暂时中断</li>
+<li>云服务迁移</li>
+<li>物理机失效、宕机</li>
+</ul>
+</li>
+<li><strong>应对机制:</strong><ul>
+<li>服务迁移</li>
+<li>服务故障检测与恢复</li>
+<li>物理机容错</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-2-1-云服务故障检测机制"><a href="#7-2-1-云服务故障检测机制" class="headerlink" title="7.2.1 云服务故障检测机制"></a>7.2.1 云服务故障检测机制</h4><ul>
+<li><strong>Ping / echo:</strong> 用于通过<strong>关联的网络路径</strong>确定可达性和往返延迟。</li>
+<li><strong>监视器(Monitor):</strong> 用于<strong>监视系统其他部分</strong>的健康状况的组件</li>
+<li><strong>Heartbeat:</strong> 系统监视器与<strong>被监视进程</strong>之间的<strong>定期消息交换</strong><ul>
+<li>该进程定期在其监视器中<strong>重置监视程序计时器</strong></li>
+<li>将心跳消息捎带到<strong>其他控制消息</strong>上可减少开销</li>
+</ul>
+</li>
+<li><strong>时间戳:</strong> 用于<strong>检测不正确的事件序列</strong>，主要是在<strong>分布式消息传递系统</strong>中</li>
+<li><strong>条件监测:</strong> 检查进程或设备中的条件，或验证设计期间的假设。<ul>
+<li>例如，数据存储和传输中的校验和</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-2-2-云服务故障恢复机制"><a href="#7-2-2-云服务故障恢复机制" class="headerlink" title="7.2.2 云服务故障恢复机制"></a>7.2.2 云服务故障恢复机制</h4><ul>
+<li><strong>主动冗余(热备用):</strong> 保护组中的所有节点并行处理相同的输入，允许<strong>冗余备用与主动节点保持同步</strong>状态。</li>
+<li><strong>备用(冷备用):</strong> 保护组的冗余备用设备在发生故障转移之前仍然无法使用，此时在冗余备用设备投入使用之前会<strong>启动power-on-reset过程</strong>。</li>
+<li><strong>被动冗余(暖备用):</strong> 只有保护组的活动成员处理输入流量; <ul>
+<li>他们的职责之一是为冗余备件提供定期状态更新。</li>
+</ul>
+</li>
+<li><strong>重试:</strong> 故障是暂时的，<strong>重试操作可能会导致成功</strong>。<ul>
+<li>例如，网络重新传输</li>
+</ul>
+</li>
+<li><strong>忽略故障行为:</strong> 当确定这些消息是虚假的时，忽略从源发送的消息。<ul>
+<li>例如，忽略来自拒绝服务攻击者的消息</li>
+</ul>
+</li>
+</ul>
+<h2 id="8-移动云计算"><a href="#8-移动云计算" class="headerlink" title="8. 移动云计算"></a>8. 移动云计算</h2><h3 id="8-1-移动云计算定义及三个视角"><a href="#8-1-移动云计算定义及三个视角" class="headerlink" title="8.1 移动云计算定义及三个视角"></a>8.1 移动云计算定义及三个视角</h3><ul>
+<li><p><strong>基本定义:</strong> 基于云计算的定义，移动云计算是指移动设备通过移动网络以按需、易扩展的方式获得所需的基础设施、平台、软件(或应用)等的一种IT资源或(信息)服务的交付与使用模式。</p>
+</li>
+<li><p><strong>移动云计算三个视角:</strong></p>
+<ul>
+<li><strong>移动云计算 – AI视角:</strong> 移动云是AI应用的重要计算基础设施<ul>
+<li>智能交通系统</li>
+<li>犯罪追捕 Face++</li>
+</ul>
+</li>
+<li><p><strong>移动云计算 – 云计算视角:</strong> </p>
+<ul>
+<li><strong>云计算:</strong> 通过网络向客户提供和交付<strong>动态可配置资源</strong>的共享池作为服务</li>
+<li><strong>移动云计算:</strong> 通过<strong>移动设备向用户提供云计算服务</strong>，例如智能手机和汽车</li>
+<li><strong>面临挑战:</strong> 移动设备约束、移动网络掉线、链接不稳定、用户移动性、视频分发服务、云游戏服务</li>
+</ul>
+</li>
+<li><p><strong>移动云计算 – 移动计算视角:</strong></p>
+<ul>
+<li>移动设备<strong>计算资源、电池受限</strong></li>
+<li>利用云计算资源<strong>解决移动设备资源受限问题</strong></li>
+<li>Computation Offloading-将Mobile App.的复杂计算迁移到云上</li>
+</ul>
+</li>
+<li><p><strong>移动云性能优化技术:</strong></p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/MoblieComputing.png" alt="MoblieComputing"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-2-性能建模与优化"><a href="#8-2-性能建模与优化" class="headerlink" title="8.2 性能建模与优化"></a>8.2 性能建模与优化</h3><h4 id="8-2-1-性能建模"><a href="#8-2-1-性能建模" class="headerlink" title="8.2.1 性能建模"></a>8.2.1 性能建模</h4><ul>
+<li><strong>基本概念:</strong> 建立因素与性能之间的关系模型</li>
+<li><strong>用户响应时间:</strong> 本地计算时间、数据传输(等待)时间、云上计算(等待)时间</li>
+<li><strong>影响因素:</strong> 本地设备计算能力; 网络带宽、延迟、拥塞; 云处理能力、负载; 计算模块部署</li>
+<li><strong>方法:</strong> <ul>
+<li><strong>系统分析:</strong> 通过系统架构和模型，分析和推导影响性能各因素与性能指标之间的直接关系</li>
+<li><strong>数据挖掘:</strong> 测量系统在不同因素下性能，基于测量数据，采用数据挖掘方法建立性能模型</li>
+</ul>
+</li>
+</ul>
+<h4 id="8-2-2-移动云性能优化技术—计算划分"><a href="#8-2-2-移动云性能优化技术—计算划分" class="headerlink" title="8.2.2 移动云性能优化技术—计算划分"></a>8.2.2 移动云性能优化技术—计算划分</h4><ul>
+<li><p><strong>基本概念:</strong> 计算分区将应用程序的工作负载分解为较小的工作负载，并决定哪些部分在<strong>本地执行</strong>，哪些部分<strong>卸载到云端</strong></p>
+</li>
+<li><p><strong>计算划分例子:</strong> 上一部分是在云上进行的计算时间: 0.1,0.2,0.2,0.3等,下一部分是在本地执行的计算时间，绿色背景代表在云上之行，箭头代表传输时间</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/ComputationPartition.png" alt="ComputationPartition"></p>
+</li>
+<li><p><strong>找出本地计算的Bottleneck:</strong> 找到限制处理时间的最长时间</p>
+<ul>
+<li><strong>Step 1:</strong> 对比每个处理器的处理时间，找到限制瓶颈的地方0.5</li>
+<li><strong>Step 2:</strong> 0.5附近的传输时间与处理器处理时间对比，发现0.4&gt;传输时间，选择0.4</li>
+<li><strong>Step 3:</strong> 没得选择了，就最优了</li>
+</ul>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/Bottleneck.png" alt="Bottleneck"></p>
+</li>
+<li><p><strong>t=1:</strong> 15=19-(9-6)-(4-3) </p>
+<p><strong>t=2:</strong> 17=19-(3-2)-(4-3)</p>
+<p><img src="/2020/11/02/Software/fundation/cloud-technology/PartitioniongAffectsPerf.png" alt="PartitioniongAffectsPerf"></p>
+</li>
+</ul>
+<h3 id="8-2-3-移动云性能优化技术—数据缓存"><a href="#8-2-3-移动云性能优化技术—数据缓存" class="headerlink" title="8.2.3 移动云性能优化技术—数据缓存"></a>8.2.3 移动云性能优化技术—数据缓存</h3><ul>
+<li><strong>基本概念:</strong> 通过把服务数量多的分配到同一个服务器上</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/" title="cloud_technology">http://jiaqiuzhou.github.io/2020/11/02/Software/fundation/cloud-technology/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Software-fundation/" rel="tag"># Software-fundation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/02/Software/fundation/Algorithm/" rel="prev" title="SoftwareAlgorithm">
+      <i class="fa fa-chevron-left"></i> SoftwareAlgorithm
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/03/Knowledge/DeepLearning/Theory/MachineLearning/" rel="next" title="MachineLearning">
+      MachineLearning <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.云计算基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%BA%91%E8%AE%A1%E7%AE%97%E6%A6%82%E5%BF%B5%E5%92%8C%E7%89%B9%E6%80%A7"><span class="nav-text">1.1 云计算概念和特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9C%AF%E8%AF%AD"><span class="nav-text">1.2 基本概念和术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E4%BA%A4%E4%BB%98%E6%A8%A1%E5%BC%8F-Basic-Services-Model"><span class="nav-text">1.3 交付模式(Basic Services Model)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E7%BB%8F%E6%B5%8E%E5%90%88%E7%90%86%E6%80%A7"><span class="nav-text">1.4 经济合理性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E5%9F%BA%E6%9C%AC%E6%9C%BA%E5%88%B6"><span class="nav-text">1.5 基本机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-1-Virtual-Machine-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-text">1.5.1 Virtual Machine(虚拟机)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-2-%E7%9B%91%E6%8E%A7%E5%99%A8-Hypervisor"><span class="nav-text">1.5.2 监控器(Hypervisor)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-3-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F-File-system"><span class="nav-text">1.5.3 文件系统(File system)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E4%BA%91%E6%9E%B6%E6%9E%84"><span class="nav-text">1.6 云架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1-%E5%AE%89%E5%85%A8%E6%80%A7-Security"><span class="nav-text">1.6.1 安全性(Security)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-2-%E6%80%A7%E8%83%BD-Performance"><span class="nav-text">1.6.2 性能(Performance)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-3-%E5%8F%AF%E4%BD%BF%E7%94%A8%E6%80%A7-Availability"><span class="nav-text">1.6.3 可使用性(Availability)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BA%91%E8%AE%A1%E7%AE%97%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%9E%B6%E6%9E%84"><span class="nav-text">2. 云计算数据处理架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6-%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E5%90%8C%E7%AE%A1%E7%90%86"><span class="nav-text">2.1 并发控制(分布式协同管理)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-%E5%9F%BA%E4%BA%8E%E9%94%81%E7%9A%84%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="nav-text">2.1.1 基于锁的并发控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E6%88%B3%E7%9A%84%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="nav-text">2.1.2 基于时间戳的并发控制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F-HDFS"><span class="nav-text">2.2 分布式文件系统(HDFS)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2.2.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-HDFS%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-text">2.2.2 HDFS体系结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-NoSQL%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.3 NoSQL系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2.3.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-NoSQL%E7%B1%BB%E5%9E%8B%E2%80%94%E6%97%A0%E6%9E%B6%E6%9E%84%EF%BC%8C%E7%81%B5%E6%B4%BB%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">2.3.2 NoSQL类型—无架构，灵活数据类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6%E2%80%94MapReduce"><span class="nav-text">2.4 分布式数据处理编程框架—MapReduce</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2.4.1 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-text">2.4.2 整体流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-text">2.4.3 其他问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%89%B9%E6%AE%8A%E4%BA%91%E6%9C%BA%E5%88%B6"><span class="nav-text">3.特殊云机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BA%91%E4%BD%BF%E7%94%A8%E7%9B%91%E6%8E%A7"><span class="nav-text">3.1 云使用监控</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E2%80%94%E7%9B%91%E6%8E%A7%E4%BB%A3%E7%90%86"><span class="nav-text">3.1.1 实现方式—监控代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E2%80%94%E8%B5%84%E6%BA%90%E4%BB%A3%E7%90%86"><span class="nav-text">3.1.2 实现方式—资源代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-3-%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E2%80%94%E8%BD%AE%E8%AF%A2%E4%BB%A3%E7%90%86"><span class="nav-text">3.1.3 实现方式—轮询代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E8%87%AA%E5%8A%A8%E4%BC%B8%E7%BC%A9%E7%9B%91%E5%90%AC%E5%99%A8-Automated-scaling-listener-mechanism"><span class="nav-text">3.2 自动伸缩监听器(Automated scaling listener mechanism)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8"><span class="nav-text">3.3 负载均衡器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%8C%89%E4%BD%BF%E7%94%A8%E4%BB%98%E8%B4%B9%E7%9B%91%E6%8E%A7%E5%99%A8-pay-per-use-monitor"><span class="nav-text">3.4 按使用付费监控器(pay-per-use monitor)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E7%B3%BB%E7%BB%9F-failover-system"><span class="nav-text">3.5 故障转移系统(failover system)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%91%E6%8E%A7%E5%99%A8"><span class="nav-text">3.6 虚拟机监控器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-%E8%B5%84%E6%BA%90%E9%9B%86%E7%BE%A4"><span class="nav-text">3.7 资源集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-%E5%A4%9A%E8%AE%BE%E5%A4%87%E4%BB%A3%E7%90%86"><span class="nav-text">3.8 多设备代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">3.9 状态管理数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%9C%BA%E5%88%B6"><span class="nav-text">4. 调度问题与机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%B8%B8%E8%A7%81%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="nav-text">4.1 常见调度问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E8%B0%83%E5%BA%A6%E6%96%B9%E6%B3%95"><span class="nav-text">4.2 调度方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%88%97%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95-List-Scheduling-Method"><span class="nav-text">4.3 列调度算法(List Scheduling Method)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E7%BD%91%E7%BB%9C"><span class="nav-text">5.数据中心网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87%E4%B8%8E%E9%9C%80%E6%B1%82%E3%80%81%E6%88%90%E6%9C%AC"><span class="nav-text">5.1 设计目标与需求、成本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E6%8B%93%E6%89%91%E7%BB%93%E6%9E%84-%E5%88%86%E7%B1%BB"><span class="nav-text">5.2 数据中心拓扑结构(分类)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-1-Tree-based-Clos-Network"><span class="nav-text">5.2.1 Tree-based: Clos Network</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-2-%E5%9F%BA%E4%BA%8E%E6%A0%91%E7%8A%B6%E7%9A%84%E6%8B%93%E6%89%91%E7%BB%93%E6%9E%84"><span class="nav-text">5.2.2 基于树状的拓扑结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-3-Tree-based-Fat-Tree"><span class="nav-text">5.2.3 Tree-based: Fat Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-4-Recursive-Topology-%E9%80%92%E5%BD%92%E6%8B%93%E6%89%91"><span class="nav-text">5.2.4 Recursive Topology(递归拓扑)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-5-Optical-and-Hybrid-DCN-%E5%85%89%E5%92%8C%E6%95%B0%E6%8D%AE%E6%B7%B7%E5%90%88%E4%B8%AD%E5%BF%83%E7%BD%91%E7%BB%9C"><span class="nav-text">5.2.5 Optical and Hybrid DCN(光和数据混合中心网络)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%9F%BA%E6%9C%AC%E4%BA%91%E6%9E%B6%E6%9E%84"><span class="nav-text">6. 基本云架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%9E%B6%E6%9E%84"><span class="nav-text">6.1 负载均衡架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E5%8A%A8%E6%80%81%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84"><span class="nav-text">6.2 动态可扩展架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-1-%E5%8A%A8%E6%80%81%E6%B0%B4%E5%B9%B3%E6%89%A9%E5%B1%95-Dynamic-Horizontal-Scaling"><span class="nav-text">6.2.1 动态水平扩展(Dynamic Horizontal Scaling)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-2-%E5%8A%A8%E6%80%81%E5%9E%82%E7%9B%B4%E6%89%A9%E5%B1%95-Dynamic-Vertical-Scaling"><span class="nav-text">6.2.2 动态垂直扩展(Dynamic Vertical Scaling)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-3-%E5%8A%A8%E6%80%81%E9%87%8D%E5%AE%9A%E4%BD%8D-Dynamic-Relocation"><span class="nav-text">6.2.3 动态重定位(Dynamic Relocation)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-%E4%BA%91%E7%88%86%E5%8F%91%E6%9E%B6%E6%9E%84-Cloud-Bursting-Architecture"><span class="nav-text">6.3 云爆发架构(Cloud Bursting Architecture)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-%E5%BC%B9%E6%80%A7%E7%A3%81%E7%9B%98%E4%BE%9B%E7%BB%99%E6%9E%B6%E6%9E%84-Elastic-Disk-Provisioning-Architecture"><span class="nav-text">6.4 弹性磁盘供给架构(Elastic Disk Provisioning Architecture)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%AB%98%E7%BA%A7%E4%BA%91%E6%9E%B6%E6%9E%84"><span class="nav-text">7. 高级云架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%91%E6%8E%A7%E5%99%A8%E9%9B%86%E7%BE%A4-Hypervisor-Clustering"><span class="nav-text">7.1 虚拟机监控器集群(Hypervisor Clustering)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%AE%B9%E9%94%99%E6%9E%B6%E6%9E%84"><span class="nav-text">7.2 云服务容错架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-1-%E4%BA%91%E6%9C%8D%E5%8A%A1%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%88%B6"><span class="nav-text">7.2.1 云服务故障检测机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-2-%E4%BA%91%E6%9C%8D%E5%8A%A1%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D%E6%9C%BA%E5%88%B6"><span class="nav-text">7.2.2 云服务故障恢复机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E7%A7%BB%E5%8A%A8%E4%BA%91%E8%AE%A1%E7%AE%97"><span class="nav-text">8. 移动云计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E7%A7%BB%E5%8A%A8%E4%BA%91%E8%AE%A1%E7%AE%97%E5%AE%9A%E4%B9%89%E5%8F%8A%E4%B8%89%E4%B8%AA%E8%A7%86%E8%A7%92"><span class="nav-text">8.1 移动云计算定义及三个视角</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-%E6%80%A7%E8%83%BD%E5%BB%BA%E6%A8%A1%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="nav-text">8.2 性能建模与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-1-%E6%80%A7%E8%83%BD%E5%BB%BA%E6%A8%A1"><span class="nav-text">8.2.1 性能建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-2-%E7%A7%BB%E5%8A%A8%E4%BA%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF%E2%80%94%E8%AE%A1%E7%AE%97%E5%88%92%E5%88%86"><span class="nav-text">8.2.2 移动云性能优化技术—计算划分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-3-%E7%A7%BB%E5%8A%A8%E4%BA%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF%E2%80%94%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98"><span class="nav-text">8.2.3 移动云性能优化技术—数据缓存</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

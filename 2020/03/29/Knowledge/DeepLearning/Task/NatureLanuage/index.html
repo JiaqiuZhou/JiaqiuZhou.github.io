@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiaqiuzhou.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"enable":false,"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="介绍与自然语言处理相关的研究">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自然语言处理">
+<meta property="og:url" content="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/index.html">
+<meta property="og:site_name" content="Ball&#39;s blog">
+<meta property="og:description" content="介绍与自然语言处理相关的研究">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/rnn.jpg">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/rnn_represetation.gif">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/forward_network_presentation.gif">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/rnn-bptt-with-gradients.png">
+<meta property="og:image" content="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/GRU_arch.png">
+<meta property="article:published_time" content="2020-03-29T06:02:01.000Z">
+<meta property="article:modified_time" content="2020-12-03T11:53:32.550Z">
+<meta property="article:author" content="Ball">
+<meta property="article:tag" content="NatureLanuage">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/rnn.jpg">
+
+<link rel="canonical" href="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>自然语言处理 | Ball's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ball's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Any way, be happy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/qiu.jpeg">
+      <meta itemprop="name" content="Ball">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ball's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自然语言处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-29 14:02:01" itemprop="dateCreated datePublished" datetime="2020-03-29T14:02:01+08:00">2020-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-03 19:53:32" itemprop="dateModified" datetime="2020-12-03T19:53:32+08:00">2020-12-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DeepLearning-Task/" itemprop="url" rel="index"><span itemprop="name">DeepLearning-Task</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/" class="post-meta-item leancloud_visitors" data-flag-title="自然语言处理" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>介绍与自然语言处理相关的研究</p>
+<a id="more"></a>
+<h2 id="1-RNN-tutorial"><a href="#1-RNN-tutorial" class="headerlink" title="1. RNN tutorial"></a>1. RNN tutorial</h2><ul>
+<li>参考: <a target="_blank" rel="noopener" href="http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/">http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/</a></li>
+<li>参考: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/24720659">https://zhuanlan.zhihu.com/p/24720659</a></li>
+</ul>
+<h3 id="1-1-What-are-RNNs"><a href="#1-1-What-are-RNNs" class="headerlink" title="1.1 What are RNNs?"></a>1.1 What are RNNs?</h3><ul>
+<li><p><strong>解决问题:</strong> 没有利用好序列数据，希望利用好之前所看过的序列化数据</p>
+</li>
+<li><p><strong>提出方法:</strong> 迭代使用序列化数据来作预测任务,后一个状态利用前一个状态作为输入，在初始化的时候通常将前一个状态初始化为全零</p>
+<script type="math/tex; mode=display">
+s_t = f(Ux_t+Ws_{t-1})\\</script></li>
+<li><p><strong>网络结构:</strong> RNN不像普通的神经网络，一个层代表一个参数，他们每个层之间会<strong>共享参数(U,V,W),</strong>也就是说每一次的结构都是一样的，只是输入不一样</p>
+<p><img src="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/rnn.jpg" alt="rnn"></p>
+<p><img src="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/rnn_represetation.gif" alt="rnn_represetation"></p>
+</li>
+<li><p><strong>与前向非循环网络区别:</strong>  对于前向非循环网络，其结构示意图如下，可以与上图进行对比来看，他们中权重都是分开的，而RNN中<strong>所有时刻的权重矩阵都是共享的</strong>，也就是在<strong>时间结构上存在共享特性</strong></p>
+<p><img src="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/forward_network_presentation.gif" alt="forward_network_presentation"></p>
+</li>
+</ul>
+<h3 id="1-2-Training-RNNs"><a href="#1-2-Training-RNNs" class="headerlink" title="1.2 Training RNNs"></a>1.2 Training RNNs</h3><ul>
+<li><p><strong>Backpropagation Through Time(BPTT):</strong> 由于训练过程会需要考虑前一刻状态的训练，因此经常会出现梯度消失或者梯度爆炸的问题</p>
+<script type="math/tex; mode=display">
+s_t = tanh(Ux_t+Ws_{t-1})\\
+\hat y_t = softmax(Vs_t) \\
+Loss Function:
+E(y,\hat y) = \sum_tE_t(y_t,\hat y_t) = -\sum_t y_tlog\hat y_t \\
+BackPropagation: \frac{\partial E_3}{\partial W}=\sum_{k=0}^3 \frac{\partial E_3}{\partial \hat y_3}\frac{\partial \hat y_3}{\partial s_3}\frac{\partial s_3}{\partial s_k}\frac{\partial s_k}{\partial W}</script></li>
+<li><p><strong>反向传播流程:</strong></p>
+<p><img src="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/rnn-bptt-with-gradients.png" alt="rnn-bptt-with-gradients"></p>
+</li>
+</ul>
+<h2 id="2-神经网络应用"><a href="#2-神经网络应用" class="headerlink" title="2. 神经网络应用"></a>2. 神经网络应用</h2><h3 id="2-1-LSTM-长短时记忆"><a href="#2-1-LSTM-长短时记忆" class="headerlink" title="2.1 LSTM(长短时记忆)"></a>2.1 LSTM(长短时记忆)</h3><h3 id="2-2-GRU-门控循环单元"><a href="#2-2-GRU-门控循环单元" class="headerlink" title="2.2 GRU(门控循环单元)"></a>2.2 GRU(门控循环单元)</h3><p>详细见<a target="_blank" rel="noopener" href="https://www.jiqizhixin.com/articles/2017-12-24">https://www.jiqizhixin.com/articles/2017-12-24</a></p>
+<ul>
+<li><p><strong>基本概念:</strong> LSTM通过门控机制使得循环神经网络不仅能记忆过去的阏信息，还能够选择性地遗忘一些不重要的信息，这种容易造成在保留长期序列信息时梯度消失的问题，利用门控机制控制输入、记忆等信息而在当前时间步做出预测</p>
+</li>
+<li><p><strong>公式定义:</strong> z为更新门，r为重置门，第三道门为当前的记忆内容，第四道门为对当前记忆 <script type="math/tex">h'_t</script> 与前一时间 <script type="math/tex">h_{t-1}</script> 的内容的结合，其表达式可以由以下给出，</p>
+<script type="math/tex; mode=display">
+z = \sigma(x_tU^z+h_{t-1}W^z) \\
+r = \sigma(x_tU^r+h_{t-1}W^r) \\
+h = tanh(x_tU^h+(h_{t-1}\bigodot r)W^h)\\
+s_t = (1-z)\bigodot h +z \bigodot h_{t-1} \\</script></li>
+</ul>
+<p><img src="/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/GRU_arch.png" alt="GRU_arch"></p>
+<ul>
+<li><strong>更新门z_t:</strong> 决定要多少过去信息要传递到未来</li>
+<li><strong>重置门r:</strong> 决定有多少过去的信息要被遗忘<ul>
+<li><strong>原理:</strong> 其实仔细一看，会发现更新门和重置门的公式是一样的，但在网络中他们充当着不同的角色，更新门用于决定过去的信息的信息量，重置门用于决定过去对未来的影响，这样的话，如果导致未来梯度消失，那么过去就可以起更多作用来引导网络</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-文本与图像结合相关论文"><a href="#3-文本与图像结合相关论文" class="headerlink" title="3. 文本与图像结合相关论文"></a>3. 文本与图像结合相关论文</h2><h3 id="3-1-Learning-Deep-Representations-of-Fine-Grained-Visual-Descriptions"><a href="#3-1-Learning-Deep-Representations-of-Fine-Grained-Visual-Descriptions" class="headerlink" title="3.1 Learning Deep Representations of Fine-Grained Visual Descriptions"></a>3.1 Learning Deep Representations of Fine-Grained Visual Descriptions</h3><h4 id="3-1-1-基本概念"><a href="#3-1-1-基本概念" class="headerlink" title="3.1.1 基本概念"></a>3.1.1 基本概念</h4><ul>
+<li><strong>解决问题:</strong> 对细粒度高的可视化图片生成更强的文字表述</li>
+<li><strong>之前方法:</strong> 手动对图片中的特性进行编码成向量</li>
+<li><strong>面临挑战:</strong> <ul>
+<li>细粒度高的图片需要更多的属性</li>
+<li>这些属性并没有编码成接口</li>
+</ul>
+</li>
+<li><strong>本文贡献: </strong><ul>
+<li>收集了两个数据集:bird dataset和flowers datasets</li>
+<li>新颖的扩展了语言embedding方法，使用end-to-end模型</li>
+<li>评估了一些变体的语言模型</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-1-2-方法详述"><a href="#3-1-2-方法详述" class="headerlink" title="3.1.2 方法详述"></a>3.1.2 方法详述</h4><ul>
+<li><p><strong>Deep Structured Joint Embedding</strong></p>
+<ul>
+<li><p><strong>基本描述:</strong> 融合集成图像和图像的文本描述，目的是实现一个单模型能够同时完成语言描述的分类和图像的分类</p>
+</li>
+<li><p><strong>目标函数及推断模型: </strong> 图像信息 <script type="math/tex">v\in \cal V</script> ，文本描述 <script type="math/tex">t\in \cal T</script> ，图像类别 <script type="math/tex">y \in \cal Y</script> ， <script type="math/tex">f_v:\cal V \rightarrow\cal Y</script> 是将图像归类为某个类别的函数，<script type="math/tex">f_t:\cal T\rightarrow \cal Y</script> 是将文本描述归类为某个类别的函数。</p>
+<script type="math/tex; mode=display">
+目标函数：\frac{1}{N}\sum_{n=1}^{N}\Delta(y_n,f_v(v_n))+\Delta(y_n,f_t(t_n))\\
+\Delta:L（Y,f(X))=\begin{cases} 1, \ Y\neq f(X) \\
+0,\ Y=f(X)\end{cases} \\
+推断函数: F(v,t) = \theta(v)^T\varphi(t) \\
+f_v(v) = argmax_{y\in \cal Y} \Bbb E_{t\sim\cal T(y)}[F(v,t)] \\
+f_t(t) = argmax_{y\in \cal Y} \Bbb E_{v\sim\cal V(y)}[F(v,t)]</script></li>
+<li><p><strong>学习算法优化: </strong>0-1 loss是一个不连续的函数，为了通过梯度求导进行学习，必须对其进行优化。</p>
+<script type="math/tex; mode=display">
+L = \frac 1 N \sum_{n=1}^N l_v(v_n,t_n,y_n)+l_t(v_n,t_n,y_n) \\
+l_v(v_n,t_n,y_n) = max_{y\in\cal Y}(0, \Delta(y_n,y)+\Bbb E_{t\sim \cal T(y)}[F(v_n,t)-F(v_n,t_n)]) \\
+l_t(v_n,t_n,y_n) = max_{y\in\cal Y}(0, \Delta(y_n,y)+\Bbb E_{v\sim \cal V(y)}[F(v,t_n)-F(v_n,t_n)])</script></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Ball
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/" title="自然语言处理">http://jiaqiuzhou.github.io/2020/03/29/Knowledge/DeepLearning/Task/NatureLanuage/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NatureLanuage/" rel="tag"># NatureLanuage</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/25/Project/Make-Lock/MakeLock-Reference/" rel="prev" title="MakeLock-Reference">
+      <i class="fa fa-chevron-left"></i> MakeLock-Reference
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/03/Project/RenderingLayout/Reference/Text-based-image-editing/" rel="next" title="Text-based-image-editing">
+      Text-based-image-editing <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-RNN-tutorial"><span class="nav-text">1. RNN tutorial</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-What-are-RNNs"><span class="nav-text">1.1 What are RNNs?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Training-RNNs"><span class="nav-text">1.2 Training RNNs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8"><span class="nav-text">2. 神经网络应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-LSTM-%E9%95%BF%E7%9F%AD%E6%97%B6%E8%AE%B0%E5%BF%86"><span class="nav-text">2.1 LSTM(长短时记忆)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-GRU-%E9%97%A8%E6%8E%A7%E5%BE%AA%E7%8E%AF%E5%8D%95%E5%85%83"><span class="nav-text">2.2 GRU(门控循环单元)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%96%87%E6%9C%AC%E4%B8%8E%E5%9B%BE%E5%83%8F%E7%BB%93%E5%90%88%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87"><span class="nav-text">3. 文本与图像结合相关论文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Learning-Deep-Representations-of-Fine-Grained-Visual-Descriptions"><span class="nav-text">3.1 Learning Deep Representations of Fine-Grained Visual Descriptions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3.1.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-%E6%96%B9%E6%B3%95%E8%AF%A6%E8%BF%B0"><span class="nav-text">3.1.2 方法详述</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ball"
+      src="/images/qiu.jpeg">
+  <p class="site-author-name" itemprop="name">Ball</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JiaqiuZhou" title="GitHub → https://github.com/JiaqiuZhou" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhoujball@gmail.com" title="E-Mail → mailto:zhoujball@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ball</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">267k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:03</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+   // window.MathJax = {
+//       loader: {
+//
+//         source: {
+//           '[tex]/amsCd': '[tex]/amscd',
+//           '[tex]/AMScd': '[tex]/amscd'
+//         }
+//       },
+//       tex: {
+//         inlineMath: {'[+]': [['$', '$']]},
+//
+//         tags: 'ams'
+//       },
+//       options: {
+//         renderActions: {
+//           findScript: [10, doc => {
+//             document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+//               const display = !!node.type.match(/; *mode=display/);
+//               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+//               const text = document.createTextNode('');
+//               node.parentNode.replaceChild(text, node);
+//               math.start = {node: text, delim: '', n: 0};
+//               math.end = {node: text, delim: '', n: 0};
+//               doc.math.push(math);
+//             });
+//           }, '', false],
+//           insertedScript: [200, () => {
+//             document.querySelectorAll('mjx-container').forEach(node => {
+//               let target = node.parentNode;
+//               if (target.nodeName.toLowerCase() === 'li') {
+//                 target.parentNode.classList.add('has-jax');
+//               }
+//             });
+//           }, '', false]
+//         }
+//       }
+//     };
+    window.MathJax = {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jv99mTz1aRnCcRkQKp6niCiF-gzGzoHsz',
+      appKey     : 'SdAgfbnUruylQjpLNzwNV2fH',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
